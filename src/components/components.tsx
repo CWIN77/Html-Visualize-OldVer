@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import { ReactComponent as SVG_search } from '../svgs/search.svg'
 import { ReactComponent as SVG_plus } from '../svgs/plus.svg'
 import { ReactComponent as SVG_eye } from '../svgs/eye.svg'
+import { comp_data } from './comp_data'
 
 const Components = () => {
   const iconProps = { fill: "#363636", width: 20, height: 20, style: { padding: 2, marginLeft: 12, cursor: "pointer" } }
@@ -14,17 +15,20 @@ const Components = () => {
           <SVG_search width={16} height={16} fill={"#E8E8E8"} />
         </SearchBtn>
       </SearchContainer>
-      <Comp>
-        <h1>문자 입력칸</h1>
-        <h2>문자를 입력 할 수 있는 칸을 추가합니다.</h2>
-        <div>
-          <SVG_eye {...iconProps} />
-          <SVG_plus {...iconProps} />
-        </div>
-      </Comp>
-      <div>
-        <button>설정값 바꾸기</button>
-      </div>
+      {
+        comp_data.map((data, key) => (
+          <Comp key={key}>
+            <h1>{data.name}</h1>
+            <h2>{data.descript}</h2>
+            <div>
+              <SVG_eye {...iconProps} />
+              <SVG_plus {...iconProps} onClick={() => {
+                document.getElementById("view")?.insertAdjacentHTML('beforeend', data.comp);
+              }} />
+            </div>
+          </Comp>
+        ))
+      }
     </Container>
   )
 }
