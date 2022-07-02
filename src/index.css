@@ -1,9 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
 
 body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: white;
 }
 
 code {
@@ -12,7 +13,7 @@ code {
 }
 
 * {
-  font-family: "Noto Sans KR", sans-serif;
+  font-family: 'Nanum Gothic', sans-serif;
   background-color: initial;
   margin: 0px;
   padding: 0px;
@@ -20,6 +21,9 @@ code {
   outline: none;
   text-decoration: none;
   font-size: 14px;
+  font-weight: 400;
+  color: #363636;
+  user-select: none;
 }
 
 img {
@@ -31,6 +35,7 @@ a {
   text-decoration: none;
   cursor: pointer;
 }
+
 a:hover {
   text-decoration: underline;
 }
