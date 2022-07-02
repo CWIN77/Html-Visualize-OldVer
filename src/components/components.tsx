@@ -23,7 +23,7 @@ const Components = () => {
         </div>
       </Comp>
       <div>
-        <button >설정값 바꾸기</button>
+        <button>설정값 바꾸기</button>
       </div>
     </Container>
   )
@@ -34,7 +34,7 @@ const Container = styled.div`
   flex-direction: column;
   overflow-y: auto;
   width:350px;
-  height:100vh;
+  height:calc(100vh - 34px);
   background-color: white;
   &::-webkit-scrollbar{
     width:8px;
