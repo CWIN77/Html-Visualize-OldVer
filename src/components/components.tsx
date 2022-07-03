@@ -3,9 +3,12 @@ import { ReactComponent as SVG_search } from '../svgs/search.svg'
 import { ReactComponent as SVG_plus } from '../svgs/plus.svg'
 import { ReactComponent as SVG_eye } from '../svgs/eye.svg'
 import { comp_data } from './comp_data'
+import { useStore } from "../zustant"
 
 const Components = () => {
   const iconProps = { fill: "#363636", width: 20, height: 20, style: { padding: 2, marginLeft: 12, cursor: "pointer" } }
+  const { selectComp }: any = useStore();
+  const insertAble = ["img", "input"];
   return (
     <Container>
       <Name>Components</Name>
@@ -23,7 +26,15 @@ const Components = () => {
             <div>
               <SVG_eye {...iconProps} />
               <SVG_plus {...iconProps} onClick={() => {
-                document.getElementById("view")?.insertAdjacentHTML('beforeend', data.comp);
+                if (selectComp && selectComp.id.split('sizeWrapper').length == 1) {
+                  if (insertAble.indexOf(selectComp.tagName.toLowerCase()) > -1) {
+                    window.alert("선택한 Html에는 Element를 추가할 수 없습니다.")
+                  } else {
+                    selectComp.insertAdjacentHTML('beforeend', data.comp);
+                  }
+                } else {
+                  document.getElementById("view")?.insertAdjacentHTML('beforeend', data.comp);
+                }
               }} />
             </div>
           </Comp>

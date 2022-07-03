@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import { useStore } from '../zustant'
+
 const View = () => {
   const [isAddEvent, setIsAddEvent] = useState(false);
+  const { selectComp }: any = useStore();
   const getStyle = (comp: any) => {
     const style = []
     for (let i = 0; ; i++) {
@@ -90,6 +93,8 @@ const View = () => {
         sizeWrapper4.style.top = absoluteTop + "px";
 
         // getStyle(f.target);
+        // sessionStorage.setItem("selectComp", JSON.stringify(e.target))
+        useStore.setState({ selectComp: e.target })
         clickedComp = e.target;
       })
       document.getElementById('view')?.parentNode?.childNodes[1].addEventListener("click", () => {
