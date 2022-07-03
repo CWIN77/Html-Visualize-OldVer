@@ -2,24 +2,48 @@ import styled from 'styled-components'
 import { ReactComponent as SVG_search } from '../svgs/search.svg'
 import { ReactComponent as SVG_plus } from '../svgs/plus.svg'
 import { ReactComponent as SVG_eye } from '../svgs/eye.svg'
-import { comp_data } from './comp_data'
+import { compData } from './compData'
 import { useStore } from "../zustant"
+import { useState } from 'react'
+import { ICompData } from "../types"
+import kmp from "kmp"
 
 const Components = () => {
   const iconProps = { fill: "#363636", width: 20, height: 20, style: { padding: 2, marginLeft: 12, cursor: "pointer" } }
   const { selectComp }: any = useStore();
   const insertAble = ["img", "input"];
+  const [compList, setCompList] = useState(compData);
+  const [searchText, setSearchText] = useState('');
+
+  const searchComp = (keyword: string) => {
+    setSearchText(keyword);
+    if (keyword !== "") {
+      const newCompList: ICompData[] = [];
+      compData.map((data, key) => {
+        const text = data.name + " " + data.descript;
+        if (kmp(text, keyword) > -1) {
+          newCompList.push(compData[key]);
+        }
+      })
+      setCompList(newCompList);
+    } else {
+      setCompList(compData);
+    }
+  }
+
   return (
     <Container>
       <Name>Components</Name>
       <SearchContainer>
-        <SearchInput type={"text"} placeholder={"Search"} />
+        <SearchInput value={searchText} onChange={(e) => {
+          searchComp(e.target.value);
+        }} type={"text"} placeholder={"Search"} />
         <SearchBtn>
           <SVG_search width={16} height={16} fill={"#E8E8E8"} />
         </SearchBtn>
       </SearchContainer>
       {
-        comp_data.map((data, key) => (
+        compList.map((data, key) => (
           <Comp key={key}>
             <h1>{data.name}</h1>
             <h2>{data.descript}</h2>

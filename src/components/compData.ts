@@ -1,8 +1,8 @@
-import { IComp_data } from "../types"
+import { ICompData } from "../types"
 import c0 from "../comps/c0"
 import c1 from "../comps/c1"
 
-export const comp_data: IComp_data[] = [
+export const compData: ICompData[] = [
   {
     id: 0,
     name: "문자 입력칸",
@@ -12,7 +12,7 @@ export const comp_data: IComp_data[] = [
   {
     id: 1,
     name: "Div",
-    descript: "내용이 없는 div tag element입니다. 식별을 위해 배경색은 하얀색이 아닙니다.",
+    descript: "내부에 값을 넣을 수 있는 div element입니다. width, height, min-height의 기본값은 각각 100%, 100%, 50px입니다.",
     comp: c1
   }
 ]

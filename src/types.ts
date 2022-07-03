@@ -1,4 +1,4 @@
-export interface IComp_data {
+export interface ICompData {
   id: number,
   name: string,
   descript: string,
