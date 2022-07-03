@@ -25,33 +25,59 @@ const View = () => {
       setIsAddEvent(true);
       let mouseoverComp = document.body;
       let clickedComp = document.body;
+      const sizeWrapper1: any = document.getElementById("sizeWrapper1");
+      const sizeWrapper2: any = document.getElementById("sizeWrapper2");
       document.getElementById('view')?.addEventListener("mouseover", (e: any) => {
-        if (mouseoverComp !== clickedComp) {
-          mouseoverComp.style.boxShadow = "";
-        }
-        e.target.style.boxShadow = "0px 0px 0px 2px rgba(18,100,163,0.5) inset";
-        e.target.addEventListener("click", (f: any) => {
-          clickedComp.style.boxShadow = "";
-          clickedComp.removeEventListener("click", () => { })
-          f.target.style.boxShadow = "0px 0px 0px 2px rgba(18,100,163,0.9) inset";
 
-          // f.target.remove()
-          setClickedComp(f.target);
+        const targetStyle = e.target.style;
 
-          getStyle(f.target)
+        const targetWidth = e.target.clientWidth;
+        const targetHeight = e.target.clientHeight;
 
-          clickedComp = f.target;
-        })
-        setMouseoverComp(e.target);
+        const marginLeft = Number(targetStyle.getPropertyValue("margin-left").split("px")[0]);
+        const marginRight = Number(targetStyle.getPropertyValue("margin-right").split("px")[0]);
+
+        const marginTop = Number(targetStyle.getPropertyValue("margin-top").split("px")[0]);
+        const marginBottom = Number(targetStyle.getPropertyValue("margin-bottom").split("px")[0]);
+
+        const width = targetWidth + marginLeft + marginRight;
+        const height = targetHeight + marginTop + marginBottom;
+
+        sizeWrapper1.style.width = width + "px";
+        sizeWrapper1.style.height = height + "px";
+        sizeWrapper1.style.boxShadow = "0px 0px 0px 3px rgba(18,100,163,0.6) inset";
+
         mouseoverComp = e.target;
       })
+
+      document.getElementById('view')?.addEventListener("click", (e: any) => {
+        const targetStyle = e.target.style;
+
+        const targetWidth = e.target.clientWidth;
+        const targetHeight = e.target.clientHeight;
+
+        const marginLeft = Number(targetStyle.getPropertyValue("margin-left").split("px")[0]);
+        const marginRight = Number(targetStyle.getPropertyValue("margin-right").split("px")[0]);
+
+        const marginTop = Number(targetStyle.getPropertyValue("margin-top").split("px")[0]);
+        const marginBottom = Number(targetStyle.getPropertyValue("margin-bottom").split("px")[0]);
+
+        const width = targetWidth + marginLeft + marginRight;
+        const height = targetHeight + marginTop + marginBottom;
+
+        sizeWrapper2.style.width = width + "px";
+        sizeWrapper2.style.height = height + "px";
+        sizeWrapper2.style.boxShadow = "0px 0px 0px 3px rgba(18,100,163,0.8) inset";
+        // getStyle(f.target);
+        clickedComp = e.target;
+      })
       document.getElementById('view')?.parentNode?.childNodes[1].addEventListener("click", () => {
-        mouseoverComp.style.boxShadow = "";
-        clickedComp.style.boxShadow = "";
+        sizeWrapper1.style.boxShadow = "";
+        sizeWrapper2.style.boxShadow = "";
       })
       document.getElementById('view')?.parentNode?.childNodes[1].addEventListener("mouseover", () => {
         if (mouseoverComp !== clickedComp) {
-          mouseoverComp.style.boxShadow = "";
+          sizeWrapper1.style.boxShadow = "";
         }
       })
     }
@@ -59,7 +85,8 @@ const View = () => {
 
   return (
     <Container id='view'>
-
+      <SizeWrapper id="sizeWrapper1" />
+      <SizeWrapper id="sizeWrapper2" />
     </Container>
   )
 }
@@ -80,6 +107,10 @@ const Container = styled.div`
     background-color: rgba(54,54,54,0.4);
     border-radius: 100px;
   }
+`
+const SizeWrapper = styled.span`
+  position: absolute;
+  z-index: -100;
 `
 
 export default View
