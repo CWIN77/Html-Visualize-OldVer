@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 const View = () => {
-  const [SmouseoverComp, setMouseoverComp] = useState(document.body);
-  const [SclickedComp, setClickedComp] = useState(document.body);
   const [isAddEvent, setIsAddEvent] = useState(false);
   const getStyle = (comp: any) => {
     const style = []
@@ -27,30 +25,43 @@ const View = () => {
       let clickedComp = document.body;
       const sizeWrapper1: any = document.getElementById("sizeWrapper1");
       const sizeWrapper2: any = document.getElementById("sizeWrapper2");
+      const sizeWrapper3: any = document.getElementById("sizeWrapper3");
+      const sizeWrapper4: any = document.getElementById("sizeWrapper4");
       document.getElementById('view')?.addEventListener("mouseover", (e: any) => {
 
-        const targetStyle = e.target.style;
+        if (e.target !== clickedComp) {
+          const targetStyle = e.target.style;
 
-        const targetWidth = e.target.clientWidth;
-        const targetHeight = e.target.clientHeight;
+          const targetWidth = e.target.clientWidth;
+          const targetHeight = e.target.clientHeight;
 
-        const marginLeft = Number(targetStyle.getPropertyValue("margin-left").split("px")[0]);
-        const marginRight = Number(targetStyle.getPropertyValue("margin-right").split("px")[0]);
+          const marginLeft = Number(targetStyle.getPropertyValue("margin-left").split("px")[0]);
+          const marginRight = Number(targetStyle.getPropertyValue("margin-right").split("px")[0]);
 
-        const marginTop = Number(targetStyle.getPropertyValue("margin-top").split("px")[0]);
-        const marginBottom = Number(targetStyle.getPropertyValue("margin-bottom").split("px")[0]);
+          const marginTop = Number(targetStyle.getPropertyValue("margin-top").split("px")[0]);
+          const marginBottom = Number(targetStyle.getPropertyValue("margin-bottom").split("px")[0]);
 
-        const width = targetWidth + marginLeft + marginRight;
-        const height = targetHeight + marginTop + marginBottom;
+          const width = targetWidth + marginLeft + marginRight;
+          const height = targetHeight + marginTop + marginBottom;
 
-        sizeWrapper1.style.width = width + "px";
-        sizeWrapper1.style.height = height + "px";
-        sizeWrapper1.style.boxShadow = "0px 0px 0px 3px rgba(18,100,163,0.6) inset";
+          sizeWrapper1.style.width = width + "px";
+          sizeWrapper1.style.height = height + "px";
+          sizeWrapper1.style.boxShadow = "0px 0px 0px 1.5px #8bccfb inset";
 
+          sizeWrapper2.style.width = width + "px";
+          sizeWrapper2.style.height = height + "px";
+          sizeWrapper2.style.boxShadow = "0px 0px 0px 1.5px #8bccfb";
+
+          const scrolledTopLength = window.pageYOffset;
+          const absoluteTop = scrolledTopLength + e.target.offsetTop - marginTop;
+          sizeWrapper1.style.top = absoluteTop + "px";
+          sizeWrapper2.style.top = absoluteTop + "px";
+        }
         mouseoverComp = e.target;
       })
 
       document.getElementById('view')?.addEventListener("click", (e: any) => {
+        sizeWrapper1.style.boxShadow = "";
         const targetStyle = e.target.style;
 
         const targetWidth = e.target.clientWidth;
@@ -65,19 +76,32 @@ const View = () => {
         const width = targetWidth + marginLeft + marginRight;
         const height = targetHeight + marginTop + marginBottom;
 
-        sizeWrapper2.style.width = width + "px";
-        sizeWrapper2.style.height = height + "px";
-        sizeWrapper2.style.boxShadow = "0px 0px 0px 3px rgba(18,100,163,0.8) inset";
+        sizeWrapper3.style.width = width + "px";
+        sizeWrapper3.style.height = height + "px";
+        sizeWrapper3.style.boxShadow = "0px 0px 0px 1.5px #0D99FF inset";
+
+        sizeWrapper4.style.width = width + "px";
+        sizeWrapper4.style.height = height + "px";
+        sizeWrapper4.style.boxShadow = "0px 0px 0px 1.5px #0D99FF";
+
+        const scrolledTopLength = window.pageYOffset;
+        const absoluteTop = scrolledTopLength + e.target.offsetTop - marginTop;
+        sizeWrapper3.style.top = absoluteTop + "px";
+        sizeWrapper4.style.top = absoluteTop + "px";
+
         // getStyle(f.target);
         clickedComp = e.target;
       })
       document.getElementById('view')?.parentNode?.childNodes[1].addEventListener("click", () => {
         sizeWrapper1.style.boxShadow = "";
         sizeWrapper2.style.boxShadow = "";
+        sizeWrapper3.style.boxShadow = "";
+        sizeWrapper4.style.boxShadow = "";
       })
       document.getElementById('view')?.parentNode?.childNodes[1].addEventListener("mouseover", () => {
         if (mouseoverComp !== clickedComp) {
           sizeWrapper1.style.boxShadow = "";
+          sizeWrapper2.style.boxShadow = "";
         }
       })
     }
@@ -87,6 +111,8 @@ const View = () => {
     <Container id='view'>
       <SizeWrapper id="sizeWrapper1" />
       <SizeWrapper id="sizeWrapper2" />
+      <SizeWrapper id="sizeWrapper3" />
+      <SizeWrapper id="sizeWrapper4" />
     </Container>
   )
 }
