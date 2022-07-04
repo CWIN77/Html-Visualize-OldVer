@@ -10,17 +10,18 @@ const View = () => {
       setIsAddEvent(true);
       let mouseoverComp = document.body;
       let clickedComp = document.body;
-      const sizeWrapper1: any = document.getElementById("sizeWrapper1");
-      const sizeWrapper2: any = document.getElementById("sizeWrapper2");
-      const sizeWrapper3: any = document.getElementById("sizeWrapper3");
-      const sizeWrapper4: any = document.getElementById("sizeWrapper4");
-      document.getElementById('view')?.addEventListener("mouseover", (e: any) => {
+      const sizeWrapper1: HTMLElement = document.getElementById("sizeWrapper1") || document.body;
+      const sizeWrapper2: HTMLElement = document.getElementById("sizeWrapper2") || document.body;
+      const sizeWrapper3: HTMLElement = document.getElementById("sizeWrapper3") || document.body;
+      const sizeWrapper4: HTMLElement = document.getElementById("sizeWrapper4") || document.body;
+      
+      document.getElementById('view')?.addEventListener("mouseover", ({ target }: { target: EventTarget | null }) => {
+        const eventComp = target as HTMLElement;
+        if (eventComp !== clickedComp) {
+          const targetStyle = eventComp.style;
 
-        if (e.target !== clickedComp) {
-          const targetStyle = e.target.style;
-
-          const targetWidth = e.target.clientWidth;
-          const targetHeight = e.target.clientHeight;
+          const targetWidth = eventComp.clientWidth;
+          const targetHeight = eventComp.clientHeight;
 
           const marginLeft = Number(targetStyle.getPropertyValue("margin-left").split("px")[0]);
           const marginRight = Number(targetStyle.getPropertyValue("margin-right").split("px")[0]);
@@ -37,22 +38,24 @@ const View = () => {
 
           sizeWrapper2.style.width = width + "px";
           sizeWrapper2.style.height = height + "px";
-          sizeWrapper2.style.boxShadow = "0px 0px 0px 1.5px #8bccfb";
+          sizeWrapper2.style.boxShadow = "0px 0px 0px 2.5px #8bccfb";
 
           const scrolledTopLength = window.pageYOffset;
-          const absoluteTop = scrolledTopLength + e.target.offsetTop - marginTop;
+          const absoluteTop = scrolledTopLength + eventComp.offsetTop - marginTop;
           sizeWrapper1.style.top = absoluteTop + "px";
           sizeWrapper2.style.top = absoluteTop + "px";
         }
-        mouseoverComp = e.target;
+        mouseoverComp = eventComp;
       })
 
-      document.getElementById('view')?.addEventListener("click", (e: any) => {
+      document.getElementById('view')?.addEventListener("click", ({ target }: { target: EventTarget | null }) => {
+        const eventComp = target as HTMLElement;
         sizeWrapper1.style.boxShadow = "";
-        const targetStyle = e.target.style;
+        sizeWrapper2.style.boxShadow = "";
+        const targetStyle = eventComp.style;
 
-        const targetWidth = e.target.clientWidth;
-        const targetHeight = e.target.clientHeight;
+        const targetWidth = eventComp.clientWidth;
+        const targetHeight = eventComp.clientHeight;
 
         const marginLeft = Number(targetStyle.getPropertyValue("margin-left").split("px")[0]);
         const marginRight = Number(targetStyle.getPropertyValue("margin-right").split("px")[0]);
@@ -69,15 +72,15 @@ const View = () => {
 
         sizeWrapper4.style.width = width + "px";
         sizeWrapper4.style.height = height + "px";
-        sizeWrapper4.style.boxShadow = "0px 0px 0px 1.5px #0D99FF";
+        sizeWrapper4.style.boxShadow = "0px 0px 0px 2.5px #0D99FF";
 
         const scrolledTopLength = window.pageYOffset;
-        const absoluteTop = scrolledTopLength + e.target.offsetTop - marginTop;
+        const absoluteTop = scrolledTopLength + eventComp.offsetTop - marginTop;
         sizeWrapper3.style.top = absoluteTop + "px";
         sizeWrapper4.style.top = absoluteTop + "px";
 
-        useStore.setState({ selectedComp: e.target });
-        clickedComp = e.target;
+        useStore.setState({ selectedComp: eventComp });
+        clickedComp = eventComp;
       })
       document.getElementById('viewBackground')?.addEventListener("click", () => {
         sizeWrapper1.style.boxShadow = "";

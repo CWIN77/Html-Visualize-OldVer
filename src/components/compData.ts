@@ -16,3 +16,11 @@ export const compData: ICompData[] = [
     comp: c1
   }
 ]
+
+export const compAttribute: { [key: string]: string[] } = {
+  input: ["type", "placeholder"],
+  a: ["href"],
+  img: ["src", "alt"]
+}
+
+export const ableInsert = ["img", "input"];

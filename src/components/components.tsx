@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { ReactComponent as SVG_search } from '../svgs/search.svg'
 import { ReactComponent as SVG_plus } from '../svgs/plus.svg'
 import { ReactComponent as SVG_eye } from '../svgs/eye.svg'
-import { compData } from './compData'
+import { compData, ableInsert } from './compData'
 import { useStore } from "../zustant"
 import { useState } from 'react'
 import { ICompData } from "../types"
@@ -10,7 +10,7 @@ import kmp from "kmp"
 
 const Components = () => {
   const iconProps = { fill: "#363636", width: 18, height: 18, style: { padding: 2, marginLeft: 10, cursor: "pointer" } }
-  const { selectedComp }: any = useStore();
+  const { selectedComp }: { selectedComp: HTMLElement } = useStore();
   const [compList, setCompList] = useState(compData);
   const [searchText, setSearchText] = useState('');
 
@@ -56,9 +56,8 @@ const Components = () => {
                     newComp[key] = data.comp[key];
                   }
                 })
-                if (selectedComp && selectedComp.id.split('sizeWrapper').length == 1) {
-                  const insertAble = ["img", "input"];
-                  if (insertAble.indexOf(selectedComp.tagName.toLowerCase()) > -1) {
+                if (selectedComp !== document.body) {
+                  if (ableInsert.indexOf(selectedComp.tagName.toLowerCase()) > -1) {
                     window.alert("선택한 Html에는 Element를 추가할 수 없습니다.")
                   } else {
                     selectedComp.append(newComp);
