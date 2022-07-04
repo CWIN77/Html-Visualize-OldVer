@@ -1,23 +1,46 @@
 import styled from 'styled-components'
 import { useStore } from "../zustant"
 import { elementStyle } from "../comps/compValue"
-import { useEffect } from 'react';
+import { compAttribute } from "../comps/compData"
+import { useEffect, useState } from 'react';
 import Export from './Export';
 
 const StyleSetting = () => {
   const iconProps = { fill: "#363636", width: 18, height: 18, style: { padding: 2, marginLeft: 10, cursor: "pointer" } };
   const { selectedComp }: { selectedComp: HTMLElement } = useStore();
+  const [styleList, setStyleList] = useState<string[]>([]);
+  const [attributeList, setAttributeList] = useState<string[]>([]);
+
+  useEffect(() => {
+    const newStyleList: string[] = [];
+    Object.keys(elementStyle[selectedComp.tagName.toLowerCase()]).forEach((key) => {
+      newStyleList.push(key);
+    });
+    setStyleList(newStyleList);
+
+    const newAttributeList: string[] = [];
+    if (compAttribute[selectedComp.tagName.toLowerCase()]) {
+      compAttribute[selectedComp.tagName.toLowerCase()].forEach((att) => {
+        newAttributeList.push(att);
+      });
+      setAttributeList(newAttributeList);
+    }
+  }, [selectedComp]);
 
   return (
     <Container>
-      {/* <Export /> */}
+      <Export />
       <Name>Style</Name>
-      <div onClick={() => {
-        Object.keys(elementStyle[selectedComp.tagName.toLowerCase()]).forEach((key: any) => {
-          console.log(elementStyle[selectedComp.tagName.toLowerCase()][key])
-        })
-        // selectedComp.get
-      }}>현재 선택된 값 출력</div>
+      {
+        attributeList.map((style, key) => (
+          <div key={key}>{style}</div>
+        ))
+      }
+      {
+        styleList.map((style, key) => (
+          <div key={key}>{style}</div>
+        ))
+      }
     </Container >
   )
 }
