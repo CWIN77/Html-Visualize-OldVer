@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import styled from 'styled-components'
 import Components from '../components/components'
+import StyleSetting from '../components/styleSetting'
 import View from "../components/view"
 
 const Home = () => {
@@ -9,12 +10,12 @@ const Home = () => {
       <Components />
       <ViewContainer>
         <View />
-        <ViewBackground />
+        <ViewBackground id="viewBackground" />
       </ViewContainer>
+      <StyleSetting />
     </Container>
   )
 }
-
 
 const Container = styled.div`
   width:100%;
@@ -22,16 +23,16 @@ const Container = styled.div`
   display:flex;
 `
 const ViewContainer = styled.div`
-  width:calc(100% - 350px);
-  min-height:calc(100% - 34px);
+  width:calc(100% - 335px - 280px);
+  min-height:calc(100% - 36px);
   display:flex;
   align-items: center;
   justify-content: center;
 `
 const ViewBackground = styled.span`
   position: absolute;
-  width:calc(100% - 350px);
-  min-height:calc(100% - 34px);
+  width:calc(100% - 335px - 280px);
+  min-height:calc(100% - 36px);
   background-color: #C7C7C7;
   z-index: 1;
 `

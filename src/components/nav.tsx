@@ -8,7 +8,7 @@ const Nav = () => {
 
 const Container = styled.div`
   width:100vw;
-  height:34px;
+  height:36px;
   background-color: #272727;
 `
 

@@ -28,3 +28,5 @@ firebase.json
 firebase.indexes.json
 firebase.rules
 functions
+
+.vscode

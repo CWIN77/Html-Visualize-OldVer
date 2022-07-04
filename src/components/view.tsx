@@ -4,22 +4,7 @@ import { useStore } from '../zustant'
 
 const View = () => {
   const [isAddEvent, setIsAddEvent] = useState(false);
-  const getStyle = (comp: any) => {
-    const style = []
-    for (let i = 0; ; i++) {
-      if (comp.style[i]) {
-        style.push(comp.style[i])
-      } else {
-        break;
-      }
-    }
-    let styleString = ""
-    style.map((data) => {
-      styleString += data + ": " + comp.style.getPropertyValue(data) + "; "
-    })
-    const newComp = "const Comp1 = styled.div`" + styleString + "`"
-    // console.log(newComp)
-  }
+
   useEffect(() => {
     if (!isAddEvent) {
       setIsAddEvent(true);
@@ -91,18 +76,16 @@ const View = () => {
         sizeWrapper3.style.top = absoluteTop + "px";
         sizeWrapper4.style.top = absoluteTop + "px";
 
-        // getStyle(f.target);
-        // sessionStorage.setItem("selectComp", JSON.stringify(e.target))
-        useStore.setState({ selectComp: e.target });
+        useStore.setState({ selectedComp: e.target });
         clickedComp = e.target;
       })
-      document.getElementById('view')?.parentNode?.childNodes[1].addEventListener("click", () => {
+      document.getElementById('viewBackground')?.addEventListener("click", () => {
         sizeWrapper1.style.boxShadow = "";
         sizeWrapper2.style.boxShadow = "";
         sizeWrapper3.style.boxShadow = "";
         sizeWrapper4.style.boxShadow = "";
       })
-      document.getElementById('view')?.parentNode?.childNodes[1].addEventListener("mouseover", () => {
+      document.getElementById('viewBackground')?.addEventListener("mouseover", () => {
         if (mouseoverComp !== clickedComp) {
           sizeWrapper1.style.boxShadow = "";
           sizeWrapper2.style.boxShadow = "";
@@ -112,7 +95,9 @@ const View = () => {
   }, [])
 
   return (
-    <Container id='view'>
+    <Container>
+      <div style={{ width: "100%", height: "100%" }} id='view' />
+
       <SizeWrapper id="sizeWrapper1" />
       <SizeWrapper id="sizeWrapper2" />
       <SizeWrapper id="sizeWrapper3" />

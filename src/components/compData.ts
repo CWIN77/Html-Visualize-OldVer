@@ -11,8 +11,8 @@ export const compData: ICompData[] = [
   },
   {
     id: 1,
-    name: "Div",
-    descript: "내부에 값을 넣을 수 있는 div element입니다. width, height, min-height의 기본값은 각각 100%, 100%, 50px입니다.",
+    name: "div 상자",
+    descript: "div element입니다. width, height, min-height의 기본값은 각각 100%, 100%, 50px입니다.",
     comp: c1
   }
 ]

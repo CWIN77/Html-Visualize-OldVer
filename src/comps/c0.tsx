@@ -1,8 +1,10 @@
 import { color } from "./color"
 
-const Comp: string = `
-  <input type='text' placeholder='플레이스홀더!!' 
-    style='
+const Comp = {
+  tagName: "input",
+  placeholder: "플레이스홀더!!",
+  type: 'text',
+  style: `
     width:calc(100% - 24px - 24px);
     background-color: ${color.black}; 
     font-size: 14px; 
@@ -10,8 +12,7 @@ const Comp: string = `
     margin: 12px; 
     border-radius: 4px; 
     color: ${color.white};
-    ' 
-  />
-`
+  `
+}
 
 export default Comp
