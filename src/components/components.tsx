@@ -49,13 +49,10 @@ const Components = () => {
             <div>
               <SVG_eye {...iconProps} />
               <SVG_plus {...iconProps} onClick={() => {
-                const newComp: any = document.createElement(data.comp.tagName);
-                newComp.style = data.comp.style;
-                Object.keys(data.comp).forEach((key) => {
-                  if (key !== "tagName" && key !== "style") {
-                    newComp[key] = data.comp[key];
-                  }
-                })
+                const createElement: HTMLElement = document.createElement("div");
+                createElement.insertAdjacentHTML('beforeend', data.comp);
+                const newComp = createElement.children[0] as HTMLElement;
+                newComp.id = "comp" + data.id;
                 if (selectedComp !== document.body) {
                   if (ableInsert.indexOf(selectedComp.tagName.toLowerCase()) > -1) {
                     window.alert("선택한 Html에는 Element를 추가할 수 없습니다.")

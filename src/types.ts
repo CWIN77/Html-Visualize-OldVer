@@ -2,16 +2,16 @@ export interface ICompData {
   id: number;
   name: string;
   descript: string;
-  comp: ICom;
+  comp: string;
 }
 
 export interface ICom {
   tagName: string;
   style: string;
-  ableStyle: TableStyle;
-  [key: string]: string | TableStyle;
+  ableStyle: TAbleStyle;
+  [key: string]: string | TAbleStyle;
 }
 
-type TableStyle = {
-  [key: string]: "value" | string[];
+export type TAbleStyle = {
+  [key: string]: "value" | "calc" | string[];
 }
