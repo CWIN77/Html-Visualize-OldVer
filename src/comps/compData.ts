@@ -1,6 +1,6 @@
 import { ICompData } from "../types"
-import c0 from "../comps/c0"
-import c1 from "../comps/c1"
+import c0 from "./c0"
+import c1 from "./c1"
 
 export const compData: ICompData[] = [
   {

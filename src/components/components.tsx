@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { ReactComponent as SVG_search } from '../svgs/search.svg'
 import { ReactComponent as SVG_plus } from '../svgs/plus.svg'
 import { ReactComponent as SVG_eye } from '../svgs/eye.svg'
-import { compData, ableInsert } from './compData'
+import { compData, ableInsert } from '../comps/compData'
 import { useStore } from "../zustant"
 import { useState } from 'react'
 import { ICompData } from "../types"

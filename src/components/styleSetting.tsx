@@ -1,20 +1,35 @@
 import styled from 'styled-components'
 import { useStore } from "../zustant"
-import { compAttribute, ableInsert } from "./compData"
+import { compAttribute, ableInsert } from "../comps/compData"
 // import { ReactComponent as SVG_search } from '../svgs/search.svg'
 
 const StyleSetting = () => {
   const iconProps = { fill: "#363636", width: 18, height: 18, style: { padding: 2, marginLeft: 10, cursor: "pointer" } };
   const { selectedComp }: { selectedComp: HTMLElement } = useStore();
-  let countComp: number = 0;
+  let countComp = 0;
+  let compNames: string[] = [];
+
+  const getRandomId = () => {
+    const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
+    let uid = ''
+    for (let i = 0; i < 4; i++) {
+      const randomNum = Math.floor(Math.random() * chars.length)
+      uid += chars.substring(randomNum, randomNum + 1)
+    }
+    return uid
+  }
 
   const getAppCode = (comp: HTMLElement) => {
+    countComp = 0;
+    compNames = [];
+
     const resultGetHtmlStyle = getHtmlStyle(comp, "");
     const htmlComp = resultGetHtmlStyle.htmlComp.replace(/></g, ">\n<");
     let declareString = "";
     resultGetHtmlStyle.declareComp.forEach((t) => {
       declareString += t + "\n";
     });
+
     const appCode = `
       import styled from 'styled-components'
       const App = () => {
@@ -31,11 +46,19 @@ const StyleSetting = () => {
   }
 
   const getHtmlStyle = (comp: HTMLElement, html: string) => {
-    const compName = `Comp${countComp}`;
-    countComp++;
+    let compName = `${(comp.id && comp.id !== "") ? (comp.id.charAt(0) + comp.id.slice(1)) : `Comp${countComp}`}_${getRandomId()}`;
+    while (compNames.indexOf(compName) > -1) {
+      compName = `${(comp.id && comp.id !== "") ? (comp.id.charAt(0) + comp.id.slice(1)) : `Comp${countComp}`}_${getRandomId()}`;
+    }
+    compNames.push(compName)
 
     let htmlComp: string = "";
     const declareComp: string[] = [];
+
+    if (!(comp.id && comp.id !== "")) {
+      countComp++;
+    }
+
 
     let attribute = "";
     if (compAttribute[comp.tagName.toLowerCase()]) {
