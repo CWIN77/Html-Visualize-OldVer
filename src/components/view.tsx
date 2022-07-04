@@ -14,7 +14,7 @@ const View = () => {
       const sizeWrapper2: HTMLElement = document.getElementById("sizeWrapper2") || document.body;
       const sizeWrapper3: HTMLElement = document.getElementById("sizeWrapper3") || document.body;
       const sizeWrapper4: HTMLElement = document.getElementById("sizeWrapper4") || document.body;
-      
+
       document.getElementById('view')?.addEventListener("mouseover", ({ target }: { target: EventTarget | null }) => {
         const eventComp = target as HTMLElement;
         if (eventComp !== clickedComp) {

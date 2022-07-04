@@ -12,8 +12,14 @@ const defaultStyle: TAbleStyle = {
   "min-height": "calc",
   "max-width": "calc",
   "max-height": "calc",
-  "margin": "calc",
-  "padding": "calc",
+  "margin-left": "calc",
+  "margin-right": "calc",
+  "margin-top": "calc",
+  "margin-bottom": "calc",
+  "padding-left": "calc",
+  "padding-right": "calc",
+  "padding-top": "calc",
+  "padding-bottom": "calc",
   "background-color": "value",
   "border": "value",
   "border-radius": "value",
@@ -55,13 +61,15 @@ const divStyle: TAbleStyle = {
 const inputStyle: TAbleStyle = {
   ...defaultStyle,
   "font-size": "calc",
-  "color": "value"
+  "color": "value",
+  "font-weight": "value"
 }
 
 const hStyle: TAbleStyle = {
   ...defaultStyle,
   "font-size": "calc",
   "color": "value",
+  "font-weight": "value",
   "text-align": [
     "start",
     "end",
@@ -77,6 +85,7 @@ const imgStyle: TAbleStyle = {
 const aStyle: TAbleStyle = {
   ...defaultStyle,
   "font-size": "calc",
+  "font-weight": "value",
   "color": "value"
 }
 

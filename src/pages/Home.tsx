@@ -33,7 +33,7 @@ const ViewBackground = styled.span`
   position: absolute;
   width:calc(100% - 335px - 280px);
   min-height:calc(100% - 36px);
-  background-color: #C7C7C7;
+  background-color: #ededed;
   z-index: 1;
 `
 
