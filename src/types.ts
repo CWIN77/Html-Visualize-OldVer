@@ -13,5 +13,5 @@ export interface ICom {
 }
 
 export type TAbleStyle = {
-  [key: string]: "value" | "calc" | string[];
+  [key: string]: "value" | "detail" | string[];
 }

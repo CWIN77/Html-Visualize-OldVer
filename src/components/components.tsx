@@ -78,6 +78,7 @@ const Container = styled.div`
   width:335px;
   height:calc(100vh - 36px);
   background-color: white;
+  z-index: 100;
   &::-webkit-scrollbar{
     width:8px;
     background-color: initial;

@@ -2,15 +2,15 @@ import styled from 'styled-components'
 import { useStore } from "../zustant"
 import { elementStyle } from "../comps/compValue"
 import { compAttribute } from "../comps/compData"
+import { TAbleStyle } from "../types"
 import { useEffect, useState } from 'react';
 import Export from './Export';
 
 const StyleSetting = () => {
-  const iconProps = { fill: "#363636", width: 18, height: 18, style: { padding: 2, marginLeft: 10, cursor: "pointer" } };
   const { selectedComp }: { selectedComp: HTMLElement } = useStore();
-  const [styleList, setStyleList] = useState<string[]>([]);
+  const [styleList, setStyleList] = useState<TAbleStyle[]>([]);
   const [attributeList, setAttributeList] = useState<string[]>([]);
-  const [styleValue, setStyleValue] = useState<any>([]);
+  const [isShowDetail, setIsShowDetail] = useState(false);
 
   const changeFocus = (target: HTMLElement) => {
     const sizeWrapper3: HTMLElement = document.getElementById("sizeWrapper3") || document.body;
@@ -47,9 +47,12 @@ const StyleSetting = () => {
 
   useEffect(() => {
     if (selectedComp !== document.body) {
-      const newStyleList: string[] = [];
+      const newStyleList: TAbleStyle[] = [];
+
       Object.keys(elementStyle[selectedComp.tagName.toLowerCase()]).forEach((key) => {
-        newStyleList.push(key);
+        if (!(selectedComp.id === "view" && key === "position")) {
+          newStyleList.push({ [key]: elementStyle[selectedComp.tagName.toLowerCase()][key] });
+        }
       });
       setStyleList(newStyleList);
 
@@ -64,23 +67,18 @@ const StyleSetting = () => {
   }, [selectedComp]);
 
   useEffect(() => {
-    styleList.forEach((st) => {
-      const stComp: any = document.getElementById(st);
-      const style: any = st;
-      stComp.value = selectedComp.style[style];
-      stComp.addEventListener("focusout", (e: any) => {
-        const target: any = document.querySelector(`#${e.target.className}`);
-        target.style[style] = e.target.value;
-        changeFocus(target);
-      });
-      stComp.addEventListener("keypress", (e: any) => {
-        if (e.key === 'Enter') {
+    styleList.forEach((style: TAbleStyle) => {
+      const styleKey = Object.keys(style)[0] as any;
+      const styleComp = document.getElementById(Object.keys(style)[0]) as HTMLInputElement | null;
+      if (styleComp) {
+        styleComp.value = selectedComp.style[styleKey];
+        styleComp.addEventListener("change", (e: any) => {
           const target: any = document.querySelector(`#${e.target.className}`);
-          const style: any = st;
-          target.style[style] = e.target.value;
+          target.style[styleKey] = e.target.value;
           changeFocus(target);
-        }
-      });
+          setStyleList([...styleList]);
+        })
+      }
     })
   }, [styleList, attributeList])
 
@@ -94,16 +92,53 @@ const StyleSetting = () => {
         ))
       }
       {
-        styleList.map((st, key) => {
-          const style: any = st;
-          return (
-            <Style key={key}>
-              <h1>{style}</h1>
-              <input id={style} className={selectedComp.id} type={"text"} />
-            </Style>
-          )
+        styleList.map((style: TAbleStyle, k: number) => {
+          const value = Object.values(style)[0];
+          const key = Object.keys(style)[0];
+          if (value !== "detail") {
+            return (
+              <Style key={k}>
+                <h1>{key}</h1>
+                {
+                  value !== "value"
+                    ? (
+                      <select id={Object.keys(style)[0]} className={selectedComp.id}>
+                        {
+                          value.map((v, key) => (
+                            <option key={key} value={v}>{v}</option>
+                          ))
+                        }
+                      </select>
+                    )
+                    : <input id={Object.keys(style)[0]} className={selectedComp.id} type={"text"} />
+                }
+              </Style>
+            )
+          }
         })
       }
+      {
+        selectedComp !== document.body && (
+          isShowDetail
+            ? <>
+              <Style><h2 onClick={() => { setIsShowDetail(false) }}>그 외 스타일 접기</h2></Style>
+              {
+                styleList.map((style: any, key: number) => {
+                  if (Object.values(style)[0] === "detail") {
+                    return (
+                      <Style key={key}>
+                        <h1>{Object.keys(style)[0]}</h1>
+                        <input id={Object.keys(style)[0]} className={selectedComp.id} type={"text"} />
+                      </Style>
+                    )
+                  }
+                })
+              }
+            </>
+            : <Style><h2 onClick={() => { setIsShowDetail(true) }}>그 외 스타일 펼치기</h2></Style>
+        )
+      }
+
       <span style={{ paddingTop: 24 }}></span>
       <Export />
       <span style={{ paddingTop: 8 }}></span>
@@ -118,6 +153,7 @@ const Container = styled.div`
   width: 280px;
   height: calc(100vh - 36px);
   background-color: white;
+  z-index: 100;
   &::-webkit-scrollbar{
     width: 8px;
     background-color: initial;
@@ -145,13 +181,35 @@ const Style = styled.div`
     font-size: 12px;
     font-weight: bold;
   }
-  input{
+  h2{
+    margin-left: 12px;
     font-size: 12px;
+    font-weight: bold;
+    margin-top: 12px;
+  }
+  input{
+    font-size: 13px;
+    font-weight: bold;
     margin-right: 12px;
     padding:7px 8px;
-    width:40%;
+    width:100px;
     border-radius: 4px;
     background-color: #ededed;
+    text-align: center;
+  }
+  select{
+    font-size: 13px;
+    font-weight: bold;
+    margin-right: 12px;
+    padding:7px 8px;
+    width:117px;
+    border-radius: 4px;
+    background-color: #ededed;
+    text-align: center;
+    option{
+      font-size: 13px;
+      font-weight: bold;
+    }
   }
 `
 

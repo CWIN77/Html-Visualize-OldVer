@@ -6,36 +6,36 @@ export const color = {
 }
 
 const defaultStyle: TAbleStyle = {
-  "width": "calc",
-  "height": "calc",
-  "min-width": "calc",
-  "min-height": "calc",
-  "max-width": "calc",
-  "max-height": "calc",
-  "margin-left": "calc",
-  "margin-right": "calc",
-  "margin-top": "calc",
-  "margin-bottom": "calc",
-  "padding-left": "calc",
-  "padding-right": "calc",
-  "padding-top": "calc",
-  "padding-bottom": "calc",
+  "width": "value",
+  "height": "value",
+  "min-width": "detail",
+  "min-height": "detail",
+  "max-width": "detail",
+  "max-height": "detail",
+  "margin": "value",
+  "padding": "value",
   "background-color": "value",
   "border": "value",
   "border-radius": "value",
   "box-shadow": "value",
+  "position": [
+    "static",
+    "absolute",
+    "relative",
+    "fixed",
+    "sticky"
+  ]
 }
 
 const divStyle: TAbleStyle = {
   ...defaultStyle,
-  "font-size": "calc",
+  "font-size": "value",
   "color": "value",
   "display": [
     "flex",
     "inline",
     "block",
     "inline-block",
-    "none"
   ],
   "flex-direction": [
     "row",
@@ -60,14 +60,14 @@ const divStyle: TAbleStyle = {
 
 const inputStyle: TAbleStyle = {
   ...defaultStyle,
-  "font-size": "calc",
+  "font-size": "value",
   "color": "value",
   "font-weight": "value"
 }
 
 const hStyle: TAbleStyle = {
   ...defaultStyle,
-  "font-size": "calc",
+  "font-size": "value",
   "color": "value",
   "font-weight": "value",
   "text-align": [
@@ -75,7 +75,13 @@ const hStyle: TAbleStyle = {
     "end",
     "center",
     "justify"
-  ]
+  ],
+  "display": [
+    "flex",
+    "inline",
+    "block",
+    "inline-block",
+  ],
 }
 
 const imgStyle: TAbleStyle = {
@@ -84,7 +90,7 @@ const imgStyle: TAbleStyle = {
 
 const aStyle: TAbleStyle = {
   ...defaultStyle,
-  "font-size": "calc",
+  "font-size": "value",
   "font-weight": "value",
   "color": "value"
 }
