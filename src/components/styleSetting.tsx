@@ -23,36 +23,7 @@ const StyleSetting = () => {
   }, [selectedComp])
 
   const changeFocus = (target: HTMLElement) => {
-    const sizeWrapper3: HTMLElement = document.getElementById("sizeWrapper3") || document.body;
-    const sizeWrapper4: HTMLElement = document.getElementById("sizeWrapper4") || document.body;
-
-    const eventComp = target as HTMLElement;
-    const targetStyle = eventComp.style;
-
-    const targetWidth = eventComp.clientWidth;
-    const targetHeight = eventComp.clientHeight;
-
-    const marginLeft = Number(targetStyle.getPropertyValue("margin-left").split("px")[0]);
-    const marginRight = Number(targetStyle.getPropertyValue("margin-right").split("px")[0]);
-
-    const marginTop = Number(targetStyle.getPropertyValue("margin-top").split("px")[0]);
-    const marginBottom = Number(targetStyle.getPropertyValue("margin-bottom").split("px")[0]);
-
-    const width = targetWidth + marginLeft + marginRight;
-    const height = targetHeight + marginTop + marginBottom;
-
-    sizeWrapper3.style.width = width + "px";
-    sizeWrapper3.style.height = height + "px";
-    sizeWrapper3.style.boxShadow = "0px 0px 0px 1.5px #0D99FF inset";
-
-    sizeWrapper4.style.width = width + "px";
-    sizeWrapper4.style.height = height + "px";
-    sizeWrapper4.style.boxShadow = "0px 0px 0px 2.5px #0D99FF";
-
-    const scrolledTopLength = window.pageYOffset;
-    const absoluteTop = scrolledTopLength + eventComp.offsetTop - marginTop;
-    sizeWrapper3.style.top = absoluteTop + "px";
-    sizeWrapper4.style.top = absoluteTop + "px";
+    target.style.boxShadow = "0px 0px 0px 4px #0D99FF";
   }
 
   const changeStyle = (e: any, styleKey: any) => {

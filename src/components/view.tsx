@@ -10,88 +10,26 @@ const View = () => {
       setIsAddEvent(true);
       let mouseoverComp = document.body;
       let clickedComp = document.body;
-      const sizeWrapper1: HTMLElement = document.getElementById("sizeWrapper1") || document.body;
-      const sizeWrapper2: HTMLElement = document.getElementById("sizeWrapper2") || document.body;
-      const sizeWrapper3: HTMLElement = document.getElementById("sizeWrapper3") || document.body;
-      const sizeWrapper4: HTMLElement = document.getElementById("sizeWrapper4") || document.body;
-
-      document.getElementById('view')?.addEventListener("mouseover", ({ target }: { target: EventTarget | null }) => {
-        const eventComp = target as HTMLElement;
-        if (eventComp !== clickedComp) {
-          const targetStyle = eventComp.style;
-
-          const targetWidth = eventComp.clientWidth;
-          const targetHeight = eventComp.clientHeight;
-
-          const marginLeft = Number(targetStyle.getPropertyValue("margin-left").split("px")[0]);
-          const marginRight = Number(targetStyle.getPropertyValue("margin-right").split("px")[0]);
-
-          const marginTop = Number(targetStyle.getPropertyValue("margin-top").split("px")[0]);
-          const marginBottom = Number(targetStyle.getPropertyValue("margin-bottom").split("px")[0]);
-
-          const width = targetWidth + marginLeft + marginRight;
-          const height = targetHeight + marginTop + marginBottom;
-
-          sizeWrapper1.style.width = width + "px";
-          sizeWrapper1.style.height = height + "px";
-          sizeWrapper1.style.boxShadow = "0px 0px 0px 1.5px #8bccfb inset";
-
-          sizeWrapper2.style.width = width + "px";
-          sizeWrapper2.style.height = height + "px";
-          sizeWrapper2.style.boxShadow = "0px 0px 0px 2.5px #8bccfb";
-
-          const scrolledTopLength = window.pageYOffset;
-          const absoluteTop = scrolledTopLength + eventComp.offsetTop - marginTop;
-          sizeWrapper1.style.top = absoluteTop + "px";
-          sizeWrapper2.style.top = absoluteTop + "px";
+      document.getElementById('view')?.addEventListener("mouseover", (e: any) => {
+        if (mouseoverComp !== clickedComp) {
+          mouseoverComp.style.boxShadow = "";
         }
-        mouseoverComp = eventComp;
-      })
-
-      document.getElementById('view')?.addEventListener("click", ({ target }: { target: EventTarget | null }) => {
-        const eventComp = target as HTMLElement;
-        sizeWrapper1.style.boxShadow = "";
-        sizeWrapper2.style.boxShadow = "";
-        const targetStyle = eventComp.style;
-
-        const targetWidth = eventComp.clientWidth;
-        const targetHeight = eventComp.clientHeight;
-
-        const marginLeft = Number(targetStyle.getPropertyValue("margin-left").split("px")[0]);
-        const marginRight = Number(targetStyle.getPropertyValue("margin-right").split("px")[0]);
-
-        const marginTop = Number(targetStyle.getPropertyValue("margin-top").split("px")[0]);
-        const marginBottom = Number(targetStyle.getPropertyValue("margin-bottom").split("px")[0]);
-
-        const width = targetWidth + marginLeft + marginRight;
-        const height = targetHeight + marginTop + marginBottom;
-
-        sizeWrapper3.style.width = width + "px";
-        sizeWrapper3.style.height = height + "px";
-        sizeWrapper3.style.boxShadow = "0px 0px 0px 1.5px #0D99FF inset";
-
-        sizeWrapper4.style.width = width + "px";
-        sizeWrapper4.style.height = height + "px";
-        sizeWrapper4.style.boxShadow = "0px 0px 0px 2.5px #0D99FF";
-
-        const scrolledTopLength = window.pageYOffset;
-        const absoluteTop = scrolledTopLength + eventComp.offsetTop - marginTop;
-        sizeWrapper3.style.top = absoluteTop + "px";
-        sizeWrapper4.style.top = absoluteTop + "px";
-
-        useStore.setState({ selectedComp: eventComp });
-        clickedComp = eventComp;
+        e.target.style.boxShadow = "inset 0px 0px 0px 4px #8bccfb";
+        e.target.addEventListener("click", (f: any) => {
+          clickedComp.style.boxShadow = "";
+          f.target.style.boxShadow = "inset 0px 0px 0px 4px #0D99FF";
+          clickedComp = f.target;
+          useStore.setState({ selectedComp: clickedComp });
+        })
+        mouseoverComp = e.target;
       })
       document.getElementById('viewBackground')?.addEventListener("click", () => {
-        sizeWrapper1.style.boxShadow = "";
-        sizeWrapper2.style.boxShadow = "";
-        sizeWrapper3.style.boxShadow = "";
-        sizeWrapper4.style.boxShadow = "";
+        mouseoverComp.style.boxShadow = "";
+        clickedComp.style.boxShadow = "";
       })
       document.getElementById('viewBackground')?.addEventListener("mouseover", () => {
         if (mouseoverComp !== clickedComp) {
-          sizeWrapper1.style.boxShadow = "";
-          sizeWrapper2.style.boxShadow = "";
+          mouseoverComp.style.boxShadow = "";
         }
       })
     }
