@@ -1,6 +1,7 @@
 import { ICompData } from "../types"
 import c0 from "./c0"
 import c1 from "./c1"
+import c2 from "./c2"
 
 export const compData: ICompData[] = [
   {
@@ -14,6 +15,12 @@ export const compData: ICompData[] = [
     name: "div 상자",
     descript: "div element입니다. width, height, min-height의 기본값은 각각 100%, 100%, 50px입니다.",
     comp: c1
+  },
+  {
+    id: 2,
+    name: "문자",
+    descript: "단순 문자이다.",
+    comp: c2
   }
 ]
 

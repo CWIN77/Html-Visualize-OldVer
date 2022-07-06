@@ -86,17 +86,22 @@ const Export = () => {
   }
 
   return (
-    <Container onClick={() => { getAppCode(selectedComp) }}>
-      HTML Export
-    </Container>
+    <>
+      {
+        selectedComp !== document.body &&
+        <Container onClick={() => { getAppCode(selectedComp) }}>
+          HTML Export
+        </Container>
+      }
+    </>
   )
 }
 
 const Container = styled.button`
   background-color: #1264A3;
-  padding:12px;
-  margin: 20px;
-  font-size: 16px;
+  padding:14px;
+  margin: 24px 48px;
+  font-size: 14px;
   color:white;
   border-radius: 4px;
   cursor: pointer;

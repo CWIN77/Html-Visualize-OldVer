@@ -12,6 +12,18 @@ const StyleSetting = () => {
   const [attributeList, setAttributeList] = useState<string[]>([]);
   const [isShowDetail, setIsShowDetail] = useState(false);
 
+
+  useEffect(() => {
+    const clickDel = (e: any) => {
+      if (e.key === "Delete" && selectedComp !== document.body && selectedComp.id !== "view") {
+        selectedComp.remove();
+        changeFocus(document.getElementById("view") as HTMLElement);
+      }
+    }
+
+    selectedComp.addEventListener("keydown", (e) => { clickDel(e); });
+  }, [selectedComp])
+
   const changeFocus = (target: HTMLElement) => {
     const sizeWrapper3: HTMLElement = document.getElementById("sizeWrapper3") || document.body;
     const sizeWrapper4: HTMLElement = document.getElementById("sizeWrapper4") || document.body;
@@ -45,19 +57,30 @@ const StyleSetting = () => {
     sizeWrapper4.style.top = absoluteTop + "px";
   }
 
+  const changeStyleEventListener = (target: any, style: TAbleStyle) => {
+    const styleKey: any = Object.keys(style)[0];
+    target.removeEventListener("change", (e: any) => { changeStyle(e, styleKey) });
+    target.addEventListener("change", (e: any) => {
+      changeStyle(e, styleKey);
+    })
+  }
+
+  const changeStyle = (e: any, styleKey: any) => {
+    selectedComp.style[styleKey] = e.target.value;
+    e.target.value = selectedComp.style[styleKey];
+    changeFocus(selectedComp);
+  }
+
   useEffect(() => {
     if (selectedComp !== document.body) {
       const newStyleList: TAbleStyle[] = [];
-
-      Object.keys(elementStyle[selectedComp.tagName.toLowerCase()]).forEach((key) => {
-        if (!(selectedComp.id === "view" && key === "position")) {
-          newStyleList.push({ [key]: elementStyle[selectedComp.tagName.toLowerCase()][key] });
-        }
+      Object.keys(selectedComp.id === "view" ? elementStyle.view : elementStyle[selectedComp.tagName.toLowerCase()]).forEach((key) => {
+        newStyleList.push({ [key]: elementStyle[selectedComp.tagName.toLowerCase()][key] });
       });
       setStyleList(newStyleList);
 
-      const newAttributeList: string[] = [];
       if (compAttribute[selectedComp.tagName.toLowerCase()]) {
+        const newAttributeList: string[] = [];
         compAttribute[selectedComp.tagName.toLowerCase()].forEach((att) => {
           newAttributeList.push(att);
         });
@@ -72,16 +95,10 @@ const StyleSetting = () => {
       const styleComp = document.getElementById(Object.keys(style)[0]) as HTMLInputElement | null;
       if (styleComp) {
         styleComp.value = selectedComp.style[styleKey];
-        styleComp.addEventListener("change", (e: any) => {
-          const target: any = document.querySelector(`#${e.target.className}`);
-          target.style[styleKey] = e.target.value;
-          changeFocus(target);
-          setStyleList([...styleList]);
-        })
+        styleComp.addEventListener("change", (e: any) => { changeStyle(e, styleKey); })
       }
     })
   }, [styleList, attributeList])
-
 
   return (
     <Container>
@@ -102,7 +119,7 @@ const StyleSetting = () => {
                 {
                   value !== "value"
                     ? (
-                      <select id={Object.keys(style)[0]} className={selectedComp.id}>
+                      <select onClick={(e) => { changeStyleEventListener(e.target, style) }} id={key}>
                         {
                           value.map((v, key) => (
                             <option key={key} value={v}>{v}</option>
@@ -110,7 +127,7 @@ const StyleSetting = () => {
                         }
                       </select>
                     )
-                    : <input id={Object.keys(style)[0]} className={selectedComp.id} type={"text"} />
+                    : <input onClick={(e) => { changeStyleEventListener(e.target, style) }} id={key} className={selectedComp.id} type={"text"} />
                 }
               </Style>
             )
@@ -128,7 +145,7 @@ const StyleSetting = () => {
                     return (
                       <Style key={key}>
                         <h1>{Object.keys(style)[0]}</h1>
-                        <input id={Object.keys(style)[0]} className={selectedComp.id} type={"text"} />
+                        <input onClick={(e) => { changeStyleEventListener(e.target, style) }} id={Object.keys(style)[0]} type={"text"} />
                       </Style>
                     )
                   }
