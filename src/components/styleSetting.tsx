@@ -14,14 +14,12 @@ const StyleSetting = () => {
 
 
   useEffect(() => {
-    const clickDel = (e: any) => {
+    document.body.addEventListener("keydown", (e) => {
       if (e.key === "Delete" && selectedComp !== document.body && selectedComp.id !== "view") {
         selectedComp.remove();
         changeFocus(document.getElementById("view") as HTMLElement);
       }
-    }
-
-    selectedComp.addEventListener("keydown", (e) => { clickDel(e); });
+    });
   }, [selectedComp])
 
   const changeFocus = (target: HTMLElement) => {
@@ -57,14 +55,6 @@ const StyleSetting = () => {
     sizeWrapper4.style.top = absoluteTop + "px";
   }
 
-  const changeStyleEventListener = (target: any, style: TAbleStyle) => {
-    const styleKey: any = Object.keys(style)[0];
-    target.removeEventListener("change", (e: any) => { changeStyle(e, styleKey) });
-    target.addEventListener("change", (e: any) => {
-      changeStyle(e, styleKey);
-    })
-  }
-
   const changeStyle = (e: any, styleKey: any) => {
     selectedComp.style[styleKey] = e.target.value;
     e.target.value = selectedComp.style[styleKey];
@@ -95,7 +85,6 @@ const StyleSetting = () => {
       const styleComp = document.getElementById(Object.keys(style)[0]) as HTMLInputElement | null;
       if (styleComp) {
         styleComp.value = selectedComp.style[styleKey];
-        styleComp.addEventListener("change", (e: any) => { changeStyle(e, styleKey); })
       }
     })
   }, [styleList, attributeList])
@@ -119,7 +108,7 @@ const StyleSetting = () => {
                 {
                   value !== "value"
                     ? (
-                      <select onClick={(e) => { changeStyleEventListener(e.target, style) }} id={key}>
+                      <select onChange={(e) => { changeStyle(e, key) }} id={key} className={selectedComp.id}>
                         {
                           value.map((v, key) => (
                             <option key={key} value={v}>{v}</option>
@@ -127,7 +116,7 @@ const StyleSetting = () => {
                         }
                       </select>
                     )
-                    : <input onClick={(e) => { changeStyleEventListener(e.target, style) }} id={key} className={selectedComp.id} type={"text"} />
+                    : <input onKeyDown={(e) => { if (e.key === "Enter") changeStyle(e, key) }} id={key} className={selectedComp.id} type={"text"} />
                 }
               </Style>
             )
@@ -145,7 +134,7 @@ const StyleSetting = () => {
                     return (
                       <Style key={key}>
                         <h1>{Object.keys(style)[0]}</h1>
-                        <input onClick={(e) => { changeStyleEventListener(e.target, style) }} id={Object.keys(style)[0]} type={"text"} />
+                        <input onChange={(e) => { changeStyle(e, style) }} id={Object.keys(style)[0]} type={"text"} />
                       </Style>
                     )
                   }
