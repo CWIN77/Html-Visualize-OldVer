@@ -3,10 +3,8 @@ import styled from 'styled-components'
 import Components from '../components/components'
 import StyleSetting from '../components/styleSetting'
 import View from "../components/view"
-import { useStore } from '../zustant'
 
 const Home = () => {
-  const { selectedComp }: { selectedComp: HTMLElement } = useStore();
   return (
     <Container>
       <Components />

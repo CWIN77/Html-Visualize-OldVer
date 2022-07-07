@@ -67,10 +67,14 @@ const Components = () => {
           </Comp>
         ))
       }
+
+      {/* <Out>아웃라인</Out> */}
     </Container>
   )
 }
-
+// const Out = styled.div`
+//   outline: 2px solid black;
+// `
 const Container = styled.div`
   display:flex;
   flex-direction: column;

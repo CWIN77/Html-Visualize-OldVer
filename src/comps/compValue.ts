@@ -5,6 +5,41 @@ export const color = {
   black: "#000000"
 }
 
+export const styleName: { [key: string]: string } = {
+  "width": "W",
+  "height": "H",
+  "min-width": "min-W",
+  "min-height": "min-H",
+  "max-width": "max-W",
+  "max-height": "max-H",
+  "margin": "Mg",
+  "margin-left": "mg-L",
+  "margin-right": "mg-R",
+  "margin-top": "mg-T",
+  "margin-bottom": "mg-B",
+  "padding": "Pd",
+  "padding-left": "Pd-L",
+  "padding-right": "Pd-R",
+  "padding-top": "Pd-T",
+  "padding-bottom": "Pd-B",
+  "background-color": "Bg-C",
+  "border": "Bor",
+  "border-radius": "Bd-R",
+  "position": "Pos",
+  "left": "Lef",
+  "rigth": "Rig",
+  "top": "Top",
+  "bottom": "Bot",
+  "font-size": "Ft-Si",
+  "color": "Col",
+  "display": "Dis",
+  "flex-direction": "Fl-Di",
+  "align-items": "Al-It",
+  "justify-content": "Ju-Co",
+  "font-weight": "Ft-We",
+  "text-align": "Tx-Al",
+}
+
 const defaultStyle: TAbleStyle = {
   "width": "value",
   "height": "value",
@@ -32,7 +67,11 @@ const defaultStyle: TAbleStyle = {
     "relative",
     "fixed",
     "sticky"
-  ]
+  ],
+  "left": "detail",
+  "rigth": "detail",
+  "top": "detail",
+  "bottom": "detail",
 }
 
 const divStyle: TAbleStyle = {

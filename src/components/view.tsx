@@ -38,11 +38,6 @@ const View = () => {
   return (
     <Container>
       <div style={{ width: "100%", height: "100%" }} id='view' />
-
-      <SizeWrapper id="sizeWrapper1" />
-      <SizeWrapper id="sizeWrapper2" />
-      <SizeWrapper id="sizeWrapper3" />
-      <SizeWrapper id="sizeWrapper4" />
     </Container>
   )
 }
