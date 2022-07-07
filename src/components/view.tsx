@@ -4,6 +4,7 @@ import { useStore } from '../zustant'
 
 const View = () => {
   const [isAddEvent, setIsAddEvent] = useState(false);
+  const { selectedComp }: { selectedComp: HTMLElement } = useStore();
 
   useEffect(() => {
     if (!isAddEvent) {
@@ -20,6 +21,13 @@ const View = () => {
           f.target.style.boxShadow = "inset 0px 0px 0px 3px #0D99FF";
           clickedComp = f.target;
           useStore.setState({ selectedComp: clickedComp });
+          document.body.addEventListener('keydown', (e: any) => {
+            if (e.key === 'c' && e.ctrlKey) {
+              console.log('Ctrl+C', clickedComp);
+            } else if (e.key === 'v' && e.ctrlKey) {
+              console.log('Ctrl+V', clickedComp);
+            }
+          });
         })
         mouseoverComp = e.target;
       })

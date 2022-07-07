@@ -105,7 +105,7 @@ const StyleSetting = () => {
         }
       </StyleContainer>
       {
-        isShowDetail
+        selectedComp !== document.body && selectedComp.id !== "view" && isShowDetail
           ? <Style><h2 onClick={() => { setIsShowDetail(false) }}>그 외 스타일 접기</h2></Style>
           : <Style><h2 onClick={() => { setIsShowDetail(true) }}>그 외 스타일 펼치기</h2></Style>
       }
