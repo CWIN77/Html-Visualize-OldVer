@@ -1,5 +1,7 @@
 const Comp = `
-  <h1>Text</h1>
+  <h1 style="
+    display:inline;
+  ">Text</h1>
 `
 
 export default Comp

@@ -14,10 +14,10 @@ const View = () => {
         if (mouseoverComp !== clickedComp) {
           mouseoverComp.style.boxShadow = "";
         }
-        e.target.style.boxShadow = "inset 0px 0px 0px 4px #8bccfb";
+        e.target.style.boxShadow = "inset 0px 0px 0px 3px #8bccfb";
         e.target.addEventListener("click", (f: any) => {
           clickedComp.style.boxShadow = "";
-          f.target.style.boxShadow = "inset 0px 0px 0px 4px #0D99FF";
+          f.target.style.boxShadow = "inset 0px 0px 0px 3px #0D99FF";
           clickedComp = f.target;
           useStore.setState({ selectedComp: clickedComp });
         })

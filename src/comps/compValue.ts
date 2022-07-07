@@ -25,7 +25,7 @@ const defaultStyle: TAbleStyle = {
   "background-color": "value",
   "border": "value",
   "border-radius": "value",
-  "box-shadow": "detail",
+  // "box-shadow": "detail",
   "position": [
     "static",
     "absolute",
@@ -70,7 +70,13 @@ const inputStyle: TAbleStyle = {
   ...defaultStyle,
   "font-size": "value",
   "color": "value",
-  "font-weight": "value"
+  "font-weight": "value",
+  "text-align": [
+    "start",
+    "end",
+    "center",
+    "justify"
+  ],
 }
 
 const hStyle: TAbleStyle = {

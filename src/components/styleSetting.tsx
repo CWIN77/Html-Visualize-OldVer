@@ -14,6 +14,7 @@ const StyleSetting = () => {
 
 
   useEffect(() => {
+    console.log(selectedComp)
     document.body.addEventListener("keydown", (e) => {
       if (e.key === "Delete" && selectedComp !== document.body && selectedComp.id !== "view") {
         selectedComp.remove();
@@ -23,7 +24,7 @@ const StyleSetting = () => {
   }, [selectedComp])
 
   const changeFocus = (target: HTMLElement) => {
-    target.style.boxShadow = "0px 0px 0px 4px #0D99FF";
+    target.style.boxShadow = "inset 0px 0px 0px 3px #0D99FF";
   }
 
   const changeStyle = (e: any, styleKey: any) => {
@@ -53,9 +54,12 @@ const StyleSetting = () => {
   useEffect(() => {
     styleList.forEach((style: TAbleStyle) => {
       const styleKey = Object.keys(style)[0] as any;
-      const styleComp = document.getElementById(Object.keys(style)[0]) as HTMLInputElement | null;
+      const styleComp = document.getElementById(styleKey) as HTMLInputElement | null;
       if (styleComp) {
         styleComp.value = selectedComp.style[styleKey];
+        // styleComp.addEventListener("focusout", (e) => {
+        //   changeStyle(e, styleKey);
+        // })
       }
     })
   }, [styleList, attributeList])
@@ -87,7 +91,7 @@ const StyleSetting = () => {
                         }
                       </select>
                     )
-                    : <input onKeyDown={(e) => { if (e.key === "Enter") changeStyle(e, key) }} id={key} className={selectedComp.id} type={"text"} />
+                    : <input onBlur={(e) => { changeStyle(e, key) }} onKeyDown={(e) => { if (e.key === "Enter") changeStyle(e, key) }} id={key} className={selectedComp.id} type={"text"} />
                 }
               </Style>
             )
@@ -105,7 +109,7 @@ const StyleSetting = () => {
                     return (
                       <Style key={key}>
                         <h1>{Object.keys(style)[0]}</h1>
-                        <input onChange={(e) => { changeStyle(e, style) }} id={Object.keys(style)[0]} type={"text"} />
+                        <input onBlur={(e) => { changeStyle(e, key) }} onKeyDown={(e) => { if (e.key === "Enter") changeStyle(e, key) }} id={Object.keys(style)[0]} type={"text"} />
                       </Style>
                     )
                   }
