@@ -53,6 +53,7 @@ const Components = () => {
                 createElement.insertAdjacentHTML('beforeend', data.comp);
                 const newComp = createElement.children[0] as HTMLElement;
                 newComp.id = "comp" + data.id;
+                newComp.className = "viewComp"
                 if (selectedComp !== document.body) {
                   if (ableInsert.indexOf(selectedComp.tagName.toLowerCase()) > -1) {
                     window.alert("선택한 Html에는 Element를 추가할 수 없습니다.")
