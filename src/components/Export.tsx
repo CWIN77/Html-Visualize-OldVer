@@ -22,9 +22,9 @@ const Export = () => {
     compNames = [];
 
     const resultGetHtmlStyle = getHtmlStyle(comp, "");
-    const htmlComp = resultGetHtmlStyle.htmlComp.replace(/></g, ">\n<");
+    const htmlComp = resultGetHtmlStyle?.htmlComp.replace(/></g, ">\n<");
     let declareString = "";
-    resultGetHtmlStyle.declareComp.forEach((t) => {
+    resultGetHtmlStyle?.declareComp.forEach((t) => {
       declareString += t + "\n";
     });
 
@@ -44,45 +44,49 @@ const Export = () => {
   }
 
   const getHtmlStyle = (comp: HTMLElement, html: string) => {
-    let compName = `${comp.id.charAt(0).toUpperCase() + comp.id.slice(1)}_${getRandomId()}`;
-    while (compNames.indexOf(compName) > -1) {
-      compName = `${comp.id.charAt(0).toUpperCase() + comp.id.slice(1)}_${getRandomId()}`;
+    if (comp.id) {
+      let compName = `${comp.id.charAt(0).toUpperCase() + comp.id.slice(1)}_${getRandomId()}`;
+      while (compNames.indexOf(compName) > -1) {
+        compName = `${comp.id.charAt(0).toUpperCase() + comp.id.slice(1)}_${getRandomId()}`;
+      }
+      compNames.push(compName);
+
+      let htmlComp: string = "";
+      const declareComp: string[] = [];
+
+      if (!(comp.id && comp.id !== "")) {
+        countComp++;
+      }
+
+      let attribute = "";
+      if (compAttribute[comp.tagName.toLowerCase()]) {
+        compAttribute[comp.tagName.toLowerCase()].forEach((att) => {
+          attribute += ` ${att}="${comp.getAttribute(att)}"`;
+        });
+      }
+      htmlComp += `<${compName}${attribute}${ableInsert.indexOf(comp.tagName.toLowerCase()) > -1 ? " /" : ""}>`;
+      if (comp.innerText) {
+        htmlComp += comp.innerText;
+      }
+      const styleString = comp.style.cssText;
+      declareComp.push(`const ${compName} = styled.${comp.tagName.toLowerCase()}` + "`" + styleString + "`;");
+
+      if (comp.childNodes.length > 0) {
+        comp.childNodes.forEach((comp) => {
+          const childComp = comp as HTMLElement;
+          const value = getHtmlStyle(childComp, htmlComp);
+          if (value) {
+            declareComp.push(...value.declareComp);
+            htmlComp += value.htmlComp;
+          }
+        });
+      }
+
+      if (!(ableInsert.indexOf(comp.tagName.toLowerCase()) > -1)) {
+        htmlComp += `</${compName}>`;
+      }
+      return { declareComp, htmlComp };
     }
-    compNames.push(compName);
-
-    let htmlComp: string = "";
-    const declareComp: string[] = [];
-
-    if (!(comp.id && comp.id !== "")) {
-      countComp++;
-    }
-
-    let attribute = "";
-    if (compAttribute[comp.tagName.toLowerCase()]) {
-      compAttribute[comp.tagName.toLowerCase()].forEach((att) => {
-        attribute += ` ${att}="${comp.getAttribute(att)}"`;
-      });
-    }
-    htmlComp += `<${compName}${attribute}${ableInsert.indexOf(comp.tagName.toLowerCase()) > -1 ? " /" : ""}>`;
-
-    const styleString = comp.style.cssText;
-    declareComp.push(`const ${compName} = styled.${comp.tagName.toLowerCase()}` + "`" + styleString + "`;");
-
-    if (comp.childNodes.length > 0) {
-      comp.childNodes.forEach((comp) => {
-        const childComp = comp as HTMLElement;
-        const value = getHtmlStyle(childComp, htmlComp);
-
-        declareComp.push(...value.declareComp);
-        htmlComp += value.htmlComp;
-      });
-    }
-
-    if (!(ableInsert.indexOf(comp.tagName.toLowerCase()) > -1)) {
-      htmlComp += `</${compName}>`;
-    }
-
-    return { declareComp, htmlComp };
   }
 
   return (

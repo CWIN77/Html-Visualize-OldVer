@@ -16,13 +16,13 @@ const StyleSetting = () => {
     if (selectedComp !== document.body && selectedComp.id !== "view") {
       selectedComp.remove();
       const viewComp = document.getElementById("view") as HTMLElement;
-      viewComp.style.boxShadow = "inset 0px 0px 0px 3px #0D99FF";
+      viewComp.style.boxShadow = "inset 0px 0px 0px 2.5px #0D99FF";
       useStore.setState({ selectedComp: viewComp });
     }
   }
 
   const changeFocus = (target: HTMLElement) => {
-    target.style.boxShadow = "inset 0px 0px 0px 3px #0D99FF";
+    target.style.boxShadow = "inset 0px 0px 0px 2.5px #0D99FF";
   }
 
   const changeStyle = (e: any, styleKey: any) => {
@@ -104,10 +104,14 @@ const StyleSetting = () => {
           })
         }
       </StyleContainer>
+
       {
-        selectedComp !== document.body && selectedComp.id !== "view" && isShowDetail
-          ? <Style><h2 onClick={() => { setIsShowDetail(false) }}>그 외 스타일 접기</h2></Style>
-          : <Style><h2 onClick={() => { setIsShowDetail(true) }}>그 외 스타일 펼치기</h2></Style>
+        selectedComp !== document.body &&
+        (
+          selectedComp.id !== "view" && isShowDetail
+            ? <Style><h2 onClick={() => { setIsShowDetail(false) }}>그 외 스타일 접기</h2></Style>
+            : <Style><h2 onClick={() => { setIsShowDetail(true) }}>그 외 스타일 펼치기</h2></Style>
+        )
       }
       <StyleContainer>
         {

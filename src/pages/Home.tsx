@@ -28,6 +28,16 @@ const ViewContainer = styled.div`
   display:flex;
   align-items: center;
   justify-content: center;
+  overflow: auto;
+  &::-webkit-scrollbar{
+    width:12px;
+    background-color: initial;
+  }
+  &::-webkit-scrollbar-thumb{
+    width: 12px;
+    background-color: rgba(54,54,54,0.4);
+    border-radius: 100px;
+  }
 `
 const ViewBackground = styled.span`
   position: absolute;
