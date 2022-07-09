@@ -9,7 +9,29 @@ const View = () => {
   let clickedComp = selectedComp;
   let copyComp: HTMLElement;
   let dbClickComp = document.body;
+  let zoom = 1;
 
+  const zoomEvent = (e: WheelEvent) => {
+    const zoomComp = document.getElementById("viewBox");
+    const target = e.target as HTMLElement;
+    if (target.id === "viewBackground") {
+      if (e.deltaY > 0) { // 스크롤 다운
+        if (zoomComp !== null) {
+          if (zoom > 0.25) {
+            zoom -= 0.05;
+            zoomComp.style.transform = `scale(${zoom}, ${zoom})`;
+          }
+        }
+      } else { // 스크롤 업
+        if (zoomComp !== null) {
+          if (zoom < 1.75) {
+            zoom += 0.05;
+            zoomComp.style.transform = `scale(${zoom}, ${zoom})`;
+          }
+        }
+      }
+    }
+  }
   const dbClickEvent = (e: MouseEvent) => {
     const target = e.target as HTMLElement;
     const tagName = target.tagName.substring(0, 1).toLowerCase();
@@ -19,7 +41,6 @@ const View = () => {
       dbClickComp = target;
     }
   }
-
   const copyEvent = (e: KeyboardEvent) => {
     if (clickedComp.className === "viewComp" || clickedComp.id === "view") {
       if (e.key === 'c' && e.ctrlKey) {
@@ -43,7 +64,6 @@ const View = () => {
       useStore.setState({ selectedComp: viewComp });
     }
   }
-
   const viewMouseoverEvent = (e: MouseEvent) => {
     const target = e.target as HTMLElement;
     if (target !== clickedComp) {
@@ -85,6 +105,7 @@ const View = () => {
     const bodyElem = document.body;
     const viewBgElem = document.getElementById('viewBackground') as HTMLElement;
 
+    bodyElem.addEventListener('wheel', zoomEvent);
     viewElem.addEventListener("dblclick", dbClickEvent)
     bodyElem.addEventListener('keydown', copyEvent);
     bodyElem.addEventListener('keydown', deleteEvent);
@@ -95,13 +116,16 @@ const View = () => {
   }, [])
 
   return (
-    <Container id="viewContainer">
-      <div style={{ width: "100%", height: "100%", overflow: "auto" }} id='view' />
-    </Container>
+    <ViewContainer>
+      <ViewBox id="viewBox">
+        <div style={{ width: "100%", height: "100%", overflow: "auto" }} id='view' />
+      </ViewBox>
+      <ViewBackground id="viewBackground" />
+    </ViewContainer>
   )
 }
 
-const Container = styled.div`
+const ViewBox = styled.div`
   width:395px;
   height:720px;
   background-color: white;
@@ -127,6 +151,31 @@ const Container = styled.div`
       border-radius: 100px;
     }
   }
+`
+const ViewContainer = styled.div`
+  width:calc(100% - 335px - 280px);
+  min-height:calc(100% - 44px);
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  overflow-x: hidden;
+  overflow-y: auto;
+  &::-webkit-scrollbar{
+    width:12px;
+    background-color: initial;
+  }
+  &::-webkit-scrollbar-thumb{
+    width: 12px;
+    background-color: rgba(54,54,54,0.4);
+    border-radius: 100px;
+  }
+`
+const ViewBackground = styled.span`
+  position: absolute;
+  width:calc(100% - 335px - 280px);
+  min-height:calc(100% - 44px);
+  background-color: #ededed;
+  z-index: 1;
 `
 
 export default View

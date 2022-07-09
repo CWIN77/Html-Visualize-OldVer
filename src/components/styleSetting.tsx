@@ -131,7 +131,6 @@ const StyleSetting = () => {
         }
       </StyleContainer>
 
-
       <span style={{ paddingTop: 24 }}></span>
       {
         selectedComp !== document.body && selectedComp.id !== "view" &&
@@ -139,6 +138,9 @@ const StyleSetting = () => {
       }
       <Export />
       <span style={{ paddingTop: 8 }}></span>
+      <div onClick={() => {
+        console.log(document.getElementById("view")?.outerHTML);
+      }}>outerHTML</div>
     </Container>
   )
 }
