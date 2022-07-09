@@ -9,7 +9,7 @@ const View = () => {
   let clickedComp = selectedComp;
   let copyComp: HTMLElement;
   let dbClickComp = document.body;
-  let zoom = 0.4;
+  let zoom = 0.5;
 
   const zoomEvent = (e: WheelEvent) => {
     const zoomComp = document.getElementById("viewBox");
@@ -131,7 +131,7 @@ const ViewBox = styled.div`
   /* width:1495px;
   height:992px; */
   position: absolute;
-  transform : scale(0.4, 0.4);
+  transform : scale(0.5, 0.5);
   border-radius: 8px;
   z-index: 2;
   &::-webkit-scrollbar{
@@ -157,14 +157,14 @@ const ViewContainer = styled.div`
   width:calc(100vw - 280px - 335px);
   margin-left: 335px;
   position: absolute;
-  height:calc(100vh - 44px);
+  height:calc(100vh - 46px);
   display:flex;
   align-items: center;
   justify-content: center;
   overflow:auto;
   &::-webkit-scrollbar{
-    width:8px;
-    height:8px;
+    width:12px;
+    height:12px;
     background-color: initial;
   }
   &::-webkit-scrollbar-thumb{
@@ -174,7 +174,7 @@ const ViewContainer = styled.div`
 const ViewBackground = styled.span`
   position: fixed;
   width:calc(100vw - 280px - 335px);
-  height:calc(100vh - 44px);
+  height:calc(100vh - 46px);
   background-color: #ededed;
   z-index: 1;
 `

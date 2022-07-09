@@ -79,7 +79,7 @@ const Container = styled.div`
   flex-direction: column;
   overflow-y: auto;
   width:335px;
-  height:calc(100vh - 44px);
+  height:calc(100vh - 46px);
   background-color: white;
   z-index: 100;
   &::-webkit-scrollbar{
@@ -122,7 +122,7 @@ const SearchBtn = styled.button`
   cursor: pointer;
 `
 const Comp = styled.div`
-  width:calc(100% - 24px - 44px);
+  width:calc(100% - 24px - 46px);
   border: 2px solid rgba(54,54,54,0.4);
   padding : 12px;
   margin: 0px 16px;

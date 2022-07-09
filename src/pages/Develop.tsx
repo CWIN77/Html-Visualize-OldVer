@@ -7,12 +7,9 @@ import View from "../components/view"
 const Develop = () => {
   return (
     <Container>
-      <Nav />
-      <span>
-        <Components />
-        <View />
-        <StyleSetting />
-      </span>
+      <Components />
+      <View />
+      <StyleSetting />
     </Container>
   )
 }
@@ -20,9 +17,7 @@ const Develop = () => {
 const Container = styled.div`
   width:100%;
   min-height:100%;
-  span{
-    display:flex;
-  }
+  display:flex;
 `
 
 
