@@ -1,8 +1,8 @@
 const Comp = `
-  <h1 style="
-    font-size:18px;
+  <a disabled
+  style="
     display:inline;
-  ">Header text</h1>
+  ">Anchor</a>
 `
 
 export default Comp

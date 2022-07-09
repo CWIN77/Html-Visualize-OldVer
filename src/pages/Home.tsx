@@ -5,6 +5,34 @@ import StyleSetting from '../components/styleSetting'
 import View from "../components/view"
 
 const Home = () => {
+  let zoom = 1;
+
+  const zoomEvent = (e: WheelEvent) => {
+    const zoomComp = document.getElementById("viewContainer");
+    const target = e.target as HTMLElement;
+    if (target.id === "viewBackground") {
+      if (e.deltaY > 0) { // 스크롤 다운
+        if (zoomComp !== null) {
+          if (zoom > 0.25) {
+            zoom -= 0.05;
+            zoomComp.style.transform = `scale(${zoom}, ${zoom})`;
+          }
+        }
+      } else { // 스크롤 업
+        if (zoomComp !== null) {
+          if (zoom < 1.75) {
+            zoom += 0.05;
+            zoomComp.style.transform = `scale(${zoom}, ${zoom})`;
+          }
+        }
+      }
+    }
+  }
+
+  useEffect(() => {
+    document.body.addEventListener('wheel', zoomEvent);
+  }, [])
+
   return (
     <Container>
       <Components />
@@ -28,7 +56,8 @@ const ViewContainer = styled.div`
   display:flex;
   align-items: center;
   justify-content: center;
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   &::-webkit-scrollbar{
     width:12px;
     background-color: initial;

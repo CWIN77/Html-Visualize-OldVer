@@ -4,42 +4,33 @@ import { ableInsert } from '../comps/compData';
 import { useStore } from '../zustant'
 
 const View = () => {
-  const [isAddEvent, setIsAddEvent] = useState(false);
   const { selectedComp }: { selectedComp: HTMLElement } = useStore();
   let mouseoverComp = document.body;
   let clickedComp = selectedComp;
   let copyComp: HTMLElement;
-  let zoom = 1;
+  let dbClickComp = document.body;
 
-  const zoomEvent = (e: WheelEvent) => {
-    const zoomComp = document.getElementById("viewContainer");
-    if (e.deltaY > 0) { // 스크롤 다운
-      if (zoomComp !== null) {
-        if (zoom > 0.5) {
-          zoom -= 0.1;
-          zoomComp.style.transform = `scale(${zoom}, ${zoom})`;
-        }
-      }
-    } else { // 스크롤 업
-      if (zoomComp !== null) {
-        if (zoom < 2) {
-          zoom += 0.1;
-          zoomComp.style.transform = `scale(${zoom}, ${zoom})`;
-        }
-      }
+  const dbClickEvent = (e: MouseEvent) => {
+    const target = e.target as HTMLElement;
+    const tagName = target.tagName.substring(0, 1).toLowerCase();
+    if (tagName === "h" || tagName === "a") {
+      target.style.boxShadow = "";
+      target.contentEditable = "true";
+      dbClickComp = target;
     }
   }
 
   const copyEvent = (e: KeyboardEvent) => {
-    if (clickedComp.className === "viewComp") {
+    if (clickedComp.className === "viewComp" || clickedComp.id === "view") {
       if (e.key === 'c' && e.ctrlKey) {
         copyComp = clickedComp;
       } else if (e.key === 'v' && e.ctrlKey) {
-        const cloneComp = copyComp.cloneNode() as HTMLElement;
+        const cloneComp = copyComp.cloneNode(true) as HTMLElement;
         cloneComp.style.boxShadow = "";
         if (ableInsert.indexOf(clickedComp.tagName.toLowerCase()) > -1) {
           window.alert("선택한 Html에는 Element를 복사할 수 없습니다.")
         } else {
+          // if(copyComp)
           clickedComp.append(cloneComp);
         }
       }
@@ -65,15 +56,23 @@ const View = () => {
   }
   const viewClickEvent = (e: MouseEvent) => {
     const target = e.target as HTMLElement;
-    clickedComp.style.boxShadow = "";
-    target.style.boxShadow = "inset 0px 0px 0px 2.5px #0D99FF";
-    clickedComp = target;
-    useStore.setState({ selectedComp: clickedComp });
+    if (target !== dbClickComp) {
+      dbClickComp.contentEditable = "false";
+      dbClickComp = document.body;
+      clickedComp.style.boxShadow = "";
+      target.style.boxShadow = "inset 0px 0px 0px 2.5px #0D99FF";
+      clickedComp = target;
+      useStore.setState({ selectedComp: clickedComp });
+    }
   }
-  const viewBackgroundClickEvent = () => {
-    mouseoverComp.style.boxShadow = "";
-    clickedComp.style.boxShadow = "";
-    clickedComp = document.body;
+  const viewBackgroundClickEvent = (e: MouseEvent) => {
+    if (e.target !== dbClickComp) {
+      dbClickComp.contentEditable = "false";
+      dbClickComp = document.body;
+      mouseoverComp.style.boxShadow = "";
+      clickedComp.style.boxShadow = "";
+      clickedComp = document.body;
+    }
   }
   const viewBackgroundMouseoverEvent = () => {
     if (mouseoverComp !== clickedComp) {
@@ -82,21 +81,22 @@ const View = () => {
   }
 
   useEffect(() => {
-    if (!isAddEvent) {
-      setIsAddEvent(true);
-      document.body.addEventListener('wheel', zoomEvent);
-      document.body.addEventListener('keydown', copyEvent);
-      document.body.addEventListener('keydown', deleteEvent);
-      document.getElementById('view')?.addEventListener("mouseover", viewMouseoverEvent)
-      document.getElementById('view')?.addEventListener("click", viewClickEvent)
-      document.getElementById('viewBackground')?.addEventListener("click", viewBackgroundClickEvent)
-      document.getElementById('viewBackground')?.addEventListener("mouseover", viewBackgroundMouseoverEvent)
-    }
+    const viewElem = document.getElementById('view') as HTMLElement;
+    const bodyElem = document.body;
+    const viewBgElem = document.getElementById('viewBackground') as HTMLElement;
+
+    viewElem.addEventListener("dblclick", dbClickEvent)
+    bodyElem.addEventListener('keydown', copyEvent);
+    bodyElem.addEventListener('keydown', deleteEvent);
+    viewElem.addEventListener("mouseover", viewMouseoverEvent);
+    viewElem.addEventListener("click", viewClickEvent);
+    viewBgElem.addEventListener("click", viewBackgroundClickEvent);
+    viewBgElem.addEventListener("mouseover", viewBackgroundMouseoverEvent);
   }, [])
 
   return (
     <Container id="viewContainer">
-      <div style={{ width: "100%", height: "100%" }} id='view' />
+      <div style={{ width: "100%", height: "100%", overflow: "auto" }} id='view' />
     </Container>
   )
 }
@@ -115,6 +115,17 @@ const Container = styled.div`
     width: 8px;
     background-color: rgba(54,54,54,0.4);
     border-radius: 100px;
+  }
+  div{
+    &::-webkit-scrollbar{
+    width:8px;
+    background-color: initial;
+    }
+    &::-webkit-scrollbar-thumb{
+      width: 8px;
+      background-color: rgba(54,54,54,0.4);
+      border-radius: 100px;
+    }
   }
 `
 

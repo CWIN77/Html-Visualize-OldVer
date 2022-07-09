@@ -9,7 +9,7 @@ import { ICompData } from "../types"
 import kmp from "kmp"
 
 const Components = () => {
-  const iconProps = { fill: "#363636", width: 18, height: 18, style: { padding: 2, marginLeft: 10, cursor: "pointer" } }
+  const iconProps = { fill: "#363636", width: 17, height: 17, style: { padding: 2, marginLeft: 10, cursor: "pointer" } }
   const { selectedComp }: { selectedComp: HTMLElement } = useStore();
   const [compList, setCompList] = useState(compData);
   const [searchText, setSearchText] = useState('');
@@ -68,14 +68,10 @@ const Components = () => {
           </Comp>
         ))
       }
-
-      {/* <Out>아웃라인</Out> */}
     </Container>
   )
 }
-// const Out = styled.div`
-//   outline: 2px solid black;
-// `
+
 const Container = styled.div`
   display:flex;
   flex-direction: column;
@@ -85,13 +81,10 @@ const Container = styled.div`
   background-color: white;
   z-index: 100;
   &::-webkit-scrollbar{
-    width:8px;
+    width:6px;
     background-color: initial;
   }
   &::-webkit-scrollbar-thumb{
-    width: 8px;
-    padding: 4px;
-    margin: 8px;
     background-color: rgba(54,54,54,0.4);
   }
 `
@@ -165,7 +158,7 @@ const Comp = styled.div`
     display:flex;
     align-items: center;
     justify-content: flex-end;
-    margin-top: 16px;
+    margin-top: 24px;
   }
 `
 

@@ -1,9 +1,9 @@
 const Comp = `
-  <div style="
+  <span style="
     width:50px;
     height:50px;
     background-color:rgb(240,240,240);
-  "></div>
+  "></span>
 `
 
 export default Comp

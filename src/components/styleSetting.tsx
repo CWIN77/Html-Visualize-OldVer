@@ -108,7 +108,7 @@ const StyleSetting = () => {
       {
         selectedComp !== document.body &&
         (
-          selectedComp.id !== "view" && isShowDetail
+          isShowDetail
             ? <Style><h2 onClick={() => { setIsShowDetail(false) }}>그 외 스타일 접기</h2></Style>
             : <Style><h2 onClick={() => { setIsShowDetail(true) }}>그 외 스타일 펼치기</h2></Style>
         )
@@ -152,13 +152,10 @@ const Container = styled.div`
   background-color: white;
   z-index: 100;
   &::-webkit-scrollbar{
-    width: 8px;
+    width: 6px;
     background-color: initial;
   }
   &::-webkit-scrollbar-thumb{
-    width: 8px;
-    padding: 4px;
-    margin: 8px;
     background-color: rgba(54, 54, 54, 0.4);
   }
 `

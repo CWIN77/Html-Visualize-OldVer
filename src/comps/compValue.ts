@@ -30,14 +30,15 @@ export const styleName: { [key: string]: string } = {
   "rigth": "Rig",
   "top": "Top",
   "bottom": "Bot",
-  "font-size": "Ft-Si",
+  "font-size": "Fo-Si",
   "color": "Col",
   "display": "Dis",
-  "flex-direction": "Fl-Di",
-  "align-items": "Al-It",
-  "justify-content": "Ju-Co",
-  "font-weight": "Ft-We",
+  "flex-direction": "Fl-D",
+  "align-items": "Al-I",
+  "justify-content": "Ju-C",
+  "font-weight": "Fo-W",
   "text-align": "Tx-Al",
+  "font-style": "Fo-St"
 }
 
 const defaultStyle: TAbleStyle = {
@@ -116,6 +117,11 @@ const inputStyle: TAbleStyle = {
     "center",
     "justify"
   ],
+  "font-style": [
+    "normal",
+    "italic",
+    "oblique"
+  ]
 }
 
 const hStyle: TAbleStyle = {
@@ -128,6 +134,11 @@ const hStyle: TAbleStyle = {
     "end",
     "center",
     "justify"
+  ],
+  "font-style": [
+    "normal",
+    "italic",
+    "oblique"
   ],
   "display": [
     "flex",
@@ -164,7 +175,12 @@ const aStyle: TAbleStyle = {
   ...defaultStyle,
   "font-size": "value",
   "font-weight": "value",
-  "color": "value"
+  "color": "value",
+  "font-style": [
+    "normal",
+    "italic",
+    "oblique"
+  ]
 }
 
 const viewStyle: TAbleStyle = {

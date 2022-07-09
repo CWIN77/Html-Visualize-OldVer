@@ -1,8 +1,8 @@
 const Comp = `
-  <h1 style="
+  <p
+  style="
     font-size:18px;
-    display:inline;
-  ">Header text</h1>
+  ">Paragraph</p>
 `
 
 export default Comp
