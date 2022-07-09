@@ -32,12 +32,12 @@ export const compData: ICompData[] = [
     descript: "a 태그의 요소입니다. href에 입력된 링크로 이동합니다. 문자는 더블클릭을 하여 수정할 수 있습니다. 개발 단계에서는 기능이 꺼져있습니다.",
     comp: c3
   },
-  {
-    id: 4,
-    name: "Span (span)",
-    descript: "span 태그의 요소입니다. 기본 크기는 50px입니다. Inline level의 요소이기 때문에 기본적으로 줄 바꿈이 안됩니다.",
-    comp: c4
-  },
+  // {
+  //   id: 4,
+  //   name: "Span (span)",
+  //   descript: "span 태그의 요소입니다. 기본 크기는 50px입니다. Inline level의 요소이기 때문에 기본적으로 줄 바꿈이 안됩니다.",
+  //   comp: c4
+  // },
   {
     id: 5,
     name: "Image (img)",

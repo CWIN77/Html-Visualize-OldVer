@@ -8,11 +8,11 @@ const Develop = () => {
   return (
     <Container>
       <Nav />
-      <div>
+      <span>
         <Components />
         <View />
         <StyleSetting />
-      </div>
+      </span>
     </Container>
   )
 }
@@ -20,7 +20,7 @@ const Develop = () => {
 const Container = styled.div`
   width:100%;
   min-height:100%;
-  div{
+  span{
     display:flex;
   }
 `

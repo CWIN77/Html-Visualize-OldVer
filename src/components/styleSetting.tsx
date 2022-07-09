@@ -141,11 +141,13 @@ const StyleSetting = () => {
       <div onClick={() => {
         console.log(document.getElementById("view")?.outerHTML);
       }}>outerHTML</div>
-    </Container>
+    </Container >
   )
 }
 
 const Container = styled.div`
+  position: absolute;
+  right:0px;
   display: flex;
   flex-direction: column;
   overflow-y: auto;

@@ -73,6 +73,8 @@ const Components = () => {
 }
 
 const Container = styled.div`
+  left:0px;
+  position: absolute;
   display:flex;
   flex-direction: column;
   overflow-y: auto;

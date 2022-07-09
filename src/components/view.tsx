@@ -9,15 +9,15 @@ const View = () => {
   let clickedComp = selectedComp;
   let copyComp: HTMLElement;
   let dbClickComp = document.body;
-  let zoom = 1;
+  let zoom = 0.4;
 
   const zoomEvent = (e: WheelEvent) => {
     const zoomComp = document.getElementById("viewBox");
     const target = e.target as HTMLElement;
-    if (target.id === "viewBackground") {
+    if (target.id) {
       if (e.deltaY > 0) { // 스크롤 다운
         if (zoomComp !== null) {
-          if (zoom > 0.25) {
+          if (zoom > 0.1) {
             zoom -= 0.05;
             zoomComp.style.transform = `scale(${zoom}, ${zoom})`;
           }
@@ -104,8 +104,8 @@ const View = () => {
     const viewElem = document.getElementById('view') as HTMLElement;
     const bodyElem = document.body;
     const viewBgElem = document.getElementById('viewBackground') as HTMLElement;
-
-    bodyElem.addEventListener('wheel', zoomEvent);
+    const viewContainerElem = document.getElementById("viewContainer") as HTMLElement;
+    viewContainerElem.addEventListener('wheel', zoomEvent);
     viewElem.addEventListener("dblclick", dbClickEvent)
     bodyElem.addEventListener('keydown', copyEvent);
     bodyElem.addEventListener('keydown', deleteEvent);
@@ -116,9 +116,9 @@ const View = () => {
   }, [])
 
   return (
-    <ViewContainer>
+    <ViewContainer id="viewContainer">
       <ViewBox id="viewBox">
-        <div style={{ width: "100%", height: "100%", overflow: "auto" }} id='view' />
+        <div style={{ width: "100%", height: "100%", overflow: "auto", display: "block", backgroundColor: "white" }} id='view' />
       </ViewBox>
       <ViewBackground id="viewBackground" />
     </ViewContainer>
@@ -128,52 +128,53 @@ const View = () => {
 const ViewBox = styled.div`
   width:395px;
   height:720px;
-  background-color: white;
+  /* width:1495px;
+  height:992px; */
+  position: absolute;
+  transform : scale(0.4, 0.4);
   border-radius: 8px;
   z-index: 2;
   &::-webkit-scrollbar{
     width:8px;
+    height:8px;
     background-color: initial;
   }
   &::-webkit-scrollbar-thumb{
-    width: 8px;
     background-color: rgba(54,54,54,0.4);
-    border-radius: 100px;
   }
   div{
     &::-webkit-scrollbar{
     width:8px;
+    height:8px;
     background-color: initial;
     }
     &::-webkit-scrollbar-thumb{
-      width: 8px;
       background-color: rgba(54,54,54,0.4);
-      border-radius: 100px;
     }
   }
 `
 const ViewContainer = styled.div`
-  width:calc(100% - 335px - 280px);
-  min-height:calc(100% - 44px);
+  width:calc(100vw - 280px - 335px);
+  margin-left: 335px;
+  position: absolute;
+  height:calc(100vh - 44px);
   display:flex;
   align-items: center;
   justify-content: center;
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow:auto;
   &::-webkit-scrollbar{
-    width:12px;
+    width:8px;
+    height:8px;
     background-color: initial;
   }
   &::-webkit-scrollbar-thumb{
-    width: 12px;
     background-color: rgba(54,54,54,0.4);
-    border-radius: 100px;
   }
 `
 const ViewBackground = styled.span`
-  position: absolute;
-  width:calc(100% - 335px - 280px);
-  min-height:calc(100% - 44px);
+  position: fixed;
+  width:calc(100vw - 280px - 335px);
+  height:calc(100vh - 44px);
   background-color: #ededed;
   z-index: 1;
 `
