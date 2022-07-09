@@ -225,6 +225,7 @@ const viewStyle: TAbleStyle = {
 export const elementStyle: { [key: string]: TAbleStyle } = {
   view: viewStyle,
   div: divStyle,
+  span: divStyle,
   input: inputStyle,
   img: imgStyle,
   a: aStyle,
@@ -232,5 +233,6 @@ export const elementStyle: { [key: string]: TAbleStyle } = {
   h2: hStyle,
   h3: hStyle,
   h4: hStyle,
-  h5: hStyle
+  h5: hStyle,
+  p: hStyle
 }

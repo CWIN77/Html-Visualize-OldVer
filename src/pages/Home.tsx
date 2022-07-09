@@ -52,7 +52,7 @@ const Container = styled.div`
 `
 const ViewContainer = styled.div`
   width:calc(100% - 335px - 280px);
-  min-height:calc(100% - 36px);
+  min-height:calc(100% - 44px);
   display:flex;
   align-items: center;
   justify-content: center;
@@ -71,7 +71,7 @@ const ViewContainer = styled.div`
 const ViewBackground = styled.span`
   position: absolute;
   width:calc(100% - 335px - 280px);
-  min-height:calc(100% - 36px);
+  min-height:calc(100% - 44px);
   background-color: #ededed;
   z-index: 1;
 `
