@@ -36,7 +36,7 @@ export const styleName: { [key: string]: string } = {
   "flex-direction": "Fl-D",
   "align-items": "Al-I",
   "justify-content": "Ju-C",
-  "font-weight": "Fo-W",
+  "font-weight": "Fo-We",
   "text-align": "Tx-Al",
   "font-style": "Fo-St"
 }

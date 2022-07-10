@@ -13,7 +13,17 @@ const Components = () => {
   const { selectedComp }: { selectedComp: HTMLElement } = useStore();
   const [compList, setCompList] = useState(compData);
   const [searchText, setSearchText] = useState('');
+  const [nameList, setNameList] = useState<String[]>([]);
 
+  const getRandomId = () => {
+    const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
+    let id = ''
+    for (let i = 0; i < 4; i++) {
+      const randomNum = Math.floor(Math.random() * chars.length)
+      id += chars.substring(randomNum, randomNum + 1)
+    }
+    return id
+  }
   const searchComp = (keyword: string) => {
     setSearchText(keyword);
     if (keyword !== "") {
@@ -52,7 +62,12 @@ const Components = () => {
                 const createElement: HTMLElement = document.createElement("div");
                 createElement.insertAdjacentHTML('beforeend', data.comp);
                 const newComp = createElement.children[0] as HTMLElement;
-                newComp.className = "comp" + data.id;
+                let compName = `comp_${getRandomId()}`;
+                while (nameList.indexOf(compName) > -1) {
+                  compName = `comp_${getRandomId()}`;
+                }
+                newComp.className = compName;
+                setNameList([...nameList, compName]);
                 if (selectedComp !== document.body) {
                   if (ableInsert.indexOf(selectedComp.tagName.toLowerCase()) > -1) {
                     window.alert("선택한 Html에는 Element를 추가할 수 없습니다.")

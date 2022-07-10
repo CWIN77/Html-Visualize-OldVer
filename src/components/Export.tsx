@@ -1,27 +1,28 @@
 import styled from 'styled-components'
-import { useStore } from "../zustant"
 import { compAttribute, ableInsert } from "../comps/compData"
 
 const Export = () => {
-  const { selectedComp }: { selectedComp: HTMLElement } = useStore();
-
   const getAppCode = (comp: HTMLElement) => {
-    const result = getHtmlStyle(comp);
+    const result = getHtmlStyle(comp, []);
     const htmlComp = result?.htmlComp.replace(/></g, ">\n<");
     let declareString = "";
+    let importString = "";
     result?.declareComp.forEach((t) => {
       declareString += t + "\n";
     });
+    result?.importArray.forEach((s) => {
+      importString += `import ${s.charAt(0).toUpperCase() + s.slice(1)} from "./${s.charAt(0).toUpperCase() + s.slice(1)}"\n`
+    })
 
     const appCode = `import styled from 'styled-components'
-
+${importString}
 const ${comp.className.charAt(0).toUpperCase() + comp.className.slice(1)} = () => {
   return (
     ${htmlComp}
   )
 }
 
-${declareString}\nexport default App
+${declareString}\nexport default ${comp.className.charAt(0).toUpperCase() + comp.className.slice(1)}
 `;
     console.log(appCode);
   }
@@ -31,7 +32,7 @@ ${declareString}\nexport default App
   //   compName = `${comp.id.charAt(0).toUpperCase() + comp.id.slice(1)}_${getRandomId()}`;
   // }
 
-  const getHtmlStyle = (comp: HTMLElement) => {
+  const getHtmlStyle = (comp: HTMLElement, importString: string[]) => {
     if (comp.className) {
       let compName = "";
       if (comp.getAttribute("divide") === "true" || comp.id === "view") {
@@ -51,10 +52,11 @@ ${declareString}\nexport default App
       htmlComp += `<${compName}${attribute}${ableInsert.indexOf(comp.tagName.toLowerCase()) > -1 ? " /" : ""}>`;
       const styleString = comp.style.cssText
         .replace(/;/g, ";\n")
-        .replace("box-shadow: rgb(13, 153, 255) 0px 0px 0px 2.5px inset;", "")
-        .replace("box-shadow: rgb(139, 204, 251) 0px 0px 0px 2.5px inset;", "");
+        .replace("box-shadow: rgb(13, 153, 255) 0px 0px 0px 2.5px inset;\n", "")
+        .replace("box-shadow: rgb(139, 204, 251) 0px 0px 0px 2.5px inset;\n", "");
       declareComp.push(`const ${compName} = styled.${comp.tagName.toLowerCase()}` + "`\n" + styleString + "`");
 
+      const importArray: string[] = importString;
       if (comp.childNodes.length > 0) {
         comp.childNodes.forEach((childComp) => {
           const comp = childComp as HTMLElement;
@@ -64,8 +66,9 @@ ${declareString}\nexport default App
             if (comp.getAttribute("divide") === "true") {
               getAppCode(comp);
               htmlComp += `<${comp.className} />`
+              importArray.push(comp.className);
             } else {
-              const value = getHtmlStyle(comp);
+              const value = getHtmlStyle(comp, importArray);
               if (value) {
                 declareComp.push(...value.declareComp);
                 htmlComp += value.htmlComp;
@@ -78,19 +81,14 @@ ${declareString}\nexport default App
       if (!(ableInsert.indexOf(comp.tagName.toLowerCase()) > -1)) {
         htmlComp += `</${compName}>`;
       }
-      return { declareComp, htmlComp };
+      return { declareComp, htmlComp, importArray };
     }
   }
 
   return (
-    <>
-      {
-        selectedComp !== document.body &&
-        <Container onClick={() => { getAppCode(selectedComp as HTMLElement) }}>
-          HTML Export
-        </Container>
-      }
-    </>
+    <Container onClick={() => { getAppCode(document.getElementById("view") as HTMLElement) }}>
+      HTML Export
+    </Container>
   )
 }
 

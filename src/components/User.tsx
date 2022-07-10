@@ -44,7 +44,7 @@ const ProfileImg = styled.img`
   margin-right: 22px;
 `
 const ProfileName = styled.h1`
-  font-size: 22px;
+  font-size: 20px;
   width:160px;
   font-weight: bold;
   margin-top: 8px;
