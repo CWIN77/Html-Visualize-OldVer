@@ -196,7 +196,6 @@ const viewStyle: TAbleStyle = {
   "color": "value",
   "display": [
     "flex",
-    "inline",
     "block",
     "inline-block",
   ],

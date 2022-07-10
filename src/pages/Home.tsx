@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import User from '../components/User'
+import User from '../components/user'
 
 const Home = () => {
   return (

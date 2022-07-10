@@ -9,7 +9,7 @@ import { ICompData } from "../types"
 import kmp from "kmp"
 
 const Components = () => {
-  const iconProps = { fill: "#363636", width: 17, height: 17, style: { padding: 2, marginLeft: 10, cursor: "pointer" } }
+  const iconProps = { fill: "#363636", width: 16, height: 16, style: { padding: 2, marginLeft: 12, cursor: "pointer" } }
   const { selectedComp }: { selectedComp: HTMLElement } = useStore();
   const [compList, setCompList] = useState(compData);
   const [searchText, setSearchText] = useState('');
@@ -52,8 +52,7 @@ const Components = () => {
                 const createElement: HTMLElement = document.createElement("div");
                 createElement.insertAdjacentHTML('beforeend', data.comp);
                 const newComp = createElement.children[0] as HTMLElement;
-                newComp.id = "comp" + data.id;
-                newComp.className = "viewComp";
+                newComp.className = "comp" + data.id;
                 if (selectedComp !== document.body) {
                   if (ableInsert.indexOf(selectedComp.tagName.toLowerCase()) > -1) {
                     window.alert("선택한 Html에는 Element를 추가할 수 없습니다.")
@@ -122,7 +121,7 @@ const SearchBtn = styled.button`
   cursor: pointer;
 `
 const Comp = styled.div`
-  width:calc(100% - 24px - 46px);
+  width:calc(100% - 24px - 32px - 4px);
   border: 2px solid rgba(54,54,54,0.4);
   padding : 12px;
   margin: 0px 16px;

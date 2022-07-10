@@ -6,6 +6,11 @@ import c3 from "./c3"
 import c4 from "./c4"
 import c5 from "./c5"
 import c6 from "./c6"
+import c7 from "./c7"
+import c8 from "./c8"
+import c9 from "./c9"
+import c10 from "./c10"
+import c11 from "./c11"
 
 export const compData: ICompData[] = [
   {
@@ -49,11 +54,41 @@ export const compData: ICompData[] = [
     name: "Paragraph (p)",
     descript: "p 태그의 요소입니다. 문자를 더블클릭으로 수정할 수 있고 앞 뒤로 빈 줄이 생기면서 단락이 생깁니다.",
     comp: c6
-  }
+  },
+  {
+    id: 7,
+    name: "Component (div)",
+    descript: "div 태그의 컴포넌트 분리용 요소입니다. 추후 HTML을 Export해서 받을때 이 요소를 분리해줍니다.",
+    comp: c7
+  },
+  {
+    id: 8,
+    name: "Header text (h2)",
+    descript: "h2 태그의 요소입니다. 기본 font size는 16px입니다. 문자는 더블클릭을 하여 수정할 수 있습니다.",
+    comp: c8
+  },
+  {
+    id: 9,
+    name: "Header text (h3)",
+    descript: "h3 태그의 요소입니다. 기본 font size는 14px입니다. 문자는 더블클릭을 하여 수정할 수 있습니다.",
+    comp: c8
+  },
+  {
+    id: 10,
+    name: "Header text (h4)",
+    descript: "h4 태그의 요소입니다. 기본 font size는 12px입니다. 문자는 더블클릭을 하여 수정할 수 있습니다.",
+    comp: c8
+  },
+  {
+    id: 11,
+    name: "Header text (h5)",
+    descript: "h5 태그의 요소입니다. 기본 font size는 10px입니다. 문자는 더블클릭을 하여 수정할 수 있습니다.",
+    comp: c8
+  },
 ]
 
 export const compAttribute: { [key: string]: string[] } = {
-  all: ["name"],
+  all: ["className"],
   input: ["type", "placeholder"],
   a: ["href", "target"],
   img: ["src", "alt"]

@@ -1,5 +1,5 @@
 const Comp = `
-  <a disabled
+  <a href="#" target="_self" disabled
   style="
     display:inline;
   ">Anchor</a>

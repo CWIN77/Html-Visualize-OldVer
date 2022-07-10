@@ -4,59 +4,43 @@ import { compAttribute, ableInsert } from "../comps/compData"
 
 const Export = () => {
   const { selectedComp }: { selectedComp: HTMLElement } = useStore();
-  let countComp = 0;
-  let compNames: string[] = [];
-
-  const getRandomId = () => {
-    const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
-    let uid = ''
-    for (let i = 0; i < 4; i++) {
-      const randomNum = Math.floor(Math.random() * chars.length)
-      uid += chars.substring(randomNum, randomNum + 1)
-    }
-    return uid
-  }
 
   const getAppCode = (comp: HTMLElement) => {
-    countComp = 0;
-    compNames = [];
-
-    const resultGetHtmlStyle = getHtmlStyle(comp, "");
-    const htmlComp = resultGetHtmlStyle?.htmlComp.replace(/></g, ">\n<");
+    const result = getHtmlStyle(comp);
+    const htmlComp = result?.htmlComp.replace(/></g, ">\n<");
     let declareString = "";
-    resultGetHtmlStyle?.declareComp.forEach((t) => {
+    result?.declareComp.forEach((t) => {
       declareString += t + "\n";
     });
 
-    const appCode = `
-      import styled from 'styled-components'
-      const App = () => {
-        return (
-          ${htmlComp}
-        )
-      }
-      
-      ${declareString}
+    const appCode = `import styled from 'styled-components'
 
-      export default App
-    `
+const ${comp.className.charAt(0).toUpperCase() + comp.className.slice(1)} = () => {
+  return (
+    ${htmlComp}
+  )
+}
+
+${declareString}\nexport default App
+`;
     console.log(appCode);
   }
 
-  const getHtmlStyle = (comp: HTMLElement, html: string) => {
-    if (comp.id) {
-      let compName = `${comp.id.charAt(0).toUpperCase() + comp.id.slice(1)}_${getRandomId()}`;
-      while (compNames.indexOf(compName) > -1) {
-        compName = `${comp.id.charAt(0).toUpperCase() + comp.id.slice(1)}_${getRandomId()}`;
-      }
-      compNames.push(compName);
+  // let compName = `${comp.id.charAt(0).toUpperCase() + comp.id.slice(1)}_${getRandomId()}`;
+  // while (compNames.indexOf(compName) > -1) {
+  //   compName = `${comp.id.charAt(0).toUpperCase() + comp.id.slice(1)}_${getRandomId()}`;
+  // }
 
+  const getHtmlStyle = (comp: HTMLElement) => {
+    if (comp.className) {
+      let compName = "";
+      if (comp.getAttribute("divide") === "true" || comp.id === "view") {
+        compName = "Container";
+      } else {
+        compName = `${comp.className.charAt(0).toUpperCase() + comp.className.slice(1)}`;
+      }
       let htmlComp: string = "";
       const declareComp: string[] = [];
-
-      if (!(comp.id && comp.id !== "")) {
-        countComp++;
-      }
 
       let attribute = "";
       if (compAttribute[comp.tagName.toLowerCase()]) {
@@ -65,19 +49,28 @@ const Export = () => {
         });
       }
       htmlComp += `<${compName}${attribute}${ableInsert.indexOf(comp.tagName.toLowerCase()) > -1 ? " /" : ""}>`;
-      if (comp.innerText) {
-        htmlComp += comp.innerText;
-      }
-      const styleString = comp.style.cssText;
-      declareComp.push(`const ${compName} = styled.${comp.tagName.toLowerCase()}` + "`" + styleString + "`;");
+      const styleString = comp.style.cssText
+        .replace(/;/g, ";\n")
+        .replace("box-shadow: rgb(13, 153, 255) 0px 0px 0px 2.5px inset;", "")
+        .replace("box-shadow: rgb(139, 204, 251) 0px 0px 0px 2.5px inset;", "");
+      declareComp.push(`const ${compName} = styled.${comp.tagName.toLowerCase()}` + "`\n" + styleString + "`");
 
       if (comp.childNodes.length > 0) {
-        comp.childNodes.forEach((comp) => {
-          const childComp = comp as HTMLElement;
-          const value = getHtmlStyle(childComp, htmlComp);
-          if (value) {
-            declareComp.push(...value.declareComp);
-            htmlComp += value.htmlComp;
+        comp.childNodes.forEach((childComp) => {
+          const comp = childComp as HTMLElement;
+          if (comp.nodeType === 3) {
+            htmlComp += comp.textContent;
+          } else {
+            if (comp.getAttribute("divide") === "true") {
+              getAppCode(comp);
+              htmlComp += `<${comp.className} />`
+            } else {
+              const value = getHtmlStyle(comp);
+              if (value) {
+                declareComp.push(...value.declareComp);
+                htmlComp += value.htmlComp;
+              }
+            }
           }
         });
       }
@@ -93,7 +86,7 @@ const Export = () => {
     <>
       {
         selectedComp !== document.body &&
-        <Container onClick={() => { getAppCode(selectedComp) }}>
+        <Container onClick={() => { getAppCode(selectedComp as HTMLElement) }}>
           HTML Export
         </Container>
       }

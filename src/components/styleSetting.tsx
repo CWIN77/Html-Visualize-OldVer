@@ -4,7 +4,7 @@ import { elementStyle, styleName } from "../comps/compValue"
 import { compAttribute } from "../comps/compData"
 import { TAbleStyle } from "../types"
 import { useEffect, useState } from 'react';
-import Export from './Export';
+import Export from './export';
 
 const StyleSetting = () => {
   const { selectedComp }: { selectedComp: HTMLElement } = useStore();
@@ -38,9 +38,15 @@ const StyleSetting = () => {
   useEffect(() => {
     if (selectedComp !== document.body) {
       const newStyleList: TAbleStyle[] = [];
-      Object.keys(selectedComp.id === "view" || selectedComp === document.body ? elementStyle.view : elementStyle[selectedComp.tagName.toLowerCase()]).forEach((key) => {
-        newStyleList.push({ [key]: elementStyle[selectedComp.tagName.toLowerCase()][key] });
-      });
+      if (selectedComp.id === "view" || selectedComp === document.body) {
+        Object.keys(elementStyle.view).forEach((key) => {
+          newStyleList.push({ [key]: elementStyle["view"][key] });
+        });
+      } else {
+        Object.keys(elementStyle[selectedComp.tagName.toLowerCase()]).forEach((key) => {
+          newStyleList.push({ [key]: elementStyle[selectedComp.tagName.toLowerCase()][key] });
+        });
+      }
       setStyleList(newStyleList);
 
       if (compAttribute[selectedComp.tagName.toLowerCase()]) {
@@ -88,7 +94,7 @@ const StyleSetting = () => {
                   {
                     value !== "value"
                       ? (
-                        <select onChange={(e) => { changeStyle(e, key) }} id={key} className={selectedComp.id}>
+                        <select onChange={(e) => { changeStyle(e, key) }} id={key}>
                           {
                             value.map((v, key) => (
                               <option key={key} value={v}>{v}</option>
@@ -96,7 +102,7 @@ const StyleSetting = () => {
                           }
                         </select>
                       )
-                      : <input onBlur={(e) => { changeStyle(e, key) }} onKeyDown={(e) => { if (e.key === "Enter") changeStyle(e, key) }} id={key} className={selectedComp.id} type={"text"} />
+                      : <input onBlur={(e) => { changeStyle(e, key) }} onKeyDown={(e) => { if (e.key === "Enter") changeStyle(e, key) }} id={key} type={"text"} />
                   }
                 </Style>
               )
@@ -121,7 +127,7 @@ const StyleSetting = () => {
             const name = styleName[Object.keys(style)[0]];
             if (value === "detail" && isShowDetail) {
               return (
-                <Style key={key}>
+                <Style key={k}>
                   <h1>{name}</h1>
                   <input onBlur={(e) => { changeStyle(e, key) }} onKeyDown={(e) => { if (e.key === "Enter") changeStyle(e, key) }} id={Object.keys(style)[0]} type={"text"} />
                 </Style>

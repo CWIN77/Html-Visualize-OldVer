@@ -35,14 +35,14 @@ const View = () => {
   const dbClickEvent = (e: MouseEvent) => {
     const target = e.target as HTMLElement;
     const tagName = target.tagName.substring(0, 1).toLowerCase();
-    if (tagName === "h" || tagName === "a") {
+    if (tagName === "h" || tagName === "a" || tagName === "p") {
       target.style.boxShadow = "";
       target.contentEditable = "true";
       dbClickComp = target;
     }
   }
   const copyEvent = (e: KeyboardEvent) => {
-    if (clickedComp.className === "viewComp" || clickedComp.id === "view") {
+    if (clickedComp.className) {
       if (e.key === 'c' && e.ctrlKey) {
         copyComp = clickedComp;
       } else if (e.key === 'v' && e.ctrlKey) {
@@ -58,7 +58,7 @@ const View = () => {
     }
   }
   const deleteEvent = (e: KeyboardEvent) => {
-    if (e.key === "Delete" && clickedComp.className === "viewComp") {
+    if (e.key === "Delete" && clickedComp.className) {
       clickedComp.remove();
       const viewComp = document.getElementById("view") as HTMLElement;
       useStore.setState({ selectedComp: viewComp });
@@ -118,7 +118,7 @@ const View = () => {
   return (
     <ViewContainer id="viewContainer">
       <ViewBox id="viewBox">
-        <div style={{ width: "100%", height: "100%", overflow: "auto", display: "block", backgroundColor: "white" }} id='view' />
+        <div className="app" style={{ width: "100%", height: "100%", overflow: "auto", display: "block", backgroundColor: "white" }} id='view' />
       </ViewBox>
       <ViewBackground id="viewBackground" />
     </ViewContainer>
@@ -130,6 +130,7 @@ const ViewBox = styled.div`
   height:720px;
   /* width:1495px;
   height:992px; */
+  background-color: white;
   position: absolute;
   transform : scale(0.5, 0.5);
   border-radius: 8px;

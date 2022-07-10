@@ -5,6 +5,7 @@
   "dependencies": {
     "kmp": "^0.0.3",
     "react": "^18.0.0",
+    "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "^18.0.0",
     "react-is": "^18.1.0",
     "react-router": "^6.3.0",
@@ -42,6 +43,7 @@
     "@types/jest": "^27.4.1",
     "@types/node": "^16.11.28",
     "@types/react": "^18.0.6",
+    "@types/react-copy-to-clipboard": "^5.0.3",
     "@types/react-dom": "^18.0.2",
     "@types/react-router-dom": "^5.3.3",
     "@types/styled-components": "^5.1.25"
