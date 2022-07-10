@@ -39,7 +39,7 @@ const Components = () => {
       setCompList(compData);
     }
   }
-
+//ss
   return (
     <Container>
       <Name>Components</Name>
