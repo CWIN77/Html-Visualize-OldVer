@@ -20,7 +20,6 @@ const User = () => {
           <h1>Friend</h1>
           <SVG_plus {...iconProps} />
         </FriendTitle>
-
       </Friends>
     </Container>
   )

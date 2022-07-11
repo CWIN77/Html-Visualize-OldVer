@@ -1,16 +1,25 @@
 import styled from 'styled-components'
 import { useStore } from "../zustant"
 import { elementStyle, styleName } from "../comps/compValue"
-import { compAttribute } from "../comps/compData"
 import { TAbleStyle } from "../types"
+import { compAttribute } from "../comps/compData"
 import { useEffect, useState } from 'react';
 import Export from './export';
 
 const StyleSetting = () => {
   const { selectedComp }: { selectedComp: HTMLElement } = useStore();
   const [styleList, setStyleList] = useState<TAbleStyle[]>([]);
-  const [attributeList, setAttributeList] = useState<string[]>([]);
   const [isShowDetail, setIsShowDetail] = useState(false);
+  const [attList, setAttList] = useState<string[]>([]);
+
+  const deleteComp = () => {
+    if (selectedComp !== document.body && selectedComp.id !== "view") {
+      selectedComp.remove();
+      const viewComp = document.getElementById("view") as HTMLElement;
+      viewComp.style.boxShadow = "inset 0px 0px 0px 2.5px #0D99FF";
+      useStore.setState({ selectedComp: viewComp });
+    }
+  }
 
   const changeFocus = (target: HTMLElement) => {
     target.style.boxShadow = "inset 0px 0px 0px 2.5px #0D99FF";
@@ -24,6 +33,21 @@ const StyleSetting = () => {
       e.target.value = selectedComp.style[styleKey];
     }
     changeFocus(selectedComp);
+  }
+
+  const changeAtt = (e: any, attName: string) => {
+    if (attName === "name") {
+      selectedComp.className = e.target.value;
+    } else {
+      selectedComp.setAttribute(attName, e.target.value);
+    }
+    const attValue = attName !== "name" ? selectedComp.getAttribute(attName) : selectedComp.className;
+    e.target.value = attValue;
+    if (attValue === "") {
+      e.target.value = "none";
+    } else {
+      e.target.value = attValue;
+    }
   }
 
   useEffect(() => {
@@ -41,37 +65,60 @@ const StyleSetting = () => {
       setStyleList(newStyleList);
 
       if (compAttribute[selectedComp.tagName.toLowerCase()]) {
-        const newAttributeList: string[] = [];
+        const newAttList: string[] = [];
         compAttribute[selectedComp.tagName.toLowerCase()].forEach((att) => {
-          newAttributeList.push(att);
+          newAttList.push(att);
         });
-        setAttributeList(newAttributeList);
+        setAttList(newAttList);
       }
     }
   }, [selectedComp]);
 
   useEffect(() => {
     styleList.forEach((style: TAbleStyle) => {
-      const styleKey = Object.keys(style)[0] as any;
+      const styleKey = Object.keys(style)[0];
       const styleComp = document.getElementById(styleKey) as HTMLInputElement | null;
       if (styleComp) {
-        if (selectedComp.style[styleKey] === "") {
+        if (selectedComp.style[styleKey as any] === "") {
           styleComp.value = "none";
         } else {
-          styleComp.value = selectedComp.style[styleKey];
+          styleComp.value = selectedComp.style[styleKey as any];
         }
       }
     })
-  }, [styleList, attributeList, isShowDetail])
+  }, [styleList, isShowDetail])
+
+  useEffect(() => {
+    attList.forEach((att) => {
+      const attName = att;
+      const attComp = document.getElementById(attName) as HTMLInputElement | null;
+      const attValue = attName !== "name" ? selectedComp.getAttribute(attName) : selectedComp.className;
+      if (attComp && attValue !== null) {
+        if (attValue === "") {
+          attComp.value = "none";
+        } else {
+          attComp.value = attValue;
+        }
+      }
+    });
+  }, [attList])
 
   return (
     <Container>
       <Name>Style</Name>
-      {/* {
-        attributeList.map((style, key) => (
-          <Style key={key}>{style}</Style>
-        ))
-      } */}
+      <AttContainer>
+        {
+          attList.map((att, k: number) => {
+            const attName = att;
+            return (
+              <Att key={k}>
+                <h1>{attName}</h1>
+                <input onBlur={(e) => { changeAtt(e, attName) }} onKeyDown={(e) => { if (e.key === "Enter") changeAtt(e, attName) }} id={attName} type={"text"} />
+              </Att>
+            )
+          })
+        }
+      </AttContainer>
       <StyleContainer>
         {
           styleList.map((style: TAbleStyle, k: number) => {
@@ -104,11 +151,7 @@ const StyleSetting = () => {
 
       {
         selectedComp !== document.body &&
-        (
-          isShowDetail
-            ? <Style><h2 onClick={() => { setIsShowDetail(false) }}>그 외 스타일 접기</h2></Style>
-            : <Style><h2 onClick={() => { setIsShowDetail(true) }}>그 외 스타일 펼치기</h2></Style>
-        )
+        <Style><h2 onClick={() => { setIsShowDetail(false) }}>{isShowDetail ? "그 외 스타일 접기" : "그 외 스타일 펼치기"}</h2></Style>
       }
       <StyleContainer>
         {
@@ -128,16 +171,13 @@ const StyleSetting = () => {
         }
       </StyleContainer>
 
-      {/* <span style={{ paddingTop: 24 }}></span>
+      <span style={{ paddingTop: 24 }} />
       {
         selectedComp !== document.body && selectedComp.id !== "view" &&
         <DeleteComp><h1 onClick={deleteComp}>요소 삭제</h1></DeleteComp>
-      } */}
+      }
       <Export />
-      <span style={{ paddingTop: 8 }}></span>
-      <div onClick={() => {
-        console.log(document.getElementById("view")?.outerHTML);
-      }}>outerHTML</div>
+      <span style={{ paddingTop: 8 }} />
     </Container >
   )
 }
@@ -158,6 +198,29 @@ const Container = styled.div`
   }
   &::-webkit-scrollbar-thumb{
     background-color: rgba(54, 54, 54, 0.4);
+  }
+`
+const AttContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+const Att = styled.div`
+  margin-top: 20px;
+  margin-bottom: 4px;
+  display:flex;
+  align-items: center;
+  h1{
+    margin-left: 14px;
+    margin-right: 16px;
+    font-size: 12px;
+    font-weight: bold;
+    opacity: 0.75;
+  }
+  input{
+    font-size: 13px;
+    font-weight: bold;
+    border-radius: 4px;
+    padding: 2px;
   }
 `
 const StyleContainer = styled.div`

@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import Components from '../components/components'
-import Nav from '../components/nav'
 import StyleSetting from '../components/styleSetting'
 import View from "../components/view"
 

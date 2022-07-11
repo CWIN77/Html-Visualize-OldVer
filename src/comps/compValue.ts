@@ -220,7 +220,6 @@ const viewStyle: TAbleStyle = {
   ]
 }
 
-
 export const elementStyle: { [key: string]: TAbleStyle } = {
   view: viewStyle,
   div: divStyle,

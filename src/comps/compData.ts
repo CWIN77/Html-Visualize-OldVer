@@ -71,27 +71,34 @@ export const compData: ICompData[] = [
     id: 9,
     name: "Header text (h3)",
     descript: "h3 태그의 요소입니다. 기본 font size는 14px입니다. 문자는 더블클릭을 하여 수정할 수 있습니다.",
-    comp: c8
+    comp: c9
   },
   {
     id: 10,
     name: "Header text (h4)",
     descript: "h4 태그의 요소입니다. 기본 font size는 12px입니다. 문자는 더블클릭을 하여 수정할 수 있습니다.",
-    comp: c8
+    comp: c10
   },
   {
     id: 11,
     name: "Header text (h5)",
     descript: "h5 태그의 요소입니다. 기본 font size는 10px입니다. 문자는 더블클릭을 하여 수정할 수 있습니다.",
-    comp: c8
+    comp: c11
   },
 ]
 
 export const compAttribute: { [key: string]: string[] } = {
-  all: ["className"],
-  input: ["type", "placeholder"],
-  a: ["href", "target"],
-  img: ["src", "alt"]
+  div: ["name"],
+  span: ["name"],
+  input: ["name", "type", "placeholder"],
+  img: ["name", "src", "alt"],
+  a: ["name", "href", "target"],
+  h1: ["name"],
+  h2: ["name"],
+  h3: ["name"],
+  h4: ["name"],
+  h5: ["name"],
+  p: ["name"]
 }
 
 export const ableInsert = ["img", "input"];
