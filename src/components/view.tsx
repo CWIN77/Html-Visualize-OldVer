@@ -1,9 +1,13 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components'
 import { ableInsert } from '../comps/compData';
 import { useStore } from '../zustant'
 
+
 const View = () => {
+  const { id } = useParams();
+  const developId = id || "history";
   const { selectedComp }: { selectedComp: HTMLElement } = useStore();
   let mouseoverComp = document.body;
   let clickedComp = selectedComp;
@@ -11,6 +15,12 @@ const View = () => {
   let dbClickComp = document.body;
   let zoom = 0.5;
 
+  const ctrlZEvent = (e: KeyboardEvent) => {
+    if (e.key === 'z' && e.ctrlKey) {
+      const sHistory:string = JSON.parse(sessionStorage.getItem(developId)||JSON.stringify([]));
+      console.log(sHistory);
+    }
+  }
   const zoomEvent = (e: WheelEvent) => {
     const zoomComp = document.getElementById("viewBox");
     const target = e.target as HTMLElement;
@@ -51,8 +61,11 @@ const View = () => {
         if (ableInsert.indexOf(clickedComp.tagName.toLowerCase()) > -1) {
           window.alert("선택한 Html에는 Element를 복사할 수 없습니다.")
         } else {
-          // if(copyComp)
           clickedComp.append(cloneComp);
+          if(document.getElementById("view")?.outerHTML !== undefined){
+            const sHistory:string[] = JSON.parse(sessionStorage.getItem(developId)||JSON.stringify([]));
+            sessionStorage.setItem(developId,JSON.stringify([...sHistory,document.getElementById("view")?.outerHTML as string]));
+          }
         }
       }
     }
@@ -62,6 +75,10 @@ const View = () => {
       clickedComp.remove();
       const viewComp = document.getElementById("view") as HTMLElement;
       useStore.setState({ selectedComp: viewComp });
+      if(document.getElementById("view")?.outerHTML !== undefined){
+        const sHistory:string[] = JSON.parse(sessionStorage.getItem(developId)||JSON.stringify([]));
+        sessionStorage.setItem(developId,JSON.stringify([...sHistory,document.getElementById("view")?.outerHTML as string]));
+      }
     }
   }
   const viewMouseoverEvent = (e: MouseEvent) => {
@@ -101,10 +118,20 @@ const View = () => {
   }
 
   useEffect(() => {
+    const sHistory:string[] = JSON.parse(sessionStorage.getItem(developId)||JSON.stringify([]));
+    if(sHistory.length > 0){
+      const viewElem = document.getElementById('view') as HTMLElement;
+      const parentElem = viewElem.parentElement as HTMLElement;
+      viewElem.remove();
+      parentElem.insertAdjacentHTML('beforeend', sHistory[sHistory.length - 1]);
+    }
+
     const viewElem = document.getElementById('view') as HTMLElement;
     const bodyElem = document.body;
     const viewBgElem = document.getElementById('viewBackground') as HTMLElement;
     const viewContainerElem = document.getElementById("viewContainer") as HTMLElement;
+
+    bodyElem.addEventListener('keydown', ctrlZEvent);
     viewContainerElem.addEventListener('wheel', zoomEvent);
     viewElem.addEventListener("dblclick", dbClickEvent)
     bodyElem.addEventListener('keydown', copyEvent);

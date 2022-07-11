@@ -7,8 +7,11 @@ import { useStore } from "../zustant"
 import { useState } from 'react'
 import { ICompData } from "../types"
 import kmp from "kmp"
+import { useParams } from 'react-router-dom'
 
 const Components = () => {
+  const { id } = useParams();
+  const developId = id || "history";
   const iconProps = { fill: "#363636", width: 16, height: 16, style: { padding: 2, marginLeft: 12, cursor: "pointer" } }
   const { selectedComp }: { selectedComp: HTMLElement } = useStore();
   const [compList, setCompList] = useState(compData);
@@ -39,7 +42,36 @@ const Components = () => {
       setCompList(compData);
     }
   }
-//ss
+
+  const addComp = (data:ICompData) => {
+    const createElement: HTMLElement = document.createElement("div");
+    createElement.insertAdjacentHTML('beforeend', data.comp);
+    const newComp = createElement.children[0] as HTMLElement;
+    let compName = `comp_${getRandomId()}`;
+    while (nameList.indexOf(compName) > -1) {
+      compName = `comp_${getRandomId()}`;
+    }
+    newComp.className = compName;
+    setNameList([...nameList, compName]);
+    if (selectedComp !== document.body) {
+      if (ableInsert.indexOf(selectedComp.tagName.toLowerCase()) > -1) {
+        window.alert("선택한 Html에는 Element를 추가할 수 없습니다.")
+      } else {
+        selectedComp.append(newComp);
+        if(document.getElementById("view")?.outerHTML !== undefined){
+          const sHistory:string[] = JSON.parse(sessionStorage.getItem(developId)||JSON.stringify([]));
+          sessionStorage.setItem(developId,JSON.stringify([...sHistory,document.getElementById("view")?.outerHTML as string]));
+        }
+      }
+    } else {
+      document.getElementById("view")?.append(newComp);
+      if(document.getElementById("view")?.outerHTML !== undefined){
+        const sHistory:string[] = JSON.parse(sessionStorage.getItem(developId)||JSON.stringify([]));
+        sessionStorage.setItem(developId,JSON.stringify([...sHistory,document.getElementById("view")?.outerHTML as string]));
+      }
+    }
+  }
+
   return (
     <Container>
       <Name>Components</Name>
@@ -58,26 +90,7 @@ const Components = () => {
             <h2>{data.descript}</h2>
             <div>
               <SVG_eye {...iconProps} />
-              <SVG_plus {...iconProps} onClick={() => {
-                const createElement: HTMLElement = document.createElement("div");
-                createElement.insertAdjacentHTML('beforeend', data.comp);
-                const newComp = createElement.children[0] as HTMLElement;
-                let compName = `comp_${getRandomId()}`;
-                while (nameList.indexOf(compName) > -1) {
-                  compName = `comp_${getRandomId()}`;
-                }
-                newComp.className = compName;
-                setNameList([...nameList, compName]);
-                if (selectedComp !== document.body) {
-                  if (ableInsert.indexOf(selectedComp.tagName.toLowerCase()) > -1) {
-                    window.alert("선택한 Html에는 Element를 추가할 수 없습니다.")
-                  } else {
-                    selectedComp.append(newComp);
-                  }
-                } else {
-                  document.getElementById("view")?.append(newComp);
-                }
-              }} />
+              <SVG_plus {...iconProps} onClick={()=>{addComp(data)}} />
             </div>
           </Comp>
         ))

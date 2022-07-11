@@ -12,15 +12,6 @@ const StyleSetting = () => {
   const [attributeList, setAttributeList] = useState<string[]>([]);
   const [isShowDetail, setIsShowDetail] = useState(false);
 
-  const deleteComp = () => {
-    if (selectedComp !== document.body && selectedComp.id !== "view") {
-      selectedComp.remove();
-      const viewComp = document.getElementById("view") as HTMLElement;
-      viewComp.style.boxShadow = "inset 0px 0px 0px 2.5px #0D99FF";
-      useStore.setState({ selectedComp: viewComp });
-    }
-  }
-
   const changeFocus = (target: HTMLElement) => {
     target.style.boxShadow = "inset 0px 0px 0px 2.5px #0D99FF";
   }
@@ -137,11 +128,11 @@ const StyleSetting = () => {
         }
       </StyleContainer>
 
-      <span style={{ paddingTop: 24 }}></span>
+      {/* <span style={{ paddingTop: 24 }}></span>
       {
         selectedComp !== document.body && selectedComp.id !== "view" &&
         <DeleteComp><h1 onClick={deleteComp}>요소 삭제</h1></DeleteComp>
-      }
+      } */}
       <Export />
       <span style={{ paddingTop: 8 }}></span>
       <div onClick={() => {
