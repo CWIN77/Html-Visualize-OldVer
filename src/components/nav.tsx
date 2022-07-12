@@ -14,6 +14,7 @@ const Nav = () => {
   const homeIcon = { width: 22, height: 22, fill: (pathname === "/" ? "rgb(255,255,255)" : "rgb(200,200,200)") };
   const fullScreenIcon = { width: 18, height: 18, fill: (isFull ? "rgb(255,255,255)" : "rgb(200,200,200)") };
   const rectangleIcon = { width: 16, height: 16, fill: "rgb(200, 200, 200)" };
+  const deviceIcon = { width: 20, height: 20, fill: "rgb(200, 200, 200)", style: { padding: 6, marginLeft: 6, cursor: "pointer" } }
   let zoom = 0.75;
 
   const zoomEvent = (e: WheelEvent | Event) => {
@@ -38,7 +39,7 @@ const Nav = () => {
       }
     } else {
       if (viewBox !== null && target instanceof HTMLInputElement) {
-        if (zoom < 1.75 || zoom > 0.1) {
+        if ((zoom < 1.75 || zoom > 0.1) && Number(target.value) === NaN) {
           zoom = (Number(target.value) / 100) - 0.25;
           viewBox.style.transform = `scale(${zoom}, ${zoom})`;
         }
@@ -69,6 +70,10 @@ const Nav = () => {
         <SVG_home {...homeIcon} />
       </Link>
       <ZoomContainer>
+        <span>
+          <SVG_desktop {...deviceIcon} />
+          <SVG_phone {...deviceIcon} />
+        </span>
         <SVG_rectangle {...rectangleIcon} />
         <Zoom type={"text"} id="zoom" />
       </ZoomContainer>
@@ -104,6 +109,9 @@ const ZoomContainer = styled.span`
   display:flex;
   align-items: center;
   justify-content: center;
+  span{
+    margin-right: 28px;
+  }
 `
 const Zoom = styled.input`
   color:rgb(255,255,255);
