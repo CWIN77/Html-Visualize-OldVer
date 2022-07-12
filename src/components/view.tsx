@@ -16,7 +16,7 @@ const View = () => {
 
   const ctrlZEvent = (e: KeyboardEvent) => {
     if (e.key === 'z' && e.ctrlKey) {
-      const sHistory:string = JSON.parse(sessionStorage.getItem(developId)||JSON.stringify([]));
+      const sHistory: string = JSON.parse(sessionStorage.getItem(developId) || JSON.stringify([]));
       console.log(sHistory);
     }
   }
@@ -40,9 +40,9 @@ const View = () => {
           window.alert("선택한 Html에는 Element를 복사할 수 없습니다.")
         } else {
           clickedComp.append(cloneComp);
-          if(document.getElementById("view")?.outerHTML !== undefined){
-            const sHistory:string[] = JSON.parse(sessionStorage.getItem(developId)||JSON.stringify([]));
-            sessionStorage.setItem(developId,JSON.stringify([...sHistory,document.getElementById("view")?.outerHTML as string]));
+          if (document.getElementById("view")?.outerHTML !== undefined) {
+            const sHistory: string[] = JSON.parse(sessionStorage.getItem(developId) || JSON.stringify([]));
+            sessionStorage.setItem(developId, JSON.stringify([...sHistory, document.getElementById("view")?.outerHTML as string]));
           }
         }
       }
@@ -53,9 +53,9 @@ const View = () => {
       clickedComp.remove();
       const viewComp = document.getElementById("view") as HTMLElement;
       useStore.setState({ selectedComp: viewComp });
-      if(document.getElementById("view")?.outerHTML !== undefined){
-        const sHistory:string[] = JSON.parse(sessionStorage.getItem(developId)||JSON.stringify([]));
-        sessionStorage.setItem(developId,JSON.stringify([...sHistory,document.getElementById("view")?.outerHTML as string]));
+      if (document.getElementById("view")?.outerHTML !== undefined) {
+        const sHistory: string[] = JSON.parse(sessionStorage.getItem(developId) || JSON.stringify([]));
+        sessionStorage.setItem(developId, JSON.stringify([...sHistory, document.getElementById("view")?.outerHTML as string]));
       }
     }
   }
@@ -96,8 +96,8 @@ const View = () => {
   }
 
   useEffect(() => {
-    const sHistory:string[] = JSON.parse(sessionStorage.getItem(developId)||JSON.stringify([]));
-    if(sHistory.length > 0){
+    const sHistory: string[] = JSON.parse(sessionStorage.getItem(developId) || JSON.stringify([]));
+    if (sHistory.length > 0) {
       const viewElem = document.getElementById('view') as HTMLElement;
       const parentElem = viewElem.parentElement as HTMLElement;
       viewElem.remove();
@@ -136,7 +136,7 @@ const ViewBox = styled.div`
   height:992px; */
   background-color: white;
   position: absolute;
-  transform : scale(0.5, 0.5);
+  transform : scale(0.75, 0.75);
   border-radius: 8px;
   z-index: 2;
   &::-webkit-scrollbar{
