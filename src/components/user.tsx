@@ -3,7 +3,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { ReactComponent as SVG_plus } from '../svgs/plus.svg'
 
 const User = () => {
-  const iconProps = { fill: "#363636", width: 14, height: 14, style: { padding: 2, cursor: "pointer" } }
+  const iconStyles = { fill: "#363636", width: 14, height: 14, style: { padding: 2, cursor: "pointer" } }
   return (
     <Container>
       <Profile>
@@ -18,8 +18,11 @@ const User = () => {
       <Friends>
         <FriendTitle>
           <h1>Friend</h1>
-          <SVG_plus {...iconProps} />
+          <SVG_plus {...iconStyles} />
         </FriendTitle>
+        <FriendList>
+          Tester
+        </FriendList>
       </Friends>
     </Container>
   )
@@ -34,13 +37,14 @@ const Profile = styled.div`
   display:flex;
   align-items: center;
   padding: 22px;
-  margin-bottom: 28px;
+  margin-bottom: 24px;
+  margin-top: 12px;
 `
 const ProfileImg = styled.img`
   width:70px;
   height:70px;
   border-radius: 200px;
-  margin-right: 22px;
+  margin-right: 18px;
 `
 const ProfileName = styled.h1`
   font-size: 20px;
@@ -70,6 +74,16 @@ const FriendTitle = styled.div`
     font-size: 13px;
     padding:2px;
   }
+`
+const FriendList = styled.div`
+  width:calc(100% - 28px - 36px);
+  display:flex;
+  border-radius: 4px;
+  margin:18px;
+  padding:14px;
+  margin-top: 24px;
+  background-color: #363636;
+  color:rgb(220,220,220);
 `
 
 export default User

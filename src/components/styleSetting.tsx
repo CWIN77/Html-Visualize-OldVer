@@ -151,7 +151,7 @@ const StyleSetting = () => {
 
       {
         selectedComp !== document.body &&
-        <Style><h2 onClick={() => { setIsShowDetail(false) }}>{isShowDetail ? "그 외 스타일 접기" : "그 외 스타일 펼치기"}</h2></Style>
+        <Style><h2 onClick={() => { setIsShowDetail(!isShowDetail) }}>{isShowDetail ? "그 외 스타일 접기" : "그 외 스타일 펼치기"}</h2></Style>
       }
       <StyleContainer>
         {

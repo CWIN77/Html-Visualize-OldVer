@@ -1,11 +1,12 @@
-import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import User from '../components/user'
+import DevelopList from '../components/developList'
 
 const Home = () => {
   return (
     <Container>
       <User />
+      <DevelopList/>
     </Container>
   )
 }

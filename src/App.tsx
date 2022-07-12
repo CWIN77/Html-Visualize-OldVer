@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { Routes, Route } from 'react-router-dom'
-import Develop from './pages/Develop'
+import Develop from './pages/DevelopDetail'
 import Home from './pages/Home'
 import Nav from './components/nav'
 

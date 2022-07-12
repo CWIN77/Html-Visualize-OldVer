@@ -12,7 +12,7 @@ import { useParams } from 'react-router-dom'
 const Components = () => {
   const { id } = useParams();
   const developId = id || "history";
-  const iconProps = { fill: "#363636", width: 16, height: 16, style: { padding: 2, marginLeft: 12, cursor: "pointer" } }
+  const iconStyles = { fill: "#363636", width: 16, height: 16, style: { padding: 2, marginLeft: 12, cursor: "pointer" } }
   const { selectedComp }: { selectedComp: HTMLElement } = useStore();
   const [compList, setCompList] = useState(compData);
   const [searchText, setSearchText] = useState('');
@@ -89,8 +89,8 @@ const Components = () => {
             <h1 title={data.descript}>{data.name}</h1>
             <h2>{data.descript}</h2>
             <div>
-              <SVG_eye {...iconProps} />
-              <SVG_plus {...iconProps} onClick={()=>{addComp(data)}} />
+              <SVG_eye {...iconStyles} />
+              <SVG_plus {...iconStyles} onClick={()=>{addComp(data)}} />
             </div>
           </Comp>
         ))

@@ -13,33 +13,11 @@ const View = () => {
   let clickedComp = selectedComp;
   let copyComp: HTMLElement;
   let dbClickComp = document.body;
-  let zoom = 0.5;
 
   const ctrlZEvent = (e: KeyboardEvent) => {
     if (e.key === 'z' && e.ctrlKey) {
       const sHistory:string = JSON.parse(sessionStorage.getItem(developId)||JSON.stringify([]));
       console.log(sHistory);
-    }
-  }
-  const zoomEvent = (e: WheelEvent) => {
-    const zoomComp = document.getElementById("viewBox");
-    const target = e.target as HTMLElement;
-    if (target.id) {
-      if (e.deltaY > 0) { // 스크롤 다운
-        if (zoomComp !== null) {
-          if (zoom > 0.1) {
-            zoom -= 0.05;
-            zoomComp.style.transform = `scale(${zoom}, ${zoom})`;
-          }
-        }
-      } else { // 스크롤 업
-        if (zoomComp !== null) {
-          if (zoom < 1.75) {
-            zoom += 0.05;
-            zoomComp.style.transform = `scale(${zoom}, ${zoom})`;
-          }
-        }
-      }
     }
   }
   const dbClickEvent = (e: MouseEvent) => {
@@ -132,7 +110,6 @@ const View = () => {
     const viewContainerElem = document.getElementById("viewContainer") as HTMLElement;
 
     bodyElem.addEventListener('keydown', ctrlZEvent);
-    viewContainerElem.addEventListener('wheel', zoomEvent);
     viewElem.addEventListener("dblclick", dbClickEvent)
     bodyElem.addEventListener('keydown', copyEvent);
     bodyElem.addEventListener('keydown', deleteEvent);
