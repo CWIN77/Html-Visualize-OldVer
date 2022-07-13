@@ -88,9 +88,17 @@ export const compData: ICompData[] = [
 ]
 
 export const compAttribute: { [key: string]: string[] } = {
-  input: ["type", "placeholder"],
-  img: ["src", "alt"],
-  a: ["href", "target"]
+  div: ["name"],
+  span: ["name"],
+  input: ["name", "type", "placeholder"],
+  img: ["name", "src", "alt"],
+  a: ["name", "href", "target"],
+  h1: ["name"],
+  h2: ["name"],
+  h3: ["name"],
+  h4: ["name"],
+  h5: ["name"],
+  p: ["name"]
 }
 
 export const ableInsert = ["img", "input"];

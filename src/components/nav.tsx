@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import { useLocation } from "react-router-dom"
 
 const Nav = () => {
-  const { pathname } = useLocation();
+  const [pathname, setPathname] = useState(useLocation().pathname);
   const [isFull, setIsFull] = useState(false);
   const [device, setDevice] = useState("phone"); // phone / desktop
   const homeIcon = { width: 22, height: 22, fill: (pathname === "/" ? "rgb(255,255,255)" : "rgb(200,200,200)") };
@@ -58,7 +58,7 @@ const Nav = () => {
   const changeDevice = (type: string) => {
     const zommInput = document.getElementById("zoom") as HTMLInputElement;
     const viewBox = document.getElementById("viewBox") as HTMLElement;
-    console.log(type);
+    const viewContainerElem = document.getElementById("viewContainer") as HTMLElement;
     if (type === "desktop") {
       setDevice("desktop");
       viewBox.style.width = "1395px";
@@ -73,6 +73,10 @@ const Nav = () => {
       viewBox.style.transform = `scale(${zoom}, ${zoom})`;
     }
     zommInput.value = String(Math.floor(zoom * 100));
+    zommInput.removeEventListener("change", zoomEvent);
+    viewContainerElem.removeEventListener('wheel', zoomEvent);
+    viewContainerElem.addEventListener('wheel', zoomEvent);
+    zommInput.addEventListener("change", zoomEvent);
   }
 
   return (

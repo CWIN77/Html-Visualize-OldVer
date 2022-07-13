@@ -27,11 +27,6 @@ ${declareString}\nexport default ${comp.className.charAt(0).toUpperCase() + comp
     console.log(appCode);
   }
 
-  // let compName = `${comp.id.charAt(0).toUpperCase() + comp.id.slice(1)}_${getRandomId()}`;
-  // while (compNames.indexOf(compName) > -1) {
-  //   compName = `${comp.id.charAt(0).toUpperCase() + comp.id.slice(1)}_${getRandomId()}`;
-  // }
-
   const getHtmlStyle = (comp: HTMLElement, importString: string[]) => {
     if (comp.className) {
       let compName = "";
@@ -46,7 +41,7 @@ ${declareString}\nexport default ${comp.className.charAt(0).toUpperCase() + comp
       let attribute = "";
       if (compAttribute[comp.tagName.toLowerCase()]) {
         compAttribute[comp.tagName.toLowerCase()].forEach((att) => {
-          attribute += ` ${att}="${comp.getAttribute(att)}"`;
+          if (att !== "name") attribute += ` ${att}="${comp.getAttribute(att)}"`;
         });
       }
       htmlComp += `<${compName}${attribute}${ableInsert.indexOf(comp.tagName.toLowerCase()) > -1 ? " /" : ""}>`;
