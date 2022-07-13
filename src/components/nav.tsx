@@ -11,72 +11,86 @@ import { useLocation } from "react-router-dom"
 const Nav = () => {
   const { pathname } = useLocation();
   const [isFull, setIsFull] = useState(false);
+  const [device, setDevice] = useState("phone"); // phone / desktop
   const homeIcon = { width: 22, height: 22, fill: (pathname === "/" ? "rgb(255,255,255)" : "rgb(200,200,200)") };
   const fullScreenIcon = { width: 18, height: 18, fill: (isFull ? "rgb(255,255,255)" : "rgb(200,200,200)") };
   const rectangleIcon = { width: 16, height: 16, fill: "rgb(200, 200, 200)" };
-  const deviceIcon = { width: 20, height: 20, fill: "rgb(200, 200, 200)", style: { padding: 6, marginLeft: 6, cursor: "pointer" } }
-  let zoom = 0.75;
+  const deviceIcon = { width: 24, height: 24, style: { padding: 6, marginLeft: 4, cursor: "pointer" } };
+  let zoom = 1;
 
   const zoomEvent = (e: WheelEvent | Event) => {
-    const viewBox = document.getElementById("viewBox");
+    const viewBox = document.getElementById("viewBox") as HTMLInputElement;
     const zommInput = document.getElementById("zoom") as HTMLInputElement;
     const target = e.target as HTMLElement | HTMLInputElement;
     if (target.id && e instanceof WheelEvent) {
       if (e.deltaY > 0) { // 스크롤 다운
-        if (viewBox !== null) {
-          if (zoom > 0.1) {
-            zoom -= 0.05;
-            viewBox.style.transform = `scale(${zoom}, ${zoom})`;
-          }
+        if (zoom > 0.1) {
+          zoom -= 0.05;
+          viewBox.style.transform = `scale(${zoom}, ${zoom})`;
         }
       } else { // 스크롤 업
-        if (viewBox !== null) {
-          if (zoom < 1.75) {
-            zoom += 0.05;
-            viewBox.style.transform = `scale(${zoom}, ${zoom})`;
-          }
+        if (zoom < 1.75) {
+          zoom += 0.05;
+          viewBox.style.transform = `scale(${zoom}, ${zoom})`;
         }
       }
     } else {
-      if (viewBox !== null && target instanceof HTMLInputElement) {
+      if (target instanceof HTMLInputElement) {
         if ((zoom < 1.75 || zoom > 0.1) && Number(target.value) === NaN) {
-          zoom = (Number(target.value) / 100) - 0.25;
+          zoom = Number(target.value) / 100;
           viewBox.style.transform = `scale(${zoom}, ${zoom})`;
         }
       }
     }
-    if (zommInput) {
-      zommInput.value = String(Math.floor((zoom + 0.25) * 100));
-    }
+    zommInput.value = String(Math.floor(zoom * 100));
   }
 
   useEffect(() => {
-    const zommInput = document.getElementById("zoom") as HTMLInputElement;
-    if (zommInput) {
-      zommInput.value = String(Math.floor((zoom + 0.25) * 100));
-    }
-    const viewContainerElem = document.getElementById("viewContainer");
-    if (viewContainerElem) {
+    if (pathname.substring(0, 8) === "/develop") {
+      const zommInput = document.getElementById("zoom") as HTMLInputElement;
+      zommInput.value = String(Math.floor(zoom * 100));
+      const viewContainerElem = document.getElementById("viewContainer") as HTMLElement;
       viewContainerElem.addEventListener('wheel', zoomEvent);
-    }
-    if (zommInput) {
-      zommInput.addEventListener("change", zoomEvent)
+      zommInput.addEventListener("change", zoomEvent);
     }
   }, [pathname])
+
+  const changeDevice = (type: string) => {
+    const zommInput = document.getElementById("zoom") as HTMLInputElement;
+    const viewBox = document.getElementById("viewBox") as HTMLElement;
+    console.log(type);
+    if (type === "desktop") {
+      setDevice("desktop");
+      viewBox.style.width = "1395px";
+      viewBox.style.height = "992px";
+      zoom = 0.4;
+      viewBox.style.transform = `scale(${zoom}, ${zoom})`;
+    } else if (type === "phone") {
+      setDevice("phone");
+      viewBox.style.width = "360px";
+      viewBox.style.height = "720px";
+      zoom = 1;
+      viewBox.style.transform = `scale(${zoom}, ${zoom})`;
+    }
+    zommInput.value = String(Math.floor(zoom * 100));
+  }
 
   return (
     <Container>
       <Link to="/" style={{ backgroundColor: pathname === "/" ? "#363636" : "initial" }}>
         <SVG_home {...homeIcon} />
       </Link>
-      <ZoomContainer>
-        <span>
-          <SVG_desktop {...deviceIcon} />
-          <SVG_phone {...deviceIcon} />
-        </span>
-        <SVG_rectangle {...rectangleIcon} />
-        <Zoom type={"text"} id="zoom" />
-      </ZoomContainer>
+      {
+        pathname.substring(0, 8) === "/develop" &&
+        <ZoomContainer>
+          <span>
+            <SVG_desktop fill={device === "desktop" ? "white" : "rgb(200, 200, 200)"} {...deviceIcon} onClick={() => { changeDevice("desktop") }} />
+            <SVG_phone fill={device === "phone" ? "white" : "rgb(200, 200, 200)"} {...deviceIcon} onClick={() => { changeDevice("phone") }} />
+          </span>
+          <SVG_rectangle {...rectangleIcon} />
+          <Zoom type={"text"} id="zoom" />
+        </ZoomContainer>
+      }
       <div style={{ backgroundColor: isFull ? "#363636" : "initial" }} onClick={() => {
         if (isFull) document.exitFullscreen();
         else document.body.requestFullscreen();
@@ -115,7 +129,7 @@ const ZoomContainer = styled.span`
 `
 const Zoom = styled.input`
   color:rgb(255,255,255);
-  width:80px;
+  width:50px;
   padding: 10px;
   font-size: 14px;
 `

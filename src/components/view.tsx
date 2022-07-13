@@ -130,13 +130,11 @@ const View = () => {
 }
 
 const ViewBox = styled.div`
-  width:395px;
+  width:360px;
   height:720px;
-  /* width:1495px;
-  height:992px; */
   background-color: white;
   position: absolute;
-  transform : scale(0.75, 0.75);
+  transform : scale(1, 1);
   border-radius: 8px;
   z-index: 2;
   &::-webkit-scrollbar{
