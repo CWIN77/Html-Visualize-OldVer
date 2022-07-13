@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import { useLocation } from "react-router-dom"
 
 const Nav = () => {
-  const [pathname, setPathname] = useState(useLocation().pathname);
+  const { pathname } = useLocation();
   const [isFull, setIsFull] = useState(false);
   const [device, setDevice] = useState("phone"); // phone / desktop
   const homeIcon = { width: 22, height: 22, fill: (pathname === "/" ? "rgb(255,255,255)" : "rgb(200,200,200)") };
@@ -46,6 +46,13 @@ const Nav = () => {
   }
 
   useEffect(() => {
+    const viewBg = document.getElementById("viewBackground") as HTMLElement;
+    if (device === "phone") {
+      zoom = viewBg.offsetHeight * 0.87 / 720;
+    } else if (device === "desktop") {
+      zoom = viewBg.offsetWidth * 0.87 / 1395;
+    }
+
     if (pathname.substring(0, 8) === "/develop") {
       const zommInput = document.getElementById("zoom") as HTMLInputElement;
       zommInput.value = String(Math.floor(zoom * 100));
@@ -56,6 +63,7 @@ const Nav = () => {
   }, [pathname])
 
   const changeDevice = (type: string) => {
+    const viewBg = document.getElementById("viewBackground") as HTMLElement;
     const zommInput = document.getElementById("zoom") as HTMLInputElement;
     const viewBox = document.getElementById("viewBox") as HTMLElement;
     const viewContainerElem = document.getElementById("viewContainer") as HTMLElement;
@@ -63,13 +71,13 @@ const Nav = () => {
       setDevice("desktop");
       viewBox.style.width = "1395px";
       viewBox.style.height = "992px";
-      zoom = 0.4;
+      zoom = viewBg.offsetWidth * 0.87 / 1395;
       viewBox.style.transform = `scale(${zoom}, ${zoom})`;
     } else if (type === "phone") {
       setDevice("phone");
       viewBox.style.width = "360px";
       viewBox.style.height = "720px";
-      zoom = 1;
+      zoom = viewBg.offsetHeight * 0.87 / 720;
       viewBox.style.transform = `scale(${zoom}, ${zoom})`;
     }
     zommInput.value = String(Math.floor(zoom * 100));

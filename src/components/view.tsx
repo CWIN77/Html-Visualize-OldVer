@@ -80,7 +80,7 @@ const View = () => {
       useStore.setState({ selectedComp: clickedComp });
     }
   }
-  const viewBackgroundClickEvent = (e: MouseEvent) => {
+  const viewBgClickEvent = (e: MouseEvent) => {
     if (e.target !== dbClickComp) {
       dbClickComp.contentEditable = "false";
       dbClickComp = document.body;
@@ -89,7 +89,7 @@ const View = () => {
       clickedComp = document.body;
     }
   }
-  const viewBackgroundMouseoverEvent = () => {
+  const viewBgMouseoverEvent = () => {
     if (mouseoverComp !== clickedComp) {
       mouseoverComp.style.boxShadow = "";
     }
@@ -107,16 +107,14 @@ const View = () => {
     const viewElem = document.getElementById('view') as HTMLElement;
     const bodyElem = document.body;
     const viewBgElem = document.getElementById('viewBackground') as HTMLElement;
-    const viewContainerElem = document.getElementById("viewContainer") as HTMLElement;
-
     bodyElem.addEventListener('keydown', ctrlZEvent);
-    viewElem.addEventListener("dblclick", dbClickEvent)
+    viewElem.addEventListener("dblclick", dbClickEvent);
     bodyElem.addEventListener('keydown', copyEvent);
     bodyElem.addEventListener('keydown', deleteEvent);
     viewElem.addEventListener("mouseover", viewMouseoverEvent);
     viewElem.addEventListener("click", viewClickEvent);
-    viewBgElem.addEventListener("click", viewBackgroundClickEvent);
-    viewBgElem.addEventListener("mouseover", viewBackgroundMouseoverEvent);
+    viewBgElem.addEventListener("click", viewBgClickEvent);
+    viewBgElem.addEventListener("mouseover", viewBgMouseoverEvent);
   }, [])
 
   return (
@@ -159,26 +157,28 @@ const ViewBox = styled.div`
 const ViewContainer = styled.div`
   width:calc(100vw - 280px - 335px);
   margin-left: 335px;
-  position: absolute;
+  position: fixed;
   height:calc(100vh - 46px);
   display:flex;
   align-items: center;
   justify-content: center;
   overflow:auto;
+  background-color: #ededed;
   &::-webkit-scrollbar{
     width:12px;
     height:12px;
     background-color: initial;
+    position: absolute;
   }
   &::-webkit-scrollbar-thumb{
+    position: absolute;
     background-color: rgba(54,54,54,0.4);
   }
 `
 const ViewBackground = styled.span`
-  position: fixed;
+  /* position: fixed; */
   width:calc(100vw - 280px - 335px);
   height:calc(100vh - 46px);
-  background-color: #ededed;
   z-index: 1;
 `
 
