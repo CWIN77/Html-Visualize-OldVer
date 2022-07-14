@@ -43,11 +43,7 @@ const Components = () => {
     }
   }
 
-<<<<<<< HEAD
   const addComp = (data: ICompData) => {
-=======
-  const addComp = (data:ICompData) => {
->>>>>>> 268183032a6c4c3b6c7dce594c1a2de6a718d349
     const createElement: HTMLElement = document.createElement("div");
     createElement.insertAdjacentHTML('beforeend', data.comp);
     const newComp = createElement.children[0] as HTMLElement;
@@ -62,28 +58,16 @@ const Components = () => {
         window.alert("선택한 Html에는 Element를 추가할 수 없습니다.")
       } else {
         selectedComp.append(newComp);
-<<<<<<< HEAD
         if (document.getElementById("view")?.outerHTML !== undefined) {
           const sHistory: string[] = JSON.parse(sessionStorage.getItem(developId) || JSON.stringify([]));
           sessionStorage.setItem(developId, JSON.stringify([...sHistory, document.getElementById("view")?.outerHTML as string]));
-=======
-        if(document.getElementById("view")?.outerHTML !== undefined){
-          const sHistory:string[] = JSON.parse(sessionStorage.getItem(developId)||JSON.stringify([]));
-          sessionStorage.setItem(developId,JSON.stringify([...sHistory,document.getElementById("view")?.outerHTML as string]));
->>>>>>> 268183032a6c4c3b6c7dce594c1a2de6a718d349
         }
       }
     } else {
       document.getElementById("view")?.append(newComp);
-<<<<<<< HEAD
       if (document.getElementById("view")?.outerHTML !== undefined) {
         const sHistory: string[] = JSON.parse(sessionStorage.getItem(developId) || JSON.stringify([]));
         sessionStorage.setItem(developId, JSON.stringify([...sHistory, document.getElementById("view")?.outerHTML as string]));
-=======
-      if(document.getElementById("view")?.outerHTML !== undefined){
-        const sHistory:string[] = JSON.parse(sessionStorage.getItem(developId)||JSON.stringify([]));
-        sessionStorage.setItem(developId,JSON.stringify([...sHistory,document.getElementById("view")?.outerHTML as string]));
->>>>>>> 268183032a6c4c3b6c7dce594c1a2de6a718d349
       }
     }
   }
@@ -106,11 +90,7 @@ const Components = () => {
             <h2>{data.descript}</h2>
             <div>
               <SVG_eye {...iconStyles} />
-<<<<<<< HEAD
               <SVG_plus {...iconStyles} onClick={() => { addComp(data) }} />
-=======
-              <SVG_plus {...iconStyles} onClick={()=>{addComp(data)}} />
->>>>>>> 268183032a6c4c3b6c7dce594c1a2de6a718d349
             </div>
           </Comp>
         ))
