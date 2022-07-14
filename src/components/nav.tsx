@@ -46,14 +46,13 @@ const Nav = () => {
   }
 
   useEffect(() => {
-    const viewBg = document.getElementById("viewBackground") as HTMLElement;
-    if (device === "phone") {
-      zoom = viewBg.offsetHeight * 0.87 / 720;
-    } else if (device === "desktop") {
-      zoom = viewBg.offsetWidth * 0.87 / 1395;
-    }
-
     if (pathname.substring(0, 8) === "/develop") {
+      const viewBg = document.getElementById("viewBackground") as HTMLElement;
+      if (device === "phone") {
+        zoom = viewBg.offsetHeight * 0.87 / 720;
+      } else if (device === "desktop") {
+        zoom = viewBg.offsetWidth * 0.87 / 1395;
+      }
       const zommInput = document.getElementById("zoom") as HTMLInputElement;
       zommInput.value = String(Math.floor(zoom * 100));
       const viewContainerElem = document.getElementById("viewContainer") as HTMLElement;

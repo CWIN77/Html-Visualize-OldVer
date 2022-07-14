@@ -5,12 +5,14 @@ import { TAbleStyle } from "../types"
 import { compAttribute } from "../comps/compData"
 import { useEffect, useState } from 'react';
 import Export from './export';
+import { useParams } from 'react-router-dom';
 
 const StyleSetting = () => {
   const { selectedComp }: { selectedComp: HTMLElement } = useStore();
   const [styleList, setStyleList] = useState<TAbleStyle[]>([]);
   const [isShowDetail, setIsShowDetail] = useState(false);
   const [attList, setAttList] = useState<string[]>([]);
+  const developId = useParams().id as string;
 
   const deleteComp = () => {
     if (selectedComp !== document.body && selectedComp.id !== "view") {
@@ -18,6 +20,8 @@ const StyleSetting = () => {
       const viewComp = document.getElementById("view") as HTMLElement;
       viewComp.style.boxShadow = "inset 0px 0px 0px 2.5px #0D99FF";
       useStore.setState({ selectedComp: viewComp });
+      const sHistory: string[] = JSON.parse(sessionStorage.getItem(developId) || JSON.stringify([]));
+      sessionStorage.setItem(developId, JSON.stringify([...sHistory, document.getElementById("view")?.outerHTML as string]));
     }
   }
 

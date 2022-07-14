@@ -164,7 +164,8 @@ const hStyle: TAbleStyle = {
     "space-between",
     "space-around",
     "space-evenly",
-  ]
+  ],
+  "text-decoration": "detail"
 }
 
 const imgStyle: TAbleStyle = {
@@ -220,6 +221,26 @@ const viewStyle: TAbleStyle = {
   ]
 }
 
+const listStyle: TAbleStyle = {
+  ...defaultStyle,
+  "font-size": "value",
+  "color": "value",
+  "font-weight": "value",
+  "text-align": [
+    "start",
+    "end",
+    "center",
+    "justify"
+  ],
+  "font-style": [
+    "normal",
+    "italic",
+    "oblique"
+  ],
+  "text-decoration": "detail",
+  "list-style": "value"
+}
+
 export const elementStyle: { [key: string]: TAbleStyle } = {
   view: viewStyle,
   div: divStyle,
@@ -232,5 +253,14 @@ export const elementStyle: { [key: string]: TAbleStyle } = {
   h3: hStyle,
   h4: hStyle,
   h5: hStyle,
-  p: hStyle
+  p: hStyle,
+  li: listStyle,
+  ol: defaultStyle,
+  ul: defaultStyle,
+  footer: divStyle,
+  header: divStyle,
+  aside: divStyle,
+  nav: divStyle,
+  select: divStyle,
+  option: hStyle
 }

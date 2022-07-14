@@ -1,13 +1,11 @@
 import { useEffect } from 'react'
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components'
-import { ableInsert } from '../comps/compData';
+import { ableInsert, dbClickAble } from '../comps/compData';
 import { useStore } from '../zustant'
 
-
 const View = () => {
-  const { id } = useParams();
-  const developId = id || "history";
+  const developId = useParams().id as string;
   const { selectedComp }: { selectedComp: HTMLElement } = useStore();
   let mouseoverComp = document.body;
   let clickedComp = selectedComp;
@@ -22,8 +20,8 @@ const View = () => {
   }
   const dbClickEvent = (e: MouseEvent) => {
     const target = e.target as HTMLElement;
-    const tagName = target.tagName.substring(0, 1).toLowerCase();
-    if (tagName === "h" || tagName === "a" || tagName === "p") {
+    const tagName = target.tagName.toLowerCase();
+    if (dbClickAble.indexOf(tagName) > -1) {
       target.style.boxShadow = "";
       target.contentEditable = "true";
       dbClickComp = target;
