@@ -15,7 +15,7 @@ const User = () => {
           </CopyToClipboard>
         </span>
       </Profile>
-      <Friends>
+      {/* <Friends>
         <FriendTitle>
           <h1>Friend</h1>
           <SVG_plus {...iconStyles} />
@@ -23,7 +23,7 @@ const User = () => {
         <FriendList>
           Tester
         </FriendList>
-      </Friends>
+      </Friends> */}
     </Container>
   )
 }

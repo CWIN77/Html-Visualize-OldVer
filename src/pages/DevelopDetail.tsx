@@ -2,14 +2,18 @@ import styled from 'styled-components'
 import Components from '../components/components'
 import StyleSetting from '../components/styleSetting'
 import View from "../components/view"
+import Nav from '../components/nav'
 
 const Develop = () => {
   return (
-    <Container>
-      <Components />
-      <View />
-      <StyleSetting />
-    </Container>
+    <>
+      <Nav />
+      <Container>
+        <Components />
+        <View />
+        <StyleSetting />
+      </Container>
+    </>
   )
 }
 

@@ -81,20 +81,18 @@ ${declareString}\nexport default ${comp.className.charAt(0).toUpperCase() + comp
   }
 
   return (
-    <Container onClick={() => { getAppCode(document.getElementById("view") as HTMLElement) }}>
-      HTML Export
-    </Container>
+    <Container onClick={() => { getAppCode(document.getElementById("view") as HTMLElement) }}>HTML Export</Container>
   )
 }
 
 const Container = styled.button`
   background-color: #1264A3;
-  padding:14px;
-  margin: 24px 48px;
-  font-size: 14px;
+  padding:10px 12px;
   color:white;
   border-radius: 4px;
   cursor: pointer;
+  font-size: 13px;
+  margin-right: 16px;
 `
 
 export default Export

@@ -76,9 +76,7 @@ const Components = () => {
     <Container>
       <Name>Components</Name>
       <SearchContainer>
-        <SearchInput value={searchText} onChange={(e) => {
-          searchComp(e.target.value);
-        }} type={"text"} placeholder={"Search"} />
+        <SearchInput value={searchText} onChange={(e) => {searchComp(e.target.value);}} type={"text"} placeholder={"Search"} />
         <SearchBtn>
           <SVG_search width={16} height={16} fill={"#E8E8E8"} />
         </SearchBtn>

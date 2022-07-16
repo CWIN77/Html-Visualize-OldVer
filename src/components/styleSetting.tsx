@@ -4,7 +4,6 @@ import { elementStyle, styleName } from "../comps/compValue"
 import { TAbleStyle } from "../types"
 import { compAttribute } from "../comps/compData"
 import { useEffect, useState } from 'react';
-import Export from './export';
 import { useParams } from 'react-router-dom';
 
 const StyleSetting = () => {
@@ -180,8 +179,6 @@ const StyleSetting = () => {
         selectedComp !== document.body && selectedComp.id !== "view" &&
         <DeleteComp><h1 onClick={deleteComp}>요소 삭제</h1></DeleteComp>
       }
-      <Export />
-      <span style={{ paddingTop: 8 }} />
     </Container >
   )
 }

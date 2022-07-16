@@ -47,7 +47,7 @@ const View = () => {
     }
   }
   const deleteEvent = (e: KeyboardEvent) => {
-    if (e.key === "Delete" && clickedComp.className) {
+    if (e.key === "Delete" && clickedComp.className && clickedComp.id !== "view") {
       clickedComp.remove();
       const viewComp = document.getElementById("view") as HTMLElement;
       useStore.setState({ selectedComp: viewComp });
@@ -94,6 +94,10 @@ const View = () => {
   }
 
   useEffect(() => {
+    // window.onbeforeunload = () => {
+    //   return false;
+    // };
+
     const sHistory: string[] = JSON.parse(sessionStorage.getItem(developId) || JSON.stringify([]));
     if (sHistory.length > 0) {
       const viewElem = document.getElementById('view') as HTMLElement;
