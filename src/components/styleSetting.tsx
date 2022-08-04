@@ -197,9 +197,6 @@ const StyleSetting = () => {
         selectedComp !== null && selectedComp.id !== "view" &&
         <DeleteComp><h1 onClick={deleteComp}>요소 삭제</h1></DeleteComp>
       }
-
-      <button onClick={() => { sessionStorage.setItem("testSStorage", "My data") }}>세션스토리지 체인지</button>
-      <button onClick={() => { localStorage.setItem("testLStorage", "My data") }}>로컬스토리지 체인지</button>
     </Container >
   )
 }
