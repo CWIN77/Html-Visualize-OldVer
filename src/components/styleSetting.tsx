@@ -6,7 +6,7 @@ import { compAttribute } from "../comps/compData"
 import { useEffect, useState } from 'react';
 
 const StyleSetting = () => {
-  const { selectedComp }: {selectedComp : HTMLElement | null} = useStore();
+  const { selectedComp }: { selectedComp: HTMLElement | null } = useStore();
   const [styleList, setStyleList] = useState<TAbleStyle[]>([]);
   const [isShowDetail, setIsShowDetail] = useState(false);
   const [attList, setAttList] = useState<string[]>([]);
@@ -28,7 +28,7 @@ const StyleSetting = () => {
   }
 
   const changeStyle = (e: any, styleKey: any) => {
-    if(selectedComp){
+    if (selectedComp) {
       selectedComp.style[styleKey] = e.target.value;
       if (selectedComp.style[styleKey] === "") {
         e.target.value = "None";
@@ -40,7 +40,7 @@ const StyleSetting = () => {
   }
 
   const changeAtt = (e: any, attName: string) => {
-    if(selectedComp){
+    if (selectedComp) {
       if (attName === "name") {
         selectedComp.className = e.target.value;
       } else {
@@ -81,7 +81,7 @@ const StyleSetting = () => {
   }, [selectedComp]);
 
   useEffect(() => {
-    if(selectedComp){
+    if (selectedComp) {
       styleList.forEach((style: TAbleStyle) => {
         const styleKey = Object.keys(style)[0];
         const styleComp = document.getElementById(styleKey) as HTMLInputElement | null;
@@ -92,7 +92,7 @@ const StyleSetting = () => {
             styleComp.value = selectedComp.style[styleKey as any];
           }
         }
-      }) 
+      })
     }
   }, [styleList, isShowDetail])
 
@@ -100,7 +100,7 @@ const StyleSetting = () => {
     attList.forEach((att) => {
       const attName = att;
       const attComp = document.getElementById(attName) as HTMLInputElement | null;
-      if(selectedComp !== null){
+      if (selectedComp !== null) {
         const attValue = attName !== "name" ? selectedComp.getAttribute(attName) : selectedComp.className;
         if (attComp && attValue !== null) {
           if (attValue === "") {
