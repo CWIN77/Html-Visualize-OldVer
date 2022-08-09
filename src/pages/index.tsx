@@ -7,7 +7,7 @@ const Home: NextPage = () => {
   return (
     <Container>
       <User />
-      <DevelopList/>
+      <DevelopList />
     </Container>
   )
 }

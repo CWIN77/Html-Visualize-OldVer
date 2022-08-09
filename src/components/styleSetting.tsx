@@ -94,7 +94,7 @@ const StyleSetting = () => {
         }
       })
     }
-  }, [styleList, isShowDetail])
+  }, [styleList, isShowDetail, selectedComp])
 
   useEffect(() => {
     attList.forEach((att) => {
@@ -111,7 +111,7 @@ const StyleSetting = () => {
         }
       }
     });
-  }, [attList])
+  }, [attList, selectedComp])
 
   useEffect(() => {
     window.dispatchEvent(new Event('storage'));
