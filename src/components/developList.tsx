@@ -19,7 +19,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     },
     revalidate: 60,
   }
-}
+};
 
 const DevelopList = () => {
   const iconStyles = { width: 24, height: 24, fill: "#FFFFFF" }
@@ -39,7 +39,7 @@ const DevelopList = () => {
       </Link>
     </Container>
   )
-}
+};
 
 
 const Container = styled.div`
@@ -49,7 +49,7 @@ const Container = styled.div`
   width:100%;
   min-height:100vh;
   background-color: initial;
-`
+`;
 const Delveop = styled.a`
   margin: 24px;
   background-color: white;
@@ -69,6 +69,6 @@ const Delveop = styled.a`
     width: calc(100% - 24px);
     padding:12px;
   }
-`
+`;
 
 export default DevelopList
