@@ -1,35 +1,16 @@
-import { GetStaticPaths, GetStaticProps } from 'next';
-import Link from 'next/link'
 import styled from 'styled-components'
-import SVG_plus from '../svgs/plus.svg'
-import { API, withSSRContext } from 'aws-amplify'
-const SSR = withSSRContext();
-
-
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const { data } = await SSR.API.graphql({
-    query: listDevelops,
-    variables: {
-      // id: params?.id
-    }
-  });
-  return {
-    props: {
-      post: data.getDevelop
-    },
-    revalidate: 60,
-  }
-};
+import { ReactComponent as SVG_plus } from '../svgs/plus.svg'
+import { Link } from 'react-router-dom';
 
 const DevelopList = () => {
-  const iconStyles = { width: 24, height: 24, fill: "#FFFFFF" }
+  const iconStyles = {width:24, height:24,fill:"#FFFFFF"}
   return (
     <Container>
       <Delveop>
-        <div><SVG_plus {...iconStyles} /></div>
+        <div><SVG_plus {...iconStyles}/></div>
         <h1>새로운 프로젝트를 시작해보세요!</h1>
       </Delveop>
-      <Link href="/develop/id">
+      <Link to="/develop/id">
         <Delveop>
           <div>
 
@@ -39,18 +20,17 @@ const DevelopList = () => {
       </Link>
     </Container>
   )
-};
-
+}
 
 const Container = styled.div`
   display:flex;
   align-items: flex-start;
   flex-wrap: wrap;
   width:100%;
-  min-height:100vh;
+  min-height:calc(100vh - 46px);
   background-color: initial;
-`;
-const Delveop = styled.a`
+`
+const Delveop = styled.div`
   margin: 24px;
   background-color: white;
   cursor: pointer;
@@ -69,6 +49,6 @@ const Delveop = styled.a`
     width: calc(100% - 24px);
     padding:12px;
   }
-`;
+`
 
 export default DevelopList

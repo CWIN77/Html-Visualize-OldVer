@@ -1,8 +1,9 @@
 import styled from 'styled-components'
-import Components from '../../components/components'
-import StyleSetting from '../../components/styleSetting'
-import View from "../../components/view"
-import Nav from '../../components/nav'
+import Components from '../components/components'
+import StyleSetting from '../components/styleSetting'
+import View from "../components/view"
+import Nav from '../components/nav'
+
 const Develop = () => {
   return (
     <>

@@ -1,15 +1,16 @@
 import { useEffect } from 'react'
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components'
 import { ableInsert, dbClickAble } from '../comps/compData';
 import { useStore } from '../zustant'
 
 const View = () => {
-  const developId = "id";
-  const { selectedComp }: { selectedComp: HTMLElement|null } = useStore();
-  let mouseoverComp:HTMLElement;
+  const developId = useParams().id as string;
+  const { selectedComp }: { selectedComp: HTMLElement } = useStore();
+  let mouseoverComp = document.body;
   let clickedComp = selectedComp;
   let copyComp: HTMLElement;
-  let dbClickComp:HTMLElement;
+  let dbClickComp = document.body;
 
   const ctrlZEvent = (e: KeyboardEvent) => {
     if (e.key === 'z' && e.ctrlKey) {
@@ -27,7 +28,7 @@ const View = () => {
     }
   }
   const copyEvent = (e: KeyboardEvent) => {
-    if (clickedComp !== null && clickedComp.className) {
+    if (clickedComp.className) {
       if (e.key === 'c' && e.ctrlKey) {
         copyComp = clickedComp;
       } else if (e.key === 'v' && e.ctrlKey) {
@@ -46,7 +47,7 @@ const View = () => {
     }
   }
   const deleteEvent = (e: KeyboardEvent) => {
-    if (clickedComp !== null && e.key === "Delete" && clickedComp.className && clickedComp.id !== "view") {
+    if (e.key === "Delete" && clickedComp.className && clickedComp.id !== "view") {
       clickedComp.remove();
       const viewComp = document.getElementById("view") as HTMLElement;
       useStore.setState({ selectedComp: viewComp });
@@ -71,7 +72,7 @@ const View = () => {
     if (target !== dbClickComp) {
       dbClickComp.contentEditable = "false";
       dbClickComp = document.body;
-      if(clickedComp !== null) clickedComp.style.boxShadow = "";
+      clickedComp.style.boxShadow = "";
       target.style.boxShadow = "inset 0px 0px 0px 2.5px #0D99FF";
       clickedComp = target;
       useStore.setState({ selectedComp: clickedComp });
@@ -82,7 +83,7 @@ const View = () => {
       dbClickComp.contentEditable = "false";
       dbClickComp = document.body;
       mouseoverComp.style.boxShadow = "";
-      if(clickedComp !== null) clickedComp.style.boxShadow = "";
+      clickedComp.style.boxShadow = "";
       clickedComp = document.body;
     }
   }
@@ -96,9 +97,7 @@ const View = () => {
     // window.onbeforeunload = () => {
     //   return false;
     // };
-    dbClickComp = document.body;
-    mouseoverComp = document.body;
-    
+
     const sHistory: string[] = JSON.parse(sessionStorage.getItem(developId) || JSON.stringify([]));
     if (sHistory.length > 0) {
       const viewElem = document.getElementById('view') as HTMLElement;

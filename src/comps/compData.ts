@@ -137,18 +137,18 @@ export const compData: ICompData[] = [
     descript: `nav 태그의 요소입니다. 주로 사이트의 위치를 이동하는 기능을 가지고 있는 요소를 넣어줍니다.`,
     comp: c18
   },
-  // {
-  //   id: 19,
-  //   name: "Select (select)",
-  //   descript: `select 태그의 요소입니다. 내부에 option 태그의 요소를 넣어서 선택이 가능하게 해줍니다. 기본적으로 내부에 option 태그의 요소가 하나 들어있습니다.`,
-  //   comp: c19
-  // },
-  // {
-  //   id: 20,
-  //   name: "Option (option)",
-  //   descript: `option 태그의 요소입니다. select 태그의 요소 내부에 넣을 수 있습니다.`,
-  //   comp: c20
-  // },
+  {
+    id: 19,
+    name: "Select (select)",
+    descript: `select 태그의 요소입니다. 내부에 option 태그의 요소를 넣어서 선택이 가능하게 해줍니다. 기본적으로 내부에 option 태그의 요소가 하나 들어있습니다.`,
+    comp: c19
+  },
+  {
+    id: 20,
+    name: "Option (option)",
+    descript: `option 태그의 요소입니다. select 태그의 요소 내부에 넣을 수 있습니다.`,
+    comp: c20
+  },
   {
     id: 21,
     name: "Main (main)",

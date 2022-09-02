@@ -4,16 +4,17 @@ import { elementStyle, styleName } from "../comps/compValue"
 import { TAbleStyle } from "../types"
 import { compAttribute } from "../comps/compData"
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 const StyleSetting = () => {
-  const { selectedComp }: { selectedComp: HTMLElement | null } = useStore();
+  const { selectedComp }: { selectedComp: HTMLElement } = useStore();
   const [styleList, setStyleList] = useState<TAbleStyle[]>([]);
   const [isShowDetail, setIsShowDetail] = useState(false);
   const [attList, setAttList] = useState<string[]>([]);
-  const developId = "id";
+  const developId = useParams().id as string;
 
   const deleteComp = () => {
-    if (selectedComp !== null && selectedComp.id !== "view") {
+    if (selectedComp !== document.body && selectedComp.id !== "view") {
       selectedComp.remove();
       const viewComp = document.getElementById("view") as HTMLElement;
       viewComp.style.boxShadow = "inset 0px 0px 0px 2.5px #0D99FF";
@@ -28,36 +29,32 @@ const StyleSetting = () => {
   }
 
   const changeStyle = (e: any, styleKey: any) => {
-    if (selectedComp) {
-      selectedComp.style[styleKey] = e.target.value;
-      if (selectedComp.style[styleKey] === "") {
-        e.target.value = "None";
-      } else {
-        e.target.value = selectedComp.style[styleKey];
-      }
-      changeFocus(selectedComp);
+    selectedComp.style[styleKey] = e.target.value;
+    if (selectedComp.style[styleKey] === "") {
+      e.target.value = "None";
+    } else {
+      e.target.value = selectedComp.style[styleKey];
     }
+    changeFocus(selectedComp);
   }
 
   const changeAtt = (e: any, attName: string) => {
-    if (selectedComp) {
-      if (attName === "name") {
-        selectedComp.className = e.target.value;
-      } else {
-        selectedComp.setAttribute(attName, e.target.value);
-      }
-      const attValue = attName !== "name" ? selectedComp.getAttribute(attName) : selectedComp.className;
+    if (attName === "name") {
+      selectedComp.className = e.target.value;
+    } else {
+      selectedComp.setAttribute(attName, e.target.value);
+    }
+    const attValue = attName !== "name" ? selectedComp.getAttribute(attName) : selectedComp.className;
+    e.target.value = attValue;
+    if (attValue === "") {
+      e.target.value = "none";
+    } else {
       e.target.value = attValue;
-      if (attValue === "") {
-        e.target.value = "none";
-      } else {
-        e.target.value = attValue;
-      }
     }
   }
 
   useEffect(() => {
-    if (selectedComp !== null) {
+    if (selectedComp !== document.body) {
       const newStyleList: TAbleStyle[] = [];
       if (selectedComp.id === "view" || selectedComp === document.body) {
         Object.keys(elementStyle.view).forEach((key) => {
@@ -81,48 +78,33 @@ const StyleSetting = () => {
   }, [selectedComp]);
 
   useEffect(() => {
-    if (selectedComp) {
-      styleList.forEach((style: TAbleStyle) => {
-        const styleKey = Object.keys(style)[0];
-        const styleComp = document.getElementById(styleKey) as HTMLInputElement | null;
-        if (styleComp) {
-          if (selectedComp.style[styleKey as any] === "") {
-            styleComp.value = "none";
-          } else {
-            styleComp.value = selectedComp.style[styleKey as any];
-          }
+    styleList.forEach((style: TAbleStyle) => {
+      const styleKey = Object.keys(style)[0];
+      const styleComp = document.getElementById(styleKey) as HTMLInputElement | null;
+      if (styleComp) {
+        if (selectedComp.style[styleKey as any] === "") {
+          styleComp.value = "none";
+        } else {
+          styleComp.value = selectedComp.style[styleKey as any];
         }
-      })
-    }
-  }, [styleList, isShowDetail, selectedComp])
+      }
+    })
+  }, [styleList, isShowDetail])
 
   useEffect(() => {
     attList.forEach((att) => {
       const attName = att;
       const attComp = document.getElementById(attName) as HTMLInputElement | null;
-      if (selectedComp !== null) {
-        const attValue = attName !== "name" ? selectedComp.getAttribute(attName) : selectedComp.className;
-        if (attComp && attValue !== null) {
-          if (attValue === "") {
-            attComp.value = "none";
-          } else {
-            attComp.value = attValue;
-          }
+      const attValue = attName !== "name" ? selectedComp.getAttribute(attName) : selectedComp.className;
+      if (attComp && attValue !== null) {
+        if (attValue === "") {
+          attComp.value = "none";
+        } else {
+          attComp.value = attValue;
         }
       }
     });
-  }, [attList, selectedComp])
-
-  useEffect(() => {
-    window.dispatchEvent(new Event('storage'));
-    window.addEventListener("storage", ({ key }) => {
-      if (key && sessionStorage.getItem(key)) {
-        sessionStorage.setItem(key, "My data");
-      } else if (key && localStorage.getItem(key)) {
-        localStorage.setItem(key, "My data");
-      }
-    });
-  }, [])
+  }, [attList])
 
   return (
     <Container>
@@ -171,7 +153,7 @@ const StyleSetting = () => {
       </StyleContainer>
 
       {
-        selectedComp !== null &&
+        selectedComp !== document.body &&
         <Style><h2 onClick={() => { setIsShowDetail(!isShowDetail) }}>{isShowDetail ? "그 외 스타일 접기" : "그 외 스타일 펼치기"}</h2></Style>
       }
       <StyleContainer>
@@ -194,7 +176,7 @@ const StyleSetting = () => {
 
       <span style={{ paddingTop: 24 }} />
       {
-        selectedComp !== null && selectedComp.id !== "view" &&
+        selectedComp !== document.body && selectedComp.id !== "view" &&
         <DeleteComp><h1 onClick={deleteComp}>요소 삭제</h1></DeleteComp>
       }
     </Container >

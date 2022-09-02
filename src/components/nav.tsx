@@ -1,20 +1,18 @@
 import styled from 'styled-components'
-import SVG_home from '../svgs/home.svg'
-import SVG_fullScreen from '../svgs/fullScreen.svg'
-import SVG_rectangle from '../svgs/rectangle.svg'
-import SVG_rectangle_fill from '../svgs/rectangle_fill.svg'
-import SVG_desktop from '../svgs/desktop.svg'
-import SVG_phone from '../svgs/phone.svg'
+import { ReactComponent as SVG_home } from '../svgs/home.svg'
+import { ReactComponent as SVG_fullScreen } from '../svgs/fullScreen.svg'
+import { ReactComponent as SVG_rectangle } from '../svgs/rectangle.svg'
+import { ReactComponent as SVG_rectangle_fill } from '../svgs/rectangle_fill.svg'
+import { ReactComponent as SVG_desktop } from '../svgs/desktop.svg'
+import { ReactComponent as SVG_phone } from '../svgs/phone.svg'
 import { useEffect, useState } from 'react';
 import Export from './export'
-import Link from 'next/link'
 
 const Nav = () => {
   const [isFull, setIsFull] = useState(false);
   const [device, setDevice] = useState("phone"); // phone / desktop
   const [zoomLock, setZoomLock] = useState(false);
-  const fullIcon = { width: 22, height: 22, fill: "rgb(200, 200, 200)", style: { padding: 12, backgroundColor: isFull ? "#363636" : "initial", cursor: "pointer" } };
-  const homeIcon = { width: 22, height: 22, fill: "rgb(200, 200, 200)", style: { padding: 12, cursor: "pointer" } };
+  const iconStyle = { width: 22, height: 22, fill: "rgb(200, 200, 200)", style: { padding: 12, backgroundColor: isFull ? "#363636" : "initial", cursor: "pointer" } };
   const rectangleIcon = { onClick: () => { setZoomLock(!zoomLock) }, width: 22, height: 22, fill: zoomLock ? "white" : "rgb(200, 200, 200)", style: { padding: 6, cursor: "pointer" } };
   const deviceIcon = { width: 24, height: 24, style: { padding: 8, marginLeft: 2, cursor: "pointer" } };
   let zoom = 1;
@@ -26,33 +24,37 @@ const Nav = () => {
       const target = e.target as HTMLElement | HTMLInputElement;
       if (target.id && e instanceof WheelEvent) {
         if (e.deltaY > 0) { // 스크롤 다운
-          if(zoom > 0.05){
+          if (zoom > 0.1) {
             zoom -= 0.05;
+            viewBox.style.transform = `scale(${zoom}, ${zoom})`;
           }
         } else { // 스크롤 업
-          if(zoom < 3){
+          if (zoom < 1.75) {
             zoom += 0.05;
+            viewBox.style.transform = `scale(${zoom}, ${zoom})`;
           }
         }
       } else {
-        if (target instanceof HTMLInputElement && Number(target.value) !== NaN) {
-          zoom = Number(target.value) / 100;
+        if (target instanceof HTMLInputElement) {
+          if ((zoom < 1.75 || zoom > 0.1) && Number(target.value) === NaN) {
+            zoom = Number(target.value) / 100;
+            viewBox.style.transform = `scale(${zoom}, ${zoom})`;
+          }
         }
       }
-      viewBox.style.transform = `scale(${zoom}, ${zoom})`;
+      zommInput.value = String(Math.floor(zoom * 100));
+    } else {
+      zommInput.value = String(Math.floor(zoom * 100));
     }
-    zommInput.value = String(Math.floor(zoom * 100));
   }
 
   useEffect(() => {
     const viewBg = document.getElementById("viewBackground") as HTMLElement;
-    const viewBox = document.getElementById("viewBox") as HTMLInputElement;
     if (device === "phone") {
-      zoom = viewBg.offsetHeight * 0.9 / 720;
+      zoom = viewBg.offsetHeight * 0.87 / 720;
     } else if (device === "desktop") {
-      zoom = viewBg.offsetWidth * 0.9 / 1395;
+      zoom = viewBg.offsetWidth * 0.87 / 1395;
     }
-    viewBox.style.transform = `scale(${zoom}, ${zoom})`;
     const zommInput = document.getElementById("zoom") as HTMLInputElement;
     zommInput.value = String(Math.floor(zoom * 100));
     const viewContainerElem = document.getElementById("viewContainer") as HTMLElement;
@@ -69,13 +71,13 @@ const Nav = () => {
       setDevice("desktop");
       viewBox.style.width = "1395px";
       viewBox.style.height = "992px";
-      zoom = viewBg.offsetWidth * 0.9 / 1395;
+      zoom = viewBg.offsetWidth * 0.87 / 1395;
       viewBox.style.transform = `scale(${zoom}, ${zoom})`;
     } else if (type === "phone") {
       setDevice("phone");
       viewBox.style.width = "360px";
       viewBox.style.height = "720px";
-      zoom = viewBg.offsetHeight * 0.9 / 720;
+      zoom = viewBg.offsetHeight * 0.87 / 720;
       viewBox.style.transform = `scale(${zoom}, ${zoom})`;
     }
     zommInput.value = String(Math.floor(zoom * 100));
@@ -87,9 +89,7 @@ const Nav = () => {
 
   return (
     <Container>
-      <Link href="/">
-        <a><SVG_home {...homeIcon} /></a>
-      </Link>
+      <SVG_home {...iconStyle} />
       <ZoomContainer id="zoomContainer" className={String(zoomLock)}>
         <span>
           <SVG_desktop fill={device === "desktop" ? "white" : "rgb(200, 200, 200)"} {...deviceIcon} onClick={() => { changeDevice("desktop") }} />
@@ -104,7 +104,7 @@ const Nav = () => {
       </ZoomContainer>
       <div>
         <Export />
-        <SVG_fullScreen {...fullIcon} onClick={() => {
+        <SVG_fullScreen {...iconStyle} onClick={() => {
           if (isFull) document.exitFullscreen();
           else document.body.requestFullscreen();
           setIsFull(!isFull);

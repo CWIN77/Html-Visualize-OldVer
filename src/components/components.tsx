@@ -1,18 +1,19 @@
 import styled from 'styled-components'
-import SVG_search from '../svgs/search.svg'
-import SVG_plus from '../svgs/plus.svg'
-import SVG_eye from '../svgs/eye.svg'
+import { ReactComponent as SVG_search } from '../svgs/search.svg'
+import { ReactComponent as SVG_plus } from '../svgs/plus.svg'
+import { ReactComponent as SVG_eye } from '../svgs/eye.svg'
 import { compData, ableInsert } from '../comps/compData'
 import { useStore } from "../zustant"
 import { useState } from 'react'
 import { ICompData } from "../types"
 import kmp from "kmp"
+import { useParams } from 'react-router-dom'
 
 const Components = () => {
-  // const { id } = useParams();
-  const developId = "history";
+  const { id } = useParams();
+  const developId = id || "history";
   const iconStyles = { fill: "#363636", width: 16, height: 16, style: { padding: 2, marginLeft: 12, cursor: "pointer" } }
-  const { selectedComp }: { selectedComp: HTMLElement | null } = useStore();
+  const { selectedComp }: { selectedComp: HTMLElement } = useStore();
   const [compList, setCompList] = useState(compData);
   const [searchText, setSearchText] = useState('');
   const [nameList, setNameList] = useState<String[]>([]);
@@ -52,7 +53,7 @@ const Components = () => {
     }
     newComp.className = compName;
     setNameList([...nameList, compName]);
-    if (selectedComp !== null) {
+    if (selectedComp !== document.body) {
       if (ableInsert.indexOf(selectedComp.tagName.toLowerCase()) > -1) {
         window.alert("선택한 Html에는 Element를 추가할 수 없습니다.")
       } else {

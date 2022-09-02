@@ -1,13 +1,12 @@
-import type { NextPage } from 'next'
 import styled from 'styled-components'
 import User from '../components/user'
 import DevelopList from '../components/developList'
 
-const Home: NextPage = () => {
+const Home = () => {
   return (
     <Container>
       <User />
-      <DevelopList />
+      <DevelopList/>
     </Container>
   )
 }
