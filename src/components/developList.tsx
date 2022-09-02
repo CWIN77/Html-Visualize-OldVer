@@ -1,13 +1,13 @@
 import styled from 'styled-components'
-import { ReactComponent as SVG_plus } from '../svgs/plus.svg'
+import { ReactComponent as SvgPlus } from '../svgs/plus.svg'
 import { Link } from 'react-router-dom';
 
 const DevelopList = () => {
-  const iconStyles = {width:24, height:24,fill:"#FFFFFF"}
+  const iconStyles = { width: 24, height: 24, fill: "#FFFFFF" }
   return (
     <Container>
       <Delveop>
-        <div><SVG_plus {...iconStyles}/></div>
+        <div><SvgPlus {...iconStyles} /></div>
         <h1>새로운 프로젝트를 시작해보세요!</h1>
       </Delveop>
       <Link to="/develop/id">
@@ -27,7 +27,7 @@ const Container = styled.div`
   align-items: flex-start;
   flex-wrap: wrap;
   width:100%;
-  min-height:calc(100vh - 46px);
+  min-height: 100vh;
   background-color: initial;
 `
 const Delveop = styled.div`

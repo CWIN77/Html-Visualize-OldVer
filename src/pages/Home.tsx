@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <Container>
       <User />
-      <DevelopList/>
+      <DevelopList />
     </Container>
   )
 }

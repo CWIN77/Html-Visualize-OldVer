@@ -232,8 +232,8 @@ const StyleContainer = styled.div`
 const Name = styled.h1`
   font-size: 13px;
   padding: 18px 16px;
-  padding-bottom: 12px;
-  border-bottom: 2px solid rgba(54, 54, 54, 0.15);
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(54,54,54,0.5);
 `
 const Style = styled.div`
   margin-top: 28px;

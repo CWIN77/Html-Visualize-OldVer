@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import { ReactComponent as SVG_plus } from '../svgs/plus.svg'
+import { ReactComponent as SvgPlus } from '../svgs/plus.svg'
 
 const User = () => {
   const iconStyles = { fill: "#363636", width: 14, height: 14, style: { padding: 2, cursor: "pointer" } }
@@ -18,7 +18,7 @@ const User = () => {
       {/* <Friends>
         <FriendTitle>
           <h1>Friend</h1>
-          <SVG_plus {...iconStyles} />
+          <SvgPlus {...iconStyles} />
         </FriendTitle>
         <FriendList>
           Tester

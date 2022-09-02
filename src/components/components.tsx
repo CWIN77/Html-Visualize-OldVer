@@ -1,7 +1,7 @@
 import styled from 'styled-components'
-import { ReactComponent as SVG_search } from '../svgs/search.svg'
-import { ReactComponent as SVG_plus } from '../svgs/plus.svg'
-import { ReactComponent as SVG_eye } from '../svgs/eye.svg'
+import { ReactComponent as SvgSearch } from '../svgs/search.svg'
+import { ReactComponent as SvgPlus } from '../svgs/plus.svg'
+import { ReactComponent as SvgEye } from '../svgs/eye.svg'
 import { compData, ableInsert } from '../comps/compData'
 import { useStore } from "../zustant"
 import { useState } from 'react'
@@ -76,9 +76,9 @@ const Components = () => {
     <Container>
       <Name>Components</Name>
       <SearchContainer>
-        <SearchInput value={searchText} onChange={(e) => {searchComp(e.target.value);}} type={"text"} placeholder={"Search"} />
+        <SearchInput value={searchText} onChange={(e) => { searchComp(e.target.value); }} type={"text"} placeholder={"Search"} />
         <SearchBtn>
-          <SVG_search width={16} height={16} fill={"#E8E8E8"} />
+          <SvgSearch width={16} height={16} fill={"#E8E8E8"} />
         </SearchBtn>
       </SearchContainer>
       {
@@ -87,8 +87,8 @@ const Components = () => {
             <h1 title={data.descript}>{data.name}</h1>
             <h2>{data.descript}</h2>
             <div>
-              <SVG_eye {...iconStyles} />
-              <SVG_plus {...iconStyles} onClick={() => { addComp(data) }} />
+              <SvgEye {...iconStyles} />
+              <SvgPlus {...iconStyles} onClick={() => { addComp(data) }} />
             </div>
           </Comp>
         ))
@@ -118,8 +118,8 @@ const Container = styled.div`
 const Name = styled.h1`
   font-size: 13px;
   padding: 18px 16px;
-  padding-bottom: 12px;
-  border-bottom: 2px solid rgba(54,54,54,0.15);
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(54,54,54,0.5);
 `
 const SearchContainer = styled.div`
   margin: 20px 16px;
@@ -130,7 +130,8 @@ const SearchContainer = styled.div`
 const SearchInput = styled.input`
   width:calc(100% - 28px - 46px);
   background-color: #363636;
-  font-size: 13px;
+  font-size: 14px;
+  font-weight: bold;
   padding: 0px 16px;
   border-radius: 4px 0px 0px 4px;
   height:40px;
@@ -159,10 +160,10 @@ const Comp = styled.div`
   flex-direction: column;
   h1{
     font-weight: 600;
-    font-size: 14px;
+    font-size: 15px;
     line-height: 16px;
     max-height: calc(16px * 2);
-    margin-bottom: 6px;
+    margin-bottom: 8px;
     overflow: hidden;
     text-overflow:ellipsis;
     word-break: break-all;
@@ -171,9 +172,9 @@ const Comp = styled.div`
     -webkit-box-orient: vertical;
   }
   h2{
-    font-size: 12px;
-    line-height: 15px;
-    max-height: calc(15px * 4);
+    font-size: 13px;
+    line-height: 17px;
+    max-height: calc(17px * 4);
     overflow: hidden;
     text-overflow:ellipsis;
     word-break: break-all;
