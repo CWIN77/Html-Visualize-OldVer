@@ -14,11 +14,11 @@ const Export = () => {
       importString += `import ${s.charAt(0).toUpperCase() + s.slice(1)} from "./${s.charAt(0).toUpperCase() + s.slice(1)}"\n`
     })
 
-    const appCode = `import styled from 'styled-components'
+    const appCode = `
+import styled from 'styled-components'
 ${importString}
 const ${comp.className.charAt(0).toUpperCase() + comp.className.slice(1)} = () => {
-  return (
-    ${htmlComp}
+  return (${htmlComp}
   )
 }
 
@@ -44,12 +44,13 @@ ${declareString}\nexport default ${comp.className.charAt(0).toUpperCase() + comp
           if (att !== "name") attribute += ` ${att}="${comp.getAttribute(att)}"`;
         });
       }
-      htmlComp += `<${compName}${attribute}${ableInsert.indexOf(comp.tagName.toLowerCase()) > -1 ? " /" : ""}>`;
+      htmlComp += `\n\t<${compName}${attribute}${ableInsert.indexOf(comp.tagName.toLowerCase()) > -1 ? " /" : ""}>`;
       const styleString = comp.style.cssText
-        .replace(/;/g, ";\n")
+        .replace(/; /g, ";\n  ")
         .replace("box-shadow: rgb(13, 153, 255) 0px 0px 0px 2.5px inset;\n", "")
         .replace("box-shadow: rgb(139, 204, 251) 0px 0px 0px 2.5px inset;\n", "");
-      declareComp.push(`const ${compName} = styled.${comp.tagName.toLowerCase()}` + "`\n" + styleString + "`");
+
+      declareComp.push(`const ${compName} = styled.${comp.tagName.toLowerCase()}` + "`\n  " + styleString + "\n`");
 
       const importArray: string[] = importString;
       if (comp.childNodes.length > 0) {
@@ -74,7 +75,7 @@ ${declareString}\nexport default ${comp.className.charAt(0).toUpperCase() + comp
       }
 
       if (!(ableInsert.indexOf(comp.tagName.toLowerCase()) > -1)) {
-        htmlComp += `</${compName}>`;
+        htmlComp += `\n\t</${compName}>`;
       }
       return { declareComp, htmlComp, importArray };
     }
