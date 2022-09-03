@@ -111,7 +111,7 @@ const View = () => {
     const viewBgElem = document.getElementById('viewBackground') as HTMLElement;
     bodyElem.addEventListener('keydown', ctrlZEvent);
     viewElem.addEventListener("dblclick", dbClickEvent);
-    bodyElem.addEventListener('keydown', copyEvent);
+    // bodyElem.addEventListener('keydown', copyEvent);
     bodyElem.addEventListener('keydown', deleteEvent);
     viewElem.addEventListener("mouseover", viewMouseoverEvent);
     viewElem.addEventListener("click", viewClickEvent);
