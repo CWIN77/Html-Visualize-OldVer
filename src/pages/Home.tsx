@@ -1,15 +1,16 @@
 import styled from 'styled-components'
-import User from '../components/user'
-import DevelopList from '../components/developList'
+import User from '../components/userInform'
+import HvList from '../components/hvList'
 
 const Home = () => {
   return (
     <Container>
       <User />
-      <DevelopList />
+      <HvList />
     </Container>
   )
 }
+export default Home;
 
 const Container = styled.div`
   width:100vw;
@@ -17,5 +18,3 @@ const Container = styled.div`
   background-color: #F5F5F5;
   display:flex;
 `
-
-export default Home

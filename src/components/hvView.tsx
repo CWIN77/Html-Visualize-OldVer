@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components'
-import { ableInsert, dbClickAble } from '../comps/compData';
+import { ableInsert, dbClickAble } from '../addableComps/compData';
 import { useStore } from '../zustant'
 
 const View = () => {
@@ -12,13 +12,25 @@ const View = () => {
   let copyComp: HTMLElement;
   let dbClickComp = document.body;
 
-  const ctrlZEvent = (e: KeyboardEvent) => {
+  const backEvent = (e: KeyboardEvent) => {
     if (e.key === 'z' && e.ctrlKey) {
-      const sHistory: string = JSON.parse(sessionStorage.getItem(developId) || JSON.stringify([]));
-      console.log(sHistory);
+      const compHistory: string[] = JSON.parse(sessionStorage.getItem(developId) || JSON.stringify([]));
+      if (compHistory.length > 1) {
+        const viewElem = document.getElementById('view') as HTMLElement;
+        const viewParentElem = viewElem.parentElement as HTMLElement;
+        viewElem.remove();
+        compHistory.pop();
+        viewParentElem.insertAdjacentHTML('beforeend', compHistory[compHistory.length - 1]);
+        sessionStorage.setItem(developId, JSON.stringify(compHistory));
+
+        const remakeViewElem = document.getElementById('view') as HTMLElement;
+        remakeViewElem.addEventListener("dblclick", textEditEvent);
+        remakeViewElem.addEventListener("mouseover", viewMouseoverEvent);
+        remakeViewElem.addEventListener("click", viewClickEvent);
+      }
     }
   }
-  const dbClickEvent = (e: MouseEvent) => {
+  const textEditEvent = (e: MouseEvent) => {
     const target = e.target as HTMLElement;
     const tagName = target.tagName.toLowerCase();
     if (dbClickAble.indexOf(tagName) > -1) {
@@ -98,21 +110,24 @@ const View = () => {
     //   return false;
     // };
 
-    const sHistory: string[] = JSON.parse(sessionStorage.getItem(developId) || JSON.stringify([]));
-    if (sHistory.length > 0) {
+    const compHistory: string[] = JSON.parse(sessionStorage.getItem(developId) || JSON.stringify([]));
+    if (compHistory.length > 0) {
       const viewElem = document.getElementById('view') as HTMLElement;
       const parentElem = viewElem.parentElement as HTMLElement;
       viewElem.remove();
-      parentElem.insertAdjacentHTML('beforeend', sHistory[sHistory.length - 1]);
+      parentElem.insertAdjacentHTML('beforeend', compHistory[compHistory.length - 1]);
+    } else {
+      const viewElem = document.getElementById('view') as HTMLElement;
+      sessionStorage.setItem(developId, JSON.stringify([viewElem.outerHTML]));
     }
 
     const viewElem = document.getElementById('view') as HTMLElement;
     const bodyElem = document.body;
     const viewBgElem = document.getElementById('viewBackground') as HTMLElement;
-    bodyElem.addEventListener('keydown', ctrlZEvent);
-    viewElem.addEventListener("dblclick", dbClickEvent);
+    bodyElem.addEventListener('keydown', backEvent);
     // bodyElem.addEventListener('keydown', copyEvent);
     bodyElem.addEventListener('keydown', deleteEvent);
+    viewElem.addEventListener("dblclick", textEditEvent);
     viewElem.addEventListener("mouseover", viewMouseoverEvent);
     viewElem.addEventListener("click", viewClickEvent);
     viewBgElem.addEventListener("click", viewBgClickEvent);
@@ -128,6 +143,7 @@ const View = () => {
     </ViewContainer>
   )
 }
+export default View;
 
 const ViewBox = styled.div`
   width:360px;
@@ -183,5 +199,3 @@ const ViewBackground = styled.span`
   height:calc(100vh - 46px);
   z-index: 1;
 `
-
-export default View

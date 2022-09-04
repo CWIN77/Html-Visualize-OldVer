@@ -8,7 +8,7 @@
 // import { useEffect, useState } from 'react';
 // import Export from './export'
 
-// const Nav = () => {
+// const NavBar = () => {
 //   const [isFull, setIsFull] = useState(false);
 //   const [device, setDevice] = useState("phone"); // phone / desktop
 //   const [zoomLock, setZoomLock] = useState(false);
@@ -145,7 +145,7 @@
 //   font-size: 14px;
 // `
 
-// export default Nav
+// export default NavBar
 
 
 
@@ -157,10 +157,10 @@ import { ReactComponent as SvgRectangleFill } from '../svgs/rectangle_fill.svg'
 import { ReactComponent as SvgDesktop } from '../svgs/desktop.svg'
 import { ReactComponent as SvgPhone } from '../svgs/phone.svg'
 import { useEffect, useState } from 'react';
-import Export from './export'
+import ExportHv from './exportHv'
 import { Link } from 'react-router-dom'
 
-const Nav = () => {
+const NavBar = () => {
   const [isFull, setIsFull] = useState(false);
   const [device, setDevice] = useState("phone"); // phone / desktop
   const [zoomLock, setZoomLock] = useState(false);
@@ -254,7 +254,7 @@ const Nav = () => {
         <ZoomInput type={"text"} id="zoom" />
       </ZoomContainer>
       <div>
-        <Export />
+        <ExportHv />
         <SvgFullScreen {...fullIcon} onClick={() => {
           if (isFull) document.exitFullscreen();
           else document.body.requestFullscreen();
@@ -264,6 +264,7 @@ const Nav = () => {
     </Container >
   )
 }
+export default NavBar;
 
 const Container = styled.div`
   width:100vw;
@@ -295,5 +296,3 @@ const ZoomInput = styled.input`
   padding-left: 4px;
   font-size: 14px;
 `
-
-export default Nav

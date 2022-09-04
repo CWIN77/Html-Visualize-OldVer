@@ -1,7 +1,7 @@
 import styled from 'styled-components'
-import { compAttribute, ableInsert } from "../comps/compData"
+import { compAttribute, ableInsert } from "../addableComps/compData"
 
-const Export = () => {
+const ExportHv = () => {
   const tempStyle: { name: string, style: string }[] = [];
   const getAppCode = (comp: HTMLElement) => {
     const result = getHtmlStyle(comp, []);
@@ -93,6 +93,7 @@ ${declareString}\nexport default ${comp.className.charAt(0).toUpperCase() + comp
     <Container onClick={() => { getAppCode(document.getElementById("view") as HTMLElement) }}>HTML Export</Container>
   )
 }
+export default ExportHv;
 
 const Container = styled.button`
   background-color: #1264A3;
@@ -103,5 +104,3 @@ const Container = styled.button`
   font-size: 13px;
   margin-right: 16px;
 `
-
-export default Export

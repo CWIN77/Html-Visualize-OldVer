@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 import { useStore } from "../zustant"
-import { elementStyle, styleName } from "../comps/compValue"
+import { elementStyle, styleName } from "../addableComps/compValue"
 import { TAbleStyle } from "../types"
-import { compAttribute } from "../comps/compData"
+import { compAttribute } from "../addableComps/compData"
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -182,6 +182,7 @@ const StyleSetting = () => {
     </Container >
   )
 }
+export default StyleSetting;
 
 const Container = styled.div`
   position: absolute;
@@ -289,5 +290,3 @@ const DeleteComp = styled.div`
     color:white;
   }
 `
-
-export default StyleSetting

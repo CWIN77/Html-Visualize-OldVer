@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { ReactComponent as SvgPlus } from '../svgs/plus.svg'
 import { Link } from 'react-router-dom';
 
-const DevelopList = () => {
+const HvList = () => {
   const iconStyles = { width: 24, height: 24, fill: "#FFFFFF" }
   return (
     <Container>
@@ -21,6 +21,7 @@ const DevelopList = () => {
     </Container>
   )
 }
+export default HvList;
 
 const Container = styled.div`
   display:flex;
@@ -50,5 +51,3 @@ const Delveop = styled.div`
     padding:12px;
   }
 `
-
-export default DevelopList

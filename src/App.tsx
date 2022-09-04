@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { Routes, Route } from 'react-router-dom'
-import Develop from './pages/DevelopDetail'
+import HvDevelop from './pages/HvDevelop'
 import Home from './pages/Home'
 
 const App = () => {
@@ -8,7 +8,7 @@ const App = () => {
     <Container>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/develop/:id" element={<Develop />} />
+        <Route path="/develop/:id" element={<HvDevelop />} />
       </Routes>
     </Container>
   )

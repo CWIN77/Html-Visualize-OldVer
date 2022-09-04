@@ -111,6 +111,12 @@ const inputStyle: TAbleStyle = {
   "font-size": "value",
   "color": "value",
   "font-weight": "value",
+  "display": [
+    "flex",
+    "inline",
+    "block",
+    "inline-block",
+  ],
   "text-align": [
     "start",
     "end",

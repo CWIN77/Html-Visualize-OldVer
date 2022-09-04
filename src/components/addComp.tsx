@@ -2,14 +2,14 @@ import styled from 'styled-components'
 import { ReactComponent as SvgSearch } from '../svgs/search.svg'
 import { ReactComponent as SvgPlus } from '../svgs/plus.svg'
 import { ReactComponent as SvgEye } from '../svgs/eye.svg'
-import { compData, ableInsert } from '../comps/compData'
+import { compData, ableInsert } from '../addableComps/compData'
 import { useStore } from "../zustant"
 import { useState } from 'react'
 import { ICompData } from "../types"
 import kmp from "kmp"
 import { useParams } from 'react-router-dom'
 
-const Components = () => {
+const AddComp = () => {
   const { id } = useParams();
   const developId = id || "history";
   const iconStyles = { fill: "#363636", width: 16, height: 16, style: { padding: 2, marginLeft: 12, cursor: "pointer" } }
@@ -20,12 +20,12 @@ const Components = () => {
 
   const getRandomId = () => {
     const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
-    let id = ''
+    let id = '';
     for (let i = 0; i < 4; i++) {
-      const randomNum = Math.floor(Math.random() * chars.length)
-      id += chars.substring(randomNum, randomNum + 1)
+      const randomNum = Math.floor(Math.random() * chars.length);
+      id += chars.substring(randomNum, randomNum + 1);
     }
-    return id
+    return id;
   }
   const searchComp = (keyword: string) => {
     setSearchText(keyword);
@@ -190,4 +190,4 @@ const Comp = styled.div`
   }
 `
 
-export default Components
+export default AddComp
