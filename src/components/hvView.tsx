@@ -5,23 +5,45 @@ import { ableInsert, dbClickAble } from '../addableComps/compData';
 import { useStore } from '../zustant'
 
 const View = () => {
-  const developId = useParams().id as string;
+  const hvId = useParams().id as string;
   const { selectedComp }: { selectedComp: HTMLElement } = useStore();
   let mouseoverComp = document.body;
   let clickedComp = selectedComp;
   let copyComp: HTMLElement;
   let dbClickComp = document.body;
 
-  const backEvent = (e: KeyboardEvent) => {
+  const undoEvent = (e: KeyboardEvent) => {
     if (e.key === 'z' && e.ctrlKey) {
-      const compHistory: string[] = JSON.parse(sessionStorage.getItem(developId) || JSON.stringify([]));
+      const compHistory: string[] = JSON.parse(sessionStorage.getItem(hvId) || JSON.stringify([]));
+      const undoHistory: string[] = JSON.parse(sessionStorage.getItem(hvId + "undo") || JSON.stringify([]));
       if (compHistory.length > 1) {
         const viewElem = document.getElementById('view') as HTMLElement;
         const viewParentElem = viewElem.parentElement as HTMLElement;
         viewElem.remove();
+        sessionStorage.setItem(hvId + "undo", JSON.stringify([...undoHistory, compHistory[compHistory.length - 1]]));
         compHistory.pop();
         viewParentElem.insertAdjacentHTML('beforeend', compHistory[compHistory.length - 1]);
-        sessionStorage.setItem(developId, JSON.stringify(compHistory));
+        sessionStorage.setItem(hvId, JSON.stringify(compHistory));
+
+        const remakeViewElem = document.getElementById('view') as HTMLElement;
+        remakeViewElem.addEventListener("dblclick", textEditEvent);
+        remakeViewElem.addEventListener("mouseover", viewMouseoverEvent);
+        remakeViewElem.addEventListener("click", viewClickEvent);
+      }
+    }
+  }
+  const redoEvent = (e: KeyboardEvent) => {
+    if (e.key === 'Z' && e.ctrlKey && e.shiftKey) {
+      const compHistory: string[] = JSON.parse(sessionStorage.getItem(hvId) || JSON.stringify([]));
+      const undoHistory: string[] = JSON.parse(sessionStorage.getItem(hvId + "undo") || JSON.stringify([]));
+      if (undoHistory.length > 0) {
+        const viewElem = document.getElementById('view') as HTMLElement;
+        const viewParentElem = viewElem.parentElement as HTMLElement;
+        viewElem.remove();
+        viewParentElem.insertAdjacentHTML('beforeend', undoHistory[undoHistory.length - 1]);
+        sessionStorage.setItem(hvId, JSON.stringify([...compHistory, undoHistory[undoHistory.length - 1]]));
+        undoHistory.pop();
+        sessionStorage.setItem(hvId + "undo", JSON.stringify(undoHistory));
 
         const remakeViewElem = document.getElementById('view') as HTMLElement;
         remakeViewElem.addEventListener("dblclick", textEditEvent);
@@ -51,8 +73,9 @@ const View = () => {
         } else {
           clickedComp.append(cloneComp);
           if (document.getElementById("view")?.outerHTML !== undefined) {
-            const sHistory: string[] = JSON.parse(sessionStorage.getItem(developId) || JSON.stringify([]));
-            sessionStorage.setItem(developId, JSON.stringify([...sHistory, document.getElementById("view")?.outerHTML as string]));
+            const sHistory: string[] = JSON.parse(sessionStorage.getItem(hvId) || JSON.stringify([]));
+            sessionStorage.setItem(hvId, JSON.stringify([...sHistory, document.getElementById("view")?.outerHTML as string]));
+            sessionStorage.setItem(hvId + "undo", JSON.stringify([]));
           }
         }
       }
@@ -64,8 +87,9 @@ const View = () => {
       const viewComp = document.getElementById("view") as HTMLElement;
       useStore.setState({ selectedComp: viewComp });
       if (document.getElementById("view")?.outerHTML !== undefined) {
-        const sHistory: string[] = JSON.parse(sessionStorage.getItem(developId) || JSON.stringify([]));
-        sessionStorage.setItem(developId, JSON.stringify([...sHistory, document.getElementById("view")?.outerHTML as string]));
+        const sHistory: string[] = JSON.parse(sessionStorage.getItem(hvId) || JSON.stringify([]));
+        sessionStorage.setItem(hvId, JSON.stringify([...sHistory, document.getElementById("view")?.outerHTML as string]));
+        sessionStorage.setItem(hvId + "undo", JSON.stringify([]));
       }
     }
   }
@@ -110,7 +134,7 @@ const View = () => {
     //   return false;
     // };
 
-    const compHistory: string[] = JSON.parse(sessionStorage.getItem(developId) || JSON.stringify([]));
+    const compHistory: string[] = JSON.parse(sessionStorage.getItem(hvId) || JSON.stringify([]));
     if (compHistory.length > 0) {
       const viewElem = document.getElementById('view') as HTMLElement;
       const parentElem = viewElem.parentElement as HTMLElement;
@@ -118,13 +142,14 @@ const View = () => {
       parentElem.insertAdjacentHTML('beforeend', compHistory[compHistory.length - 1]);
     } else {
       const viewElem = document.getElementById('view') as HTMLElement;
-      sessionStorage.setItem(developId, JSON.stringify([viewElem.outerHTML]));
+      sessionStorage.setItem(hvId, JSON.stringify([viewElem.outerHTML]));
     }
 
     const viewElem = document.getElementById('view') as HTMLElement;
     const bodyElem = document.body;
     const viewBgElem = document.getElementById('viewBackground') as HTMLElement;
-    bodyElem.addEventListener('keydown', backEvent);
+    bodyElem.addEventListener('keydown', undoEvent);
+    bodyElem.addEventListener('keydown', redoEvent);
     // bodyElem.addEventListener('keydown', copyEvent);
     bodyElem.addEventListener('keydown', deleteEvent);
     viewElem.addEventListener("dblclick", textEditEvent);

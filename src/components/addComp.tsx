@@ -11,7 +11,7 @@ import { useParams } from 'react-router-dom'
 
 const AddComp = () => {
   const { id } = useParams();
-  const developId = id || "history";
+  const hvId = id || "history";
   const iconStyles = { fill: "#363636", width: 16, height: 16, style: { padding: 2, marginLeft: 12, cursor: "pointer" } }
   const { selectedComp }: { selectedComp: HTMLElement } = useStore();
   const [compList, setCompList] = useState(compData);
@@ -59,15 +59,17 @@ const AddComp = () => {
       } else {
         selectedComp.append(newComp);
         if (document.getElementById("view")?.outerHTML !== undefined) {
-          const sHistory: string[] = JSON.parse(sessionStorage.getItem(developId) || JSON.stringify([]));
-          sessionStorage.setItem(developId, JSON.stringify([...sHistory, document.getElementById("view")?.outerHTML as string]));
+          const sHistory: string[] = JSON.parse(sessionStorage.getItem(hvId) || JSON.stringify([]));
+          sessionStorage.setItem(hvId, JSON.stringify([...sHistory, document.getElementById("view")?.outerHTML as string]));
+          sessionStorage.setItem(hvId + "undo", JSON.stringify([]));
         }
       }
     } else {
       document.getElementById("view")?.append(newComp);
       if (document.getElementById("view")?.outerHTML !== undefined) {
-        const sHistory: string[] = JSON.parse(sessionStorage.getItem(developId) || JSON.stringify([]));
-        sessionStorage.setItem(developId, JSON.stringify([...sHistory, document.getElementById("view")?.outerHTML as string]));
+        const sHistory: string[] = JSON.parse(sessionStorage.getItem(hvId) || JSON.stringify([]));
+        sessionStorage.setItem(hvId, JSON.stringify([...sHistory, document.getElementById("view")?.outerHTML as string]));
+        sessionStorage.setItem(hvId + "undo", JSON.stringify([]));
       }
     }
   }

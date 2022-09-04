@@ -35,7 +35,7 @@ const Delveop = styled.div`
   margin: 24px;
   background-color: white;
   cursor: pointer;
-  border-radius: 0px 0px 4px 4px;
+  border-radius: 0px 0px 2px 2px;
   div{
     display:flex;
     align-items: center;
@@ -43,7 +43,7 @@ const Delveop = styled.div`
     width:calc(((100vw - 296px) / 2) - 48px);
     height:calc((((100vw - 296px) / 2) - 48px) / 3 * 2);
     background-color: #888888;
-    border-radius: 4px 4px 0px 0px;
+    border-radius: 2px 2px 0px 0px;
   }
   h1{
     font-size: 12px;
