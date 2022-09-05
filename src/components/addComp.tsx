@@ -118,10 +118,10 @@ const Container = styled.div`
   }
 `
 const Name = styled.h1`
-  font-size: 13px;
-  padding: 18px 16px;
-  padding-bottom: 14px;
-  border-bottom: 1px solid rgba(54,54,54,0.5);
+  font-size: 12px;
+  padding: 17px 19px;
+  font-weight: bold;
+  border-bottom: 1.5px solid rgba(54,54,54,0.25);
 `
 const SearchContainer = styled.div`
   margin: 20px 16px;

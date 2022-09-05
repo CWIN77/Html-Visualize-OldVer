@@ -21,8 +21,8 @@ const View = () => {
         const viewParentElem = viewElem.parentElement as HTMLElement;
         viewElem.remove();
         sessionStorage.setItem(hvId + "undo", JSON.stringify([...undoHistory, compHistory[compHistory.length - 1]]));
+        viewParentElem.insertAdjacentHTML('beforeend', compHistory[compHistory.length - 2]);
         compHistory.pop();
-        viewParentElem.insertAdjacentHTML('beforeend', compHistory[compHistory.length - 1]);
         sessionStorage.setItem(hvId, JSON.stringify(compHistory));
 
         const remakeViewElem = document.getElementById('view') as HTMLElement;

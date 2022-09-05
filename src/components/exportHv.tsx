@@ -3,7 +3,9 @@ import { compAttribute, ableInsert } from "../addableComps/compData"
 
 const ExportHv = () => {
   const tempStyle: { name: string, style: string }[] = [];
+  let tabSize = 0;
   const getAppCode = (comp: HTMLElement) => {
+    tabSize = 0;
     const result = getHtmlStyle(comp, []);
     const htmlComp = result?.htmlComp.replace(/></g, ">\n<");
     let declareString = "";
@@ -15,16 +17,7 @@ const ExportHv = () => {
       importString += `import ${s.charAt(0).toUpperCase() + s.slice(1)} from "./${s.charAt(0).toUpperCase() + s.slice(1)}"\n`
     })
 
-    const appCode = `
-import styled from 'styled-components'
-${importString}
-const ${comp.className.charAt(0).toUpperCase() + comp.className.slice(1)} = () => {
-  return (${htmlComp}
-  )
-}
-
-${declareString}\nexport default ${comp.className.charAt(0).toUpperCase() + comp.className.slice(1)}
-`;
+    const appCode = `import styled from 'styled-components'\n${importString}\nconst ${comp.className.charAt(0).toUpperCase() + comp.className.slice(1)} = () => {\n  return (${htmlComp}\n  )\n}\n${declareString}\nexport default ${comp.className.charAt(0).toUpperCase() + comp.className.slice(1)}\n`;
     console.log(appCode);
   }
 
@@ -38,7 +31,6 @@ ${declareString}\nexport default ${comp.className.charAt(0).toUpperCase() + comp
       }
       let htmlComp: string = "";
       const declareComp: string[] = [];
-
       let attribute = "";
       if (compAttribute[comp.tagName.toLowerCase()]) {
         compAttribute[comp.tagName.toLowerCase()].forEach((att) => {
@@ -58,24 +50,27 @@ ${declareString}\nexport default ${comp.className.charAt(0).toUpperCase() + comp
         compName = tempStyle.filter(e => e.style === styleString)[0].name;
       }
 
-      htmlComp += `\n\t<${compName}${attribute}${ableInsert.indexOf(comp.tagName.toLowerCase()) > -1 ? " /" : ""}>`;
-
+      htmlComp += `\n    ${"  ".repeat(tabSize)}<${compName}${attribute}${ableInsert.indexOf(comp.tagName.toLowerCase()) > -1 ? " /" : ""}>`;
+      tabSize++;
+      let isChildText = false;
       const importArray: string[] = importString;
       if (comp.childNodes.length > 0) {
         comp.childNodes.forEach((childComp) => {
           const comp = childComp as HTMLElement;
           if (comp.nodeType === 3) {
             htmlComp += comp.textContent;
+            isChildText = true;
           } else {
             if (comp.getAttribute("divide") === "true") {
               getAppCode(comp);
-              htmlComp += `<${comp.className} />`
+              htmlComp += `${"  ".repeat(tabSize)}<${comp.className} />`
               importArray.push(comp.className);
             } else {
               const value = getHtmlStyle(comp, importArray);
               if (value) {
                 declareComp.push(...value.declareComp);
                 htmlComp += value.htmlComp;
+                tabSize--;
               }
             }
           }
@@ -83,24 +78,26 @@ ${declareString}\nexport default ${comp.className.charAt(0).toUpperCase() + comp
       }
 
       if (!(ableInsert.indexOf(comp.tagName.toLowerCase()) > -1)) {
-        htmlComp += `\n\t</${compName}>`;
+        if (isChildText) htmlComp += `</${compName}>`;
+        else htmlComp += `\n    ${"  ".repeat(tabSize - 1)}</${compName}>`;
       }
       return { declareComp, htmlComp, importArray };
     }
   }
 
   return (
-    <Container onClick={() => { getAppCode(document.getElementById("view") as HTMLElement) }}>HTML Export</Container>
+    <Container onClick={() => { getAppCode(document.getElementById("view") as HTMLElement) }}>Export</Container>
   )
 }
 export default ExportHv;
 
 const Container = styled.button`
   background-color: #1264A3;
-  padding:10px 12px;
+  padding:7px 9px;
   color:white;
   border-radius: 4px;
   cursor: pointer;
   font-size: 13px;
-  margin-right: 16px;
+  margin-right: 12px;
 `
+
