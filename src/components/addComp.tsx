@@ -116,6 +116,9 @@ const Container = styled.div`
   &::-webkit-scrollbar-thumb{
     background-color: rgba(54,54,54,0.4);
   }
+  @media screen and (max-width: 850px) {
+    display: none;
+  }
 `
 const Name = styled.h1`
   font-size: 13px;

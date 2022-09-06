@@ -217,10 +217,18 @@ const ViewContainer = styled.div`
     position: absolute;
     background-color: rgba(54,54,54,0.4);
   }
+  @media screen and (max-width: 850px) {
+    width: 100vw;
+    margin-left: 0px;
+  }
 `
 const ViewBackground = styled.span`
   /* position: fixed; */
   width:calc(100vw - 280px - 335px);
   height:calc(100vh - 46px);
   z-index: 1;
+
+  @media screen and (max-width: 850px) {
+    width: 100vw;
+  }
 `
