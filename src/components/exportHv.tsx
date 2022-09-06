@@ -7,11 +7,11 @@ const ExportHv = () => {
   let tabSize = 0;
 
   const getHtmlCode = (comp: HTMLElement) => {
-
+    //TODO:순수 HTML 코드
   }
 
   const getVueCode = (comp: HTMLElement) => {
-
+    //TODO:Vue 코드
   }
 
   const getReactCode = (comp: HTMLElement) => {
