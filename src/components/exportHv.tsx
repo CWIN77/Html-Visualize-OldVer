@@ -5,7 +5,16 @@ import { useStore } from "../zustant";
 const ExportHv = () => {
   let tempStyle: { name: string, style: string }[] = [];
   let tabSize = 0;
-  const getAppCode = (comp: HTMLElement) => {
+
+  const getHtmlCode = (comp: HTMLElement) => {
+
+  }
+
+  const getVueCode = (comp: HTMLElement) => {
+    
+  }
+
+  const getReactCode = (comp: HTMLElement) => {
     tabSize = 0;
     tempStyle = [];
     const result = getHtmlStyle(comp, []);
@@ -65,7 +74,7 @@ const ExportHv = () => {
             isChildText = true;
           } else {
             if (comp.getAttribute("divide") === "true") {
-              getAppCode(comp);
+              getReactCode(comp);
               htmlComp += `\n    ${"  ".repeat(tabSize)}<${comp.className.charAt(0).toUpperCase() + comp.className.slice(1)} />`
               importArray.push(comp.className);
             } else {
@@ -90,7 +99,7 @@ const ExportHv = () => {
 
   return (
     <Container onClick={() => {
-      const result = getAppCode(document.getElementById("view") as HTMLElement);
+      const result = getReactCode(document.getElementById("view") as HTMLElement);
       useStore.setState({ hvResult: result });
     }}>Export</Container>
   )
