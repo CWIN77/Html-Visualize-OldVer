@@ -194,7 +194,7 @@ const Container = styled.div`
   width: 280px;
   height: calc(100vh - 46px);
   background-color: white;
-  z-index: 100;
+  z-index: 10;
   &::-webkit-scrollbar{
     width: 6px;
     background-color: initial;
@@ -233,9 +233,8 @@ const StyleContainer = styled.div`
 `
 const Name = styled.h1`
   font-size: 13px;
-  padding: 18px 16px;
-  padding-bottom: 14px;
-  border-bottom: 1px solid rgba(54,54,54,0.5);
+  padding: 17px 19px;
+  border-bottom: 1.5px solid rgba(54,54,54,0.25);
 `
 const Style = styled.div`
   margin-top: 28px;

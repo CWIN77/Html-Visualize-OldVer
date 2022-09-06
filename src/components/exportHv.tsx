@@ -1,11 +1,13 @@
 import styled from 'styled-components'
 import { compAttribute, ableInsert } from "../addableComps/compData"
+import { useStore } from "../zustant";
 
 const ExportHv = () => {
-  const tempStyle: { name: string, style: string }[] = [];
+  let tempStyle: { name: string, style: string }[] = [];
   let tabSize = 0;
   const getAppCode = (comp: HTMLElement) => {
     tabSize = 0;
+    tempStyle = [];
     const result = getHtmlStyle(comp, []);
     const htmlComp = result?.htmlComp.replace(/></g, ">\n<");
     let declareString = "";
@@ -18,7 +20,8 @@ const ExportHv = () => {
     })
 
     const appCode = `import styled from 'styled-components'\n${importString}\nconst ${comp.className.charAt(0).toUpperCase() + comp.className.slice(1)} = () => {\n  return (${htmlComp}\n  )\n}\n${declareString}\nexport default ${comp.className.charAt(0).toUpperCase() + comp.className.slice(1)}\n`;
-    console.log(appCode);
+
+    return appCode;
   }
 
   const getHtmlStyle = (comp: HTMLElement, importString: string[]) => {
@@ -63,7 +66,7 @@ const ExportHv = () => {
           } else {
             if (comp.getAttribute("divide") === "true") {
               getAppCode(comp);
-              htmlComp += `${"  ".repeat(tabSize)}<${comp.className} />`
+              htmlComp += `\n    ${"  ".repeat(tabSize)}<${comp.className.charAt(0).toUpperCase() + comp.className.slice(1)} />`
               importArray.push(comp.className);
             } else {
               const value = getHtmlStyle(comp, importArray);
@@ -86,7 +89,10 @@ const ExportHv = () => {
   }
 
   return (
-    <Container onClick={() => { getAppCode(document.getElementById("view") as HTMLElement) }}>Export</Container>
+    <Container onClick={() => {
+      const result = getAppCode(document.getElementById("view") as HTMLElement);
+      useStore.setState({ hvResult: result });
+    }}>Export</Container>
   )
 }
 export default ExportHv;

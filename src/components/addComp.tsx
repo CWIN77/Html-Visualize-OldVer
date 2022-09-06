@@ -21,7 +21,7 @@ const AddComp = () => {
   const getRandomId = () => {
     const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
     let id = '';
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 6; i++) {
       const randomNum = Math.floor(Math.random() * chars.length);
       id += chars.substring(randomNum, randomNum + 1);
     }
@@ -47,9 +47,9 @@ const AddComp = () => {
     const createElement: HTMLElement = document.createElement("div");
     createElement.insertAdjacentHTML('beforeend', data.comp);
     const newComp = createElement.children[0] as HTMLElement;
-    let compName = `comp_${getRandomId()}`;
+    let compName = `HvComp${getRandomId()}`;
     while (nameList.indexOf(compName) > -1) {
-      compName = `comp_${getRandomId()}`;
+      compName = `HvComp${getRandomId()}`;
     }
     newComp.className = compName;
     setNameList([...nameList, compName]);
@@ -108,7 +108,7 @@ const Container = styled.div`
   width:335px;
   height:calc(100vh - 46px);
   background-color: white;
-  z-index: 100;
+  z-index: 10;
   &::-webkit-scrollbar{
     width:6px;
     background-color: initial;
@@ -118,9 +118,8 @@ const Container = styled.div`
   }
 `
 const Name = styled.h1`
-  font-size: 12px;
+  font-size: 13px;
   padding: 17px 19px;
-  font-weight: bold;
   border-bottom: 1.5px solid rgba(54,54,54,0.25);
 `
 const SearchContainer = styled.div`

@@ -1,15 +1,17 @@
 import styled from 'styled-components'
-import Components from '../components/addComp'
+import AddComp from '../components/addComp'
 import StyleSetting from '../components/styleSetting'
 import View from "../components/hvView"
 import Nav from '../components/navBar'
+import HvResult from '../components/hvResult'
 
 const HvDevelop = () => {
   return (
     <>
+      <HvResult />
       <Nav />
       <Container>
-        <Components />
+        <AddComp />
         <View />
         <StyleSetting />
       </Container>
