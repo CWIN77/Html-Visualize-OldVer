@@ -120,7 +120,7 @@ export const compData: ICompData[] = [
   {
     id: 16,
     name: "Header (header)",
-    descript: `header 태그의 요소입니다. 주로 사이트의 제목을 작성하는 부분입니다.`,
+    descript: `header 태그의 요소입니다. 주로 사이트의 상단부분을 제작하는 부분입니다.`,
     comp: comps.header
   },
   {
