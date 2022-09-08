@@ -38,7 +38,9 @@ export const styleName: { [key: string]: string } = {
   "justify-content": "Ju-C",
   "font-weight": "Fo-We",
   "text-align": "Tx-Al",
-  "font-style": "Fo-St"
+  "font-style": "Fo-St",
+  "list-style": "Li-St",
+  "text-decoration": "Te-De"
 }
 
 const defaultStyle: TAbleStyle = {
@@ -187,7 +189,8 @@ const aStyle: TAbleStyle = {
     "normal",
     "italic",
     "oblique"
-  ]
+  ],
+  "text-decoration": "detail"
 }
 
 const viewStyle: TAbleStyle = {
@@ -244,7 +247,11 @@ const listStyle: TAbleStyle = {
     "oblique"
   ],
   "text-decoration": "detail",
-  "list-style": "value"
+  "list-style": [
+    "square",
+    "inside",
+    "none"
+  ]
 }
 
 export const elementStyle: { [key: string]: TAbleStyle } = {
@@ -268,5 +275,7 @@ export const elementStyle: { [key: string]: TAbleStyle } = {
   aside: divStyle,
   nav: divStyle,
   select: divStyle,
-  option: hStyle
+  option: hStyle,
+  article: divStyle,
+  section: divStyle
 }

@@ -1,5 +1,5 @@
 export const input = `
-  <input placeholder="Placeholder" type="text"
+  <input placeholder="Placeholder" type="text" 
     disabled
     style="
       padding: 12px;
@@ -93,11 +93,11 @@ export const li = `
 `
 
 export const ol = `
-  <ol style=""><li>ol list text</li></ol>
+  <ol style=""><li style="">ol list text</li></ol>
 `
 
 export const ul = `
-  <ul style=""><li>ul list text</li></ul>
+  <ul style=""><li style="">ul list text</li></ul>
 `
 
 export const footer = `

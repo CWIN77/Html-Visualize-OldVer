@@ -93,24 +93,24 @@ export const compData: ICompData[] = [
     descript: "h5 태그의 요소입니다. 기본 font size는 10px입니다. 문자는 더블클릭을 하여 수정할 수 있습니다.",
     comp: comps.h5
   },
-  {
-    id: 12,
-    name: "Listed item (li)",
-    descript: `li 태그의 요소입니다. "내용"이라는 글자가 기본으로 들어가있습니다. 주로 ul 혹은 ol 태그의 내부 요소로 사용됩니다.`,
-    comp: comps.li
-  },
-  {
-    id: 13,
-    name: "Ordered lists (ol)",
-    descript: `ol 태그의 요소입니다. 순서가 있는 리스트에 사용됩니다. 문자 앞에 숫자 혹은 영문이 들어갑니다. 내부에는 기본적으로 li 요소가 하나 들어있습니다.`,
-    comp: comps.ol
-  },
-  {
-    id: 14,
-    name: "Unordered lists (ul)",
-    descript: `ui 태그의 요소입니다. 순서가 없는 리스트에 사용됩니다. 문자 앞에 기호가 들어갑니다. 내부에는 기본적으로 li 요소가 하나 들어있습니다.`,
-    comp: comps.ul
-  },
+  // {
+  //   id: 12,
+  //   name: "Listed item (li)",
+  //   descript: `li 태그의 요소입니다. "내용"이라는 글자가 기본으로 들어가있습니다. 주로 ul 혹은 ol 태그의 내부 요소로 사용됩니다.`,
+  //   comp: comps.li
+  // },
+  // {
+  //   id: 13,
+  //   name: "Ordered lists (ol)",
+  //   descript: `ol 태그의 요소입니다. 순서가 있는 리스트에 사용됩니다. 문자 앞에 숫자 혹은 영문이 들어갑니다. 내부에는 기본적으로 li 요소가 하나 들어있습니다.`,
+  //   comp: comps.ol
+  // },
+  // {
+  //   id: 14,
+  //   name: "Unordered lists (ul)",
+  //   descript: `ui 태그의 요소입니다. 순서가 없는 리스트에 사용됩니다. 문자 앞에 기호가 들어갑니다. 내부에는 기본적으로 li 요소가 하나 들어있습니다.`,
+  //   comp: comps.ul
+  // },
   {
     id: 15,
     name: "Footer (footer)",
@@ -135,18 +135,18 @@ export const compData: ICompData[] = [
     descript: `nav 태그의 요소입니다. 주로 사이트의 위치를 이동하는 기능을 가지고 있는 요소를 넣어줍니다.`,
     comp: comps.nav
   },
-  {
-    id: 19,
-    name: "Select (select)",
-    descript: `select 태그의 요소입니다. 내부에 option 태그의 요소를 넣어서 선택이 가능하게 해줍니다. 기본적으로 내부에 option 태그의 요소가 하나 들어있습니다.`,
-    comp: comps.select
-  },
-  {
-    id: 20,
-    name: "Option (option)",
-    descript: `option 태그의 요소입니다. select 태그의 요소 내부에 넣을 수 있습니다.`,
-    comp: comps.option
-  },
+  // {
+  //   id: 19,
+  //   name: "Select (select)",
+  //   descript: `select 태그의 요소입니다. 내부에 option 태그의 요소를 넣어서 선택이 가능하게 해줍니다. 기본적으로 내부에 option 태그의 요소가 하나 들어있습니다.`,
+  //   comp: comps.select
+  // },
+  // {
+  //   id: 20,
+  //   name: "Option (option)",
+  //   descript: `option 태그의 요소입니다. select 태그의 요소 내부에 넣을 수 있습니다.`,
+  //   comp: comps.option
+  // },
   {
     id: 21,
     name: "Main (main)",

@@ -105,6 +105,7 @@ const View = () => {
   }
   const viewClickEvent = (e: MouseEvent) => {
     const target = e.target as HTMLElement;
+    console.log("Ssss");
     if (target !== dbClickComp) {
       dbClickComp.contentEditable = "false";
       dbClickComp = document.body;
