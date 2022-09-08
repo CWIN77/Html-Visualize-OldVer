@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { useStore } from "../zustant"
-import { elementStyle, styleName } from "../addableComps/compValue"
+import { elementStyle, styleName } from "../addableComps/compStyles"
 import { TAbleStyle } from "../types"
 import { compAttribute } from "../addableComps/compData"
 import { useEffect, useState } from 'react';
