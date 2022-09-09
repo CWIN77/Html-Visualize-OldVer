@@ -4,7 +4,7 @@ import { ReactComponent as SvgPlus } from '../svgs/plus.svg'
 import { ReactComponent as SvgEye } from '../svgs/eye.svg'
 import { compData, ableInsert } from '../addableComps/compData'
 import { useStore } from "../zustant"
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ICompData } from "../types"
 import kmp from "kmp"
 import { useParams } from 'react-router-dom'
@@ -74,6 +74,16 @@ const AddComp = () => {
     }
   }
 
+  function compare(a: ICompData, b: ICompData) {
+    if (a.name < b.name) {
+      return -1;
+    }
+    if (a.name > b.name) {
+      return 1;
+    }
+    return 0;
+  } //TODO: 배열 내부의 객체의 정렬에 대해 공부하기
+
   return (
     <Container>
       <Name>Components</Name>
@@ -84,7 +94,7 @@ const AddComp = () => {
         </SearchBtn>
       </SearchContainer>
       {
-        compList.map((data, key) => (
+        compList.sort(compare).map((data, key) => (
           <Comp key={key}>
             <h1 title={data.descript}>{data.name}</h1>
             <h2>{data.descript}</h2>

@@ -4,9 +4,9 @@ import StyleSetting from '../components/styleSetting'
 import View from "../components/hvView"
 import Nav from '../components/navBar'
 import HvResult from '../components/hvResult'
-import { useEffect } from 'react'
 
 const HvDevelop = () => {
+  //TODO: 코드구조 변경
   return (
     <>
       <HvResult />
