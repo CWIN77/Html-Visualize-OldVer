@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import AddComp from '../components/addComp'
-import StyleSetting from '../components/styleSetting'
+import CompSet from '../components/compSet'
+import StyleSet from '../components/styleSet'
 import View from "../components/hvView"
 import Nav from '../components/navBar'
 import HvResult from '../components/hvResult'
@@ -12,9 +12,9 @@ const HvDevelop = () => {
       <HvResult />
       <Nav />
       <Container>
-        <AddComp />
+        <CompSet />
         <View />
-        <StyleSetting />
+        <StyleSet />
       </Container>
     </>
   )

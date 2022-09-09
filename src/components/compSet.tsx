@@ -4,7 +4,7 @@ import { ReactComponent as SvgPlus } from '../svgs/plus.svg'
 import { ReactComponent as SvgEye } from '../svgs/eye.svg'
 import { compData, ableInsert } from '../addableComps/compData'
 import { useStore } from "../zustant"
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { ICompData } from "../types"
 import kmp from "kmp"
 import { useParams } from 'react-router-dom'
@@ -126,7 +126,7 @@ const Container = styled.div`
   &::-webkit-scrollbar-thumb{
     background-color: rgba(54,54,54,0.4);
   }
-  @media screen and (max-width: 850px) {
+  @media screen and (max-width: 750px) {
     display: none;
   }
 `

@@ -16,16 +16,16 @@ const HvResult = () => {
           <h1>Export</h1>
           <span>
             <CopyToClipboard text={String(hvResult)}>
-              <SvgClipBoard width={20} height={20} {...iconStyle} />
+              <SvgClipBoard width={18} height={18} {...iconStyle} />
             </CopyToClipboard>
-            <SvgCross onClick={() => useStore.setState({ hvResult: "" })} width={16} height={16} {...iconStyle} />
+            <SvgCross onClick={() => useStore.setState({ hvResult: "" })} width={15} height={15} {...iconStyle} />
           </span>
         </ResultBar>
         <ResultText>{hvResult}</ResultText>
       </Container>
     )
   } else {
-    return <></>
+    return null;
   }
 }
 export default HvResult;
@@ -43,14 +43,14 @@ const Container = styled.div`
 const ResultBar = styled.span`
   width:80vw;
   max-width: 450px;
-  padding: 12px 24px;
-  background-color: #282828;
+  padding: 9px 22px;
+  background-color: #3d3d3d;
   display:flex;
   align-items: center;
   justify-content: space-between;
   h1{
     color:white;
-    font-size: 16px;
+    font-size: 15px;
   }
   span{
     display:flex;
@@ -62,10 +62,11 @@ const ResultText = styled.pre`
   height:80vw;
   max-width: 450px;
   max-height: 400px;
-  padding: 20px 24px;
-  font-size: 14px;
-  background-color: #f5f5f5;
-  box-shadow: 0 0 0 2px #282828 inset;
+  padding: 20px 22px;
+  font-size: 13px;
+  background-color: #282828;
+  color:white;
+  box-shadow: 0 0 0 1.5px #3d3d3d inset;
   user-select: text;
   overflow: scroll;
   &::-webkit-scrollbar{

@@ -105,7 +105,6 @@ const View = () => {
   }
   const viewClickEvent = (e: MouseEvent) => {
     const target = e.target as HTMLElement;
-    console.log("Ssss");
     if (target !== dbClickComp) {
       dbClickComp.contentEditable = "false";
       dbClickComp = document.body;
@@ -127,6 +126,12 @@ const View = () => {
   const viewBgMouseoverEvent = () => {
     if (mouseoverComp !== clickedComp) {
       mouseoverComp.style.boxShadow = "";
+    }
+  }
+  const stopAnchorEvent = (e: MouseEvent) => {
+    const target = e.target as HTMLElement;
+    if (target.nodeName == 'A' && target.id == 'hvAnchor') {
+      e.preventDefault();
     }
   }
 
@@ -158,6 +163,8 @@ const View = () => {
     viewElem.addEventListener("click", viewClickEvent);
     viewBgElem.addEventListener("click", viewBgClickEvent);
     viewBgElem.addEventListener("mouseover", viewBgMouseoverEvent);
+
+    bodyElem.addEventListener('click', stopAnchorEvent);
   }, [])
 
   return (

@@ -32,10 +32,13 @@ const StyleSetting = () => {
   const changeStyle = (e: any, styleKey: any) => {
     selectedComp.style[styleKey] = e.target.value;
     if (selectedComp.style[styleKey] === "") {
-      e.target.value = "None";
+      e.target.value = "none";
     } else {
       e.target.value = selectedComp.style[styleKey];
     }
+    const sHistory: string[] = JSON.parse(sessionStorage.getItem(hvId) || JSON.stringify([]));
+    sessionStorage.setItem(hvId, JSON.stringify([...sHistory, document.getElementById("view")?.outerHTML as string]));
+    sessionStorage.setItem(hvId + "undo", JSON.stringify([]));
     changeFocus(selectedComp);
   }
 
@@ -52,6 +55,10 @@ const StyleSetting = () => {
     } else {
       e.target.value = attValue;
     }
+
+    const sHistory: string[] = JSON.parse(sessionStorage.getItem(hvId) || JSON.stringify([]));
+    sessionStorage.setItem(hvId, JSON.stringify([...sHistory, document.getElementById("view")?.outerHTML as string]));
+    sessionStorage.setItem(hvId + "undo", JSON.stringify([]));
   }
 
   useEffect(() => {
@@ -202,7 +209,7 @@ const Container = styled.div`
   &::-webkit-scrollbar-thumb{
     background-color: rgba(54, 54, 54, 0.4);
   }
-  @media screen and (max-width: 850px) {
+  @media screen and (max-width: 750px) {
     display:none;
   }
 `
@@ -219,7 +226,6 @@ const Att = styled.div`
     margin-left: 14px;
     margin-right: 16px;
     font-size: 12px;
-    font-weight: bold;
     opacity: 0.75;
   }
   input{
@@ -248,14 +254,12 @@ const Style = styled.div`
     min-width:46px;
     margin-left: 14px;
     font-size: 12px;
-    font-weight: bold;
     opacity: 0.75;
   }
   h2{
     padding : 8px;
     margin-left: 4px;
     font-size: 12px;
-    font-weight: bold;
     margin-top: 4px;
     cursor: pointer;
   }
@@ -277,7 +281,7 @@ const Style = styled.div`
     text-align: center;
     option{
       font-size: 13px;
-      font-weight: bold;
+      /* font-weight: bold; */
     }
   }
 `

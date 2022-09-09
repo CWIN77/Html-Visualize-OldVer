@@ -23,13 +23,13 @@ export const compData: ICompData[] = [
   {
     id: 0,
     name: "Input (type:text)",
-    descript: "input 태그의 요소입니다. 기본 type이 text로 지정되어 있어서 문자를 입력 할 수 있습니다. 개발 단계에서는 기능이 꺼져있습니다.",
+    descript: "input 태그의 요소입니다. 기본적으로 type은 text로 지정되어 있어서 문자를 입력 할 수 있습니다.",
     comp: comps.input
   },
   {
     id: 1,
     name: "Division (div)",
-    descript: "div 태그의 요소입니다. 기본 크기는 50px입니다. Block level의 요소이기 때문에 기본적으로 줄 바꿈이 됩니다.",
+    descript: "div 태그의 요소입니다. 기본 크기는 50px * 50px입니다. Block level의 요소이기 때문에 기본적으로 줄 바꿈이 됩니다.",
     comp: comps.div
   },
   {
@@ -41,7 +41,7 @@ export const compData: ICompData[] = [
   {
     id: 3,
     name: "Anchor (a)",
-    descript: "a 태그의 요소입니다. href에 입력된 링크로 이동합니다. 문자는 더블클릭을 하여 수정할 수 있습니다. 개발 단계에서는 기능이 꺼져있습니다.",
+    descript: "a 태그의 요소입니다. href에 입력된 링크로 이동합니다. 문자는 더블클릭을 하여 수정할 수 있습니다. 개발 단계에서는 링크 이동 기능이 꺼져있습니다.",
     comp: comps.a
   },
   {

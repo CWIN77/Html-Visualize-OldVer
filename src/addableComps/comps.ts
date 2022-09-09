@@ -1,6 +1,5 @@
 export const input = `
   <input placeholder="Placeholder" type="text" 
-    disabled
     style="
       padding: 12px;
     "
@@ -23,9 +22,8 @@ export const h1 = `
 `
 
 export const a = `
-  <a href="#" target="_self" disabled
+  <a href="#" target="_self" id="hvAnchor"
   style="
-    display:inline;
   ">Anchor</a>
 `
 
