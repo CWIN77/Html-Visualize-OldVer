@@ -19,10 +19,11 @@ const HvDevelop = () => {
     </>
   )
 }
-export default HvDevelop;
 
 const Container = styled.div`
   width:100%;
   min-height:100%;
   display:flex;
 `
+
+export default HvDevelop;

@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components'
 import { ableInsert, dbClickAble } from '../addableComps/compData';
-import { useStore } from '../zustant'
+import { useStore, changeHvStorage } from '../stateManager'
 
 const View = () => {
   const hvId = useParams().id as string;
@@ -72,11 +72,7 @@ const View = () => {
           window.alert("선택한 Html에는 Element를 복사할 수 없습니다.")
         } else {
           clickedComp.append(cloneComp);
-          if (document.getElementById("view")?.outerHTML !== undefined) {
-            const sHistory: string[] = JSON.parse(sessionStorage.getItem(hvId) || JSON.stringify([]));
-            sessionStorage.setItem(hvId, JSON.stringify([...sHistory, document.getElementById("view")?.outerHTML as string]));
-            sessionStorage.setItem(hvId + "undo", JSON.stringify([]));
-          }
+          changeHvStorage(hvId);
         }
       }
     }
@@ -86,11 +82,7 @@ const View = () => {
       clickedComp.remove();
       const viewComp = document.getElementById("view") as HTMLElement;
       useStore.setState({ selectedComp: viewComp });
-      if (document.getElementById("view")?.outerHTML !== undefined) {
-        const sHistory: string[] = JSON.parse(sessionStorage.getItem(hvId) || JSON.stringify([]));
-        sessionStorage.setItem(hvId, JSON.stringify([...sHistory, document.getElementById("view")?.outerHTML as string]));
-        sessionStorage.setItem(hvId + "undo", JSON.stringify([]));
-      }
+      changeHvStorage(hvId);
     }
   }
   const viewMouseoverEvent = (e: MouseEvent) => {
@@ -170,7 +162,7 @@ const View = () => {
   return (
     <ViewContainer id="viewContainer">
       <ViewBox id="viewBox">
-        <div className="app" style={{ width: "100%", height: "100%", overflow: "auto", display: "block", backgroundColor: "white" }} id='view' />
+        <div className="App" style={{ width: "100%", height: "100%", overflow: "auto", display: "block", backgroundColor: "white" }} id='view' />
       </ViewBox>
       <ViewBackground id="viewBackground" />
     </ViewContainer>

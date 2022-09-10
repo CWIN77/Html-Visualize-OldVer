@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { ReactComponent as SvgSearch } from '../svgs/search.svg'
 import { ReactComponent as SvgPlus } from '../svgs/plus.svg'
 import { compData, ableInsert } from '../addableComps/compData'
-import { useStore } from "../zustant"
+import { useStore, changeHvStorage } from "../stateManager"
 import { useState } from 'react'
 import { ICompData } from "../types"
 import kmp from "kmp"
@@ -20,7 +20,7 @@ const CompSet = () => {
   const getRandomId = () => {
     const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
     let id = '';
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 4; i++) {
       const randomNum = Math.floor(Math.random() * chars.length);
       id += chars.substring(randomNum, randomNum + 1);
     }
@@ -46,9 +46,9 @@ const CompSet = () => {
     const createElement: HTMLElement = document.createElement("div");
     createElement.insertAdjacentHTML('beforeend', data.comp);
     const newComp = createElement.children[0] as HTMLElement;
-    let compName = `HvComp${getRandomId()}`;
+    let compName = `Hv${data.id}${getRandomId()}`;
     while (nameList.indexOf(compName) > -1) {
-      compName = `HvComp${getRandomId()}`;
+      compName = `Hv${data.id}${getRandomId()}`;
     }
     newComp.className = compName;
     setNameList([...nameList, compName]);
@@ -57,19 +57,11 @@ const CompSet = () => {
         window.alert("선택한 Html에는 Element를 추가할 수 없습니다.")
       } else {
         selectedComp.append(newComp);
-        if (document.getElementById("view")?.outerHTML !== undefined) {
-          const sHistory: string[] = JSON.parse(sessionStorage.getItem(hvId) || JSON.stringify([]));
-          sessionStorage.setItem(hvId, JSON.stringify([...sHistory, document.getElementById("view")?.outerHTML as string]));
-          sessionStorage.setItem(hvId + "undo", JSON.stringify([]));
-        }
+        changeHvStorage(hvId);
       }
     } else {
       document.getElementById("view")?.append(newComp);
-      if (document.getElementById("view")?.outerHTML !== undefined) {
-        const sHistory: string[] = JSON.parse(sessionStorage.getItem(hvId) || JSON.stringify([]));
-        sessionStorage.setItem(hvId, JSON.stringify([...sHistory, document.getElementById("view")?.outerHTML as string]));
-        sessionStorage.setItem(hvId + "undo", JSON.stringify([]));
-      }
+      changeHvStorage(hvId);
     }
   }
 

@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { useStore } from "../zustant"
+import { useStore, changeHvStorage } from "../stateManager"
 import { elementStyle, styleName } from "../addableComps/compStyles"
 import { TAbleStyle } from "../types"
 import { compAttribute } from "../addableComps/compData"
@@ -19,9 +19,7 @@ const StyleSetting = () => {
       const viewComp = document.getElementById("view") as HTMLElement;
       viewComp.style.boxShadow = "inset 0px 0px 0px 2.5px #0D99FF";
       useStore.setState({ selectedComp: viewComp });
-      const sHistory: string[] = JSON.parse(sessionStorage.getItem(hvId) || JSON.stringify([]));
-      sessionStorage.setItem(hvId, JSON.stringify([...sHistory, document.getElementById("view")?.outerHTML as string]));
-      sessionStorage.setItem(hvId + "undo", JSON.stringify([]));
+      changeHvStorage(hvId);
     }
   }
 
@@ -36,9 +34,7 @@ const StyleSetting = () => {
     } else {
       e.target.value = selectedComp.style[styleKey];
     }
-    const sHistory: string[] = JSON.parse(sessionStorage.getItem(hvId) || JSON.stringify([]));
-    sessionStorage.setItem(hvId, JSON.stringify([...sHistory, document.getElementById("view")?.outerHTML as string]));
-    sessionStorage.setItem(hvId + "undo", JSON.stringify([]));
+    changeHvStorage(hvId);
     changeFocus(selectedComp);
   }
 
@@ -56,9 +52,7 @@ const StyleSetting = () => {
       e.target.value = attValue;
     }
 
-    const sHistory: string[] = JSON.parse(sessionStorage.getItem(hvId) || JSON.stringify([]));
-    sessionStorage.setItem(hvId, JSON.stringify([...sHistory, document.getElementById("view")?.outerHTML as string]));
-    sessionStorage.setItem(hvId + "undo", JSON.stringify([]));
+    changeHvStorage(hvId);
   }
 
   useEffect(() => {

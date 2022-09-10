@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { compAttribute, ableInsert } from "../addableComps/compData"
-import { useStore } from "../zustant";
+import { useStore } from "../stateManager";
 
 const ExportHv = () => {
   let tempStyle: { name: string, style: string }[] = [];
