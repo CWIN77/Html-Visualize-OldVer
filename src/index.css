@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Gothic+A1:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@600&display=swap');
 
 body {
   margin: 0;
@@ -41,9 +41,10 @@ h5,
 a,
 textarea,
 pre,
-input {
-  font-family: 'Gothic A1', sans-serif;
+input,
+select {
+  font-family: 'Nanum Gothic', sans-serif;
   font-size: 14px;
   font-weight: 400;
-  color: #121212;
+  color: #282828;
 }

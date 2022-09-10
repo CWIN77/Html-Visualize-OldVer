@@ -77,10 +77,8 @@ const defaultStyle: TAbleStyle = {
   "bottom": "detail",
 }
 
-const divStyle: TAbleStyle = {
+const boxStyle: TAbleStyle = {
   ...defaultStyle,
-  "font-size": "value",
-  "color": "value",
   "display": [
     "flex",
     "inline",
@@ -108,31 +106,7 @@ const divStyle: TAbleStyle = {
   ]
 }
 
-const inputStyle: TAbleStyle = {
-  ...defaultStyle,
-  "font-size": "value",
-  "color": "value",
-  "font-weight": "value",
-  "display": [
-    "flex",
-    "inline",
-    "block",
-    "inline-block",
-  ],
-  "text-align": [
-    "start",
-    "end",
-    "center",
-    "justify"
-  ],
-  "font-style": [
-    "normal",
-    "italic",
-    "oblique"
-  ]
-}
-
-const hStyle: TAbleStyle = {
+const textStyle: TAbleStyle = {
   ...defaultStyle,
   "font-size": "value",
   "color": "value",
@@ -180,19 +154,6 @@ const imgStyle: TAbleStyle = {
   ...defaultStyle
 }
 
-const aStyle: TAbleStyle = {
-  ...defaultStyle,
-  "font-size": "value",
-  "font-weight": "value",
-  "color": "value",
-  "font-style": [
-    "normal",
-    "italic",
-    "oblique"
-  ],
-  "text-decoration": "detail"
-}
-
 const viewStyle: TAbleStyle = {
   "width": "value",
   "height": "value",
@@ -202,8 +163,6 @@ const viewStyle: TAbleStyle = {
   "max-height": "detail",
   "padding": "value",
   "background-color": "value",
-  "font-size": "value",
-  "color": "value",
   "display": [
     "flex",
     "block",
@@ -256,26 +215,26 @@ const listStyle: TAbleStyle = {
 
 export const elementStyle: { [key: string]: TAbleStyle } = {
   view: viewStyle,
-  div: divStyle,
-  span: divStyle,
-  input: inputStyle,
+  div: boxStyle,
+  span: textStyle,
+  input: textStyle,
   img: imgStyle,
-  a: aStyle,
-  h1: hStyle,
-  h2: hStyle,
-  h3: hStyle,
-  h4: hStyle,
-  h5: hStyle,
-  p: hStyle,
+  a: textStyle,
+  h1: textStyle,
+  h2: textStyle,
+  h3: textStyle,
+  h4: textStyle,
+  h5: textStyle,
+  p: textStyle,
   li: listStyle,
   ol: defaultStyle,
   ul: defaultStyle,
-  footer: divStyle,
-  header: divStyle,
-  aside: divStyle,
-  nav: divStyle,
-  select: divStyle,
-  option: hStyle,
-  article: divStyle,
-  section: divStyle
+  footer: boxStyle,
+  header: boxStyle,
+  aside: boxStyle,
+  nav: boxStyle,
+  select: boxStyle,
+  option: textStyle,
+  article: boxStyle,
+  section: boxStyle
 }

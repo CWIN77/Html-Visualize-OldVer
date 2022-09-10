@@ -8,7 +8,7 @@ import { ICompData } from "../types"
 import kmp from "kmp"
 import { useParams } from 'react-router-dom'
 
-const CompSet = () => {
+const CompLayer = () => {
   const { id } = useParams();
   const hvId = id || "history";
   const iconStyles = { fill: "#282828", width: 14, height: 14 }
@@ -85,12 +85,6 @@ const CompSet = () => {
 
   return (
     <>
-      <SearchContainer>
-        <SearchInput value={searchText} onChange={(e) => { searchComp(e.target.value); }} type={"text"} placeholder={"Search"} />
-        <SearchBtn>
-          <SvgSearch width={16} height={16} fill={"#E8E8E8"} />
-        </SearchBtn>
-      </SearchContainer>
       {
         compList.sort(compare).map((data, key) => (
           <Comp key={key}>
@@ -109,6 +103,32 @@ const CompSet = () => {
   )
 }
 
+const Container = styled.div`
+  left:0px;
+  position: absolute;
+  display:flex;
+  flex-direction: column;
+  overflow-y: auto;
+  width:335px;
+  height:calc(100vh - 46px);
+  background-color: white;
+  z-index: 10;
+  &::-webkit-scrollbar{
+    width:6px;
+    background-color: initial;
+  }
+  &::-webkit-scrollbar-thumb{
+    background-color: rgba(54,54,54,0.4);
+  }
+  @media screen and (max-width: 750px) {
+    display: none;
+  }
+`
+const Name = styled.h1`
+  font-size: 13px;
+  padding: 17px 19px;
+  border-bottom: 1.5px solid rgba(54,54,54,0.25);
+`
 const SearchContainer = styled.div`
   margin: 20px 16px;
   display: flex;
@@ -190,4 +210,4 @@ const CompAddBtn = styled.span`
   }
 `
 
-export default CompSet
+export default CompLayer

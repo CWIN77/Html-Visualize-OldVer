@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { useEffect } from 'react';
 import { useStore } from "../zustant";
 import { ReactComponent as SvgClipBoard } from '../svgs/clipBoard.svg'
 import { ReactComponent as SvgCross } from '../svgs/cross.svg'
