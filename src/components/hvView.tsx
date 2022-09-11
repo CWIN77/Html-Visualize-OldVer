@@ -9,7 +9,6 @@ const View = () => {
   const { selectedComp }: { selectedComp: HTMLElement } = useStore();
 
   let mouseoverComp = document.body;
-  let clickedComp = selectedComp;
   let copyComp: HTMLElement;
   let dbClickComp = document.body;
 
@@ -65,16 +64,18 @@ const View = () => {
     }
   }
   const copyEvent = (e: KeyboardEvent) => {
-    if (clickedComp.className) {
-      if (e.key === 'c' && e.ctrlKey) {
-        copyComp = clickedComp;
+    const storageCompName: string | null = JSON.parse(sessionStorage.getItem(hvId + "selectComp") || JSON.stringify(null));
+    const selectComp = storageCompName ? document.querySelector("." + storageCompName) as HTMLElement : document.body;
+    if (selectComp.className) {
+      if (e.key === 'c' && e.ctrlKey && selectComp.className !== document.getElementById("view")?.className) {
+        copyComp = selectComp;
       } else if (e.key === 'v' && e.ctrlKey) {
         const cloneComp = copyComp.cloneNode(true) as HTMLElement;
         cloneComp.style.boxShadow = "";
-        if (ableInsert.indexOf(clickedComp.tagName.toLowerCase()) > -1) {
+        if (ableInsert.indexOf(selectComp.tagName.toLowerCase()) > -1) {
           window.alert("선택한 Html에는 Element를 복사할 수 없습니다.")
         } else {
-          clickedComp.append(cloneComp);
+          selectComp.append(cloneComp);
           changeHvStorage(hvId);
         }
       }
@@ -169,7 +170,7 @@ const View = () => {
     const viewBgElem = document.getElementById('viewBackground') as HTMLElement;
     bodyElem.addEventListener('keydown', undoEvent);
     bodyElem.addEventListener('keydown', redoEvent);
-    // bodyElem.addEventListener('keydown', copyEvent);
+    bodyElem.addEventListener('keydown', copyEvent);
     bodyElem.addEventListener('keydown', deleteEvent);
     viewElem.addEventListener("dblclick", textEditEvent);
     viewElem.addEventListener("mouseover", viewMouseoverEvent);

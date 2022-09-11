@@ -70,10 +70,8 @@ const CompLayer = () => {
         compList.map((comp, key) => {
           if ("tag" in comp) {
             return (
-              <Comp isSelect={String(selectedComp.className === comp.html.className)} key={key} onClick={() => {
-                const storageCompName: string | null = JSON.parse(sessionStorage.getItem(hvId + "selectComp") || JSON.stringify(null));
-                const selectComp = storageCompName ? document.querySelector("." + storageCompName) as HTMLElement : document.body;
-                if (selectComp !== null) selectComp.style.boxShadow = "";
+              <Comp isSelect={String(selectedComp === comp.html)} key={key} onClick={() => {
+                selectedComp.style.boxShadow = "";
                 comp.html.style.boxShadow = "inset 0px 0px 0px 2.5px #0D99FF";
                 sessionStorage.setItem(hvId + "selectComp", JSON.stringify(comp.html.className));
                 useStore.setState({ selectedComp: comp.html });
