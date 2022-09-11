@@ -91,11 +91,11 @@ export const li = `
 `
 
 export const ol = `
-  <ol style=""><li style="">ol list text</li></ol>
+  <ol style="">Ordered List</ol>
 `
 
 export const ul = `
-  <ul style=""><li style="">ul list text</li></ul>
+  <ul style="">Unordered List</ul>
 `
 
 export const footer = `
