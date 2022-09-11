@@ -7,6 +7,7 @@ import { useStore, changeHvStorage } from '../stateManager'
 const View = () => {
   const hvId = useParams().id as string;
   const { selectedComp }: { selectedComp: HTMLElement } = useStore();
+
   let mouseoverComp = document.body;
   let clickedComp = selectedComp;
   let copyComp: HTMLElement;
@@ -24,6 +25,7 @@ const View = () => {
         viewParentElem.insertAdjacentHTML('beforeend', compHistory[compHistory.length - 2]);
         compHistory.pop();
         sessionStorage.setItem(hvId, JSON.stringify(compHistory));
+        useStore.setState({ isChangeComp: true });
 
         const remakeViewElem = document.getElementById('view') as HTMLElement;
         remakeViewElem.addEventListener("dblclick", textEditEvent);
@@ -44,6 +46,7 @@ const View = () => {
         sessionStorage.setItem(hvId, JSON.stringify([...compHistory, undoHistory[undoHistory.length - 1]]));
         undoHistory.pop();
         sessionStorage.setItem(hvId + "undo", JSON.stringify(undoHistory));
+        useStore.setState({ isChangeComp: true });
 
         const remakeViewElem = document.getElementById('view') as HTMLElement;
         remakeViewElem.addEventListener("dblclick", textEditEvent);
@@ -78,17 +81,23 @@ const View = () => {
     }
   }
   const deleteEvent = (e: KeyboardEvent) => {
-    if (e.key === "Delete" && clickedComp.className && clickedComp.id !== "view") {
-      clickedComp.remove();
+    const storageCompName: string | null = JSON.parse(sessionStorage.getItem(hvId + "selectComp") || JSON.stringify(null));
+    const selectComp = storageCompName ? document.querySelector("." + storageCompName) as HTMLElement : document.body;
+    if (e.key === "Delete" && selectComp.className && selectComp.id !== "view") {
+      selectComp.remove();
       const viewComp = document.getElementById("view") as HTMLElement;
+      sessionStorage.removeItem(hvId + "selectComp");
       useStore.setState({ selectedComp: viewComp });
       changeHvStorage(hvId);
     }
   }
   const viewMouseoverEvent = (e: MouseEvent) => {
     const target = e.target as HTMLElement;
-    if (target !== clickedComp) {
-      if (mouseoverComp !== clickedComp) {
+    const storageCompName: string | null = JSON.parse(sessionStorage.getItem(hvId + "selectComp") || JSON.stringify(null));
+    const selectComp = storageCompName ? document.querySelector("." + storageCompName) as HTMLElement : document.body;
+
+    if (target !== selectComp) {
+      if (mouseoverComp !== selectComp) {
         mouseoverComp.style.boxShadow = "";
       }
       target.style.boxShadow = "inset 0px 0px 0px 2.5px #8bccfb";
@@ -96,27 +105,39 @@ const View = () => {
     }
   }
   const viewClickEvent = (e: MouseEvent) => {
+    changeHvStorage(hvId);
     const target = e.target as HTMLElement;
+    const storageCompName: string | null = JSON.parse(sessionStorage.getItem(hvId + "selectComp") || JSON.stringify(null));
+    const selectComp = storageCompName ? document.querySelector("." + storageCompName) as HTMLElement : document.body;
+
     if (target !== dbClickComp) {
       dbClickComp.contentEditable = "false";
       dbClickComp = document.body;
-      clickedComp.style.boxShadow = "";
+      selectedComp.style.boxShadow = "";
+      selectComp.style.boxShadow = "";
+
       target.style.boxShadow = "inset 0px 0px 0px 2.5px #0D99FF";
-      clickedComp = target;
-      useStore.setState({ selectedComp: clickedComp });
+      sessionStorage.setItem(hvId + "selectComp", JSON.stringify(target.className));
+      useStore.setState({ selectedComp: target });
     }
   }
   const viewBgClickEvent = (e: MouseEvent) => {
+    changeHvStorage(hvId);
+    const storageCompName: string | null = JSON.parse(sessionStorage.getItem(hvId + "selectComp") || JSON.stringify(null));
+    const selectComp = storageCompName ? document.querySelector("." + storageCompName) as HTMLElement : document.body;
     if (e.target !== dbClickComp) {
       dbClickComp.contentEditable = "false";
       dbClickComp = document.body;
       mouseoverComp.style.boxShadow = "";
-      clickedComp.style.boxShadow = "";
-      clickedComp = document.body;
+      selectedComp.style.boxShadow = "";
+      selectComp.style.boxShadow = "";
+      sessionStorage.removeItem(hvId + "selectComp");
     }
   }
   const viewBgMouseoverEvent = () => {
-    if (mouseoverComp !== clickedComp) {
+    const storageCompName: string | null = JSON.parse(sessionStorage.getItem(hvId + "selectComp") || JSON.stringify(null));
+    const selectComp = storageCompName ? document.querySelector("." + storageCompName) as HTMLElement : document.body;
+    if (mouseoverComp !== selectComp) {
       mouseoverComp.style.boxShadow = "";
     }
   }
