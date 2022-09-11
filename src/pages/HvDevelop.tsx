@@ -7,6 +7,7 @@ import LeftSideBar from '../components/leftSideBar'
 
 const HvDevelop = () => {
   //TODO: 코드구조 변경
+  //TODO:any타입 제거
   return (
     <>
       <HvResult />

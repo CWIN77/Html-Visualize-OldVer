@@ -134,7 +134,6 @@ export const select = `
   <select style="
     background-color:white;
   ">
-    <option>옵션1</option>
   </select>
 `
 
