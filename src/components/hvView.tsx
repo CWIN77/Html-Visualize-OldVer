@@ -97,7 +97,7 @@ const View = () => {
     const storageCompName: string | null = JSON.parse(sessionStorage.getItem(hvId + "selectComp") || JSON.stringify(null));
     const selectComp = storageCompName ? document.querySelector("." + storageCompName) as HTMLElement : document.body;
 
-    if (target !== selectComp) {
+    if (target !== selectComp && target !== selectedComp) {
       if (mouseoverComp !== selectComp) {
         mouseoverComp.style.boxShadow = "";
       }
