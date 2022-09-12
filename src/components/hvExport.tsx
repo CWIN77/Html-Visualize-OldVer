@@ -3,7 +3,7 @@ import { compAttribute, ableInsert } from "../addableComps/compData"
 import { useStore } from "../stateManager";
 
 const ExportHv = () => {
-  let tempStyle: { name: string, style: string }[] = [];
+  let styleList: { name: string, style: string }[] = [];
   let tabSize = 0;
 
   const getHtmlCode = (comp: HTMLElement) => {
@@ -16,7 +16,7 @@ const ExportHv = () => {
 
   const getReactCode = (comp: HTMLElement) => {
     tabSize = 0;
-    tempStyle = [];
+    styleList = [];
     const result = getHtmlStyle(comp, []);
     const htmlComp = result?.htmlComp.replace(/></g, ">\n<");
     let declareString = "";
@@ -55,11 +55,15 @@ const ExportHv = () => {
         .replace("box-shadow: rgb(13, 153, 255) 0px 0px 0px 2.5px inset;\n", "")
         .replace("box-shadow: rgb(139, 204, 251) 0px 0px 0px 2.5px inset;\n", "");
 
-      if (tempStyle.filter(e => e.style === styleString).length === 0) {
-        tempStyle.push({ name: compName, style: styleString });
-        declareComp.push(`const ${compName} = styled.${comp.tagName.toLowerCase()}` + "`\n  " + styleString + "\n`");
+      if (Boolean(styleString)) {
+        if (styleList.filter(e => e.style === styleString).length === 0) { // 스타일 겹치면 하나로 통합
+          styleList.push({ name: compName, style: styleString });
+          declareComp.push(`const ${compName} = styled.${comp.tagName.toLowerCase()}` + "`\n  " + styleString + "\n`");
+        } else {
+          compName = styleList.filter(e => e.style === styleString)[0].name;
+        }
       } else {
-        compName = tempStyle.filter(e => e.style === styleString)[0].name;
+        compName = comp.tagName.toLowerCase();
       }
 
       htmlComp += `\n    ${"  ".repeat(tabSize)}<${compName}${attribute}${ableInsert.indexOf(comp.tagName.toLowerCase()) > -1 ? " /" : ""}>`;
@@ -69,17 +73,18 @@ const ExportHv = () => {
       if (comp.childNodes.length > 0) {
         comp.childNodes.forEach((childComp) => {
           const comp = childComp as HTMLElement;
-          if (comp.nodeType === 3) {
+          if (comp.nodeType === 3) { // 텍스트면 텍스트를 추가
             htmlComp += comp.textContent;
             isChildText = true;
           } else {
-            if (comp.getAttribute("divide") === "true") {
+            isChildText = false;
+            if (comp.getAttribute("divide") === "true") { // 내부에 컴포넌트가 따로 나뉘면 나눔
               getReactCode(comp);
               htmlComp += `\n    ${"  ".repeat(tabSize)}<${comp.className.charAt(0).toUpperCase() + comp.className.slice(1)} />`
               importArray.push(comp.className);
-            } else {
-              const value = getHtmlStyle(comp, importArray);
-              if (value) {
+            } else { // 
+              const value = getHtmlStyle(comp, importArray); // 내부 컴포넌트 결과를 가져옴
+              if (value) { // 결과가 있으면 추가
                 declareComp.push(...value.declareComp);
                 htmlComp += value.htmlComp;
                 tabSize--;

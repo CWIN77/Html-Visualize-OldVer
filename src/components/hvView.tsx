@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components'
-import { ableInsert, dbClickAble } from '../addableComps/compData';
-import { useStore, changeHvStorage } from '../stateManager'
+import { ableInsert, compData, dbClickAble } from '../addableComps/compData';
+import { useStore, changeHvStorage, getSelectComp } from '../stateManager'
 
 const View = () => {
   const hvId = useParams().id as string;
@@ -12,6 +12,15 @@ const View = () => {
   let copyComp: HTMLElement;
   let dbClickComp = document.body;
 
+  const getRandomId = () => {
+    const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
+    let id = '';
+    for (let i = 0; i < 4; i++) {
+      const randomNum = Math.floor(Math.random() * chars.length);
+      id += chars.substring(randomNum, randomNum + 1);
+    }
+    return id;
+  }
   const undoEvent = (e: KeyboardEvent) => {
     if (e.key === 'z' && e.ctrlKey) {
       const compHistory: string[] = JSON.parse(sessionStorage.getItem(hvId) || JSON.stringify([]));
@@ -64,17 +73,28 @@ const View = () => {
     }
   }
   const copyEvent = (e: KeyboardEvent) => {
-    const storageCompName: string | null = JSON.parse(sessionStorage.getItem(hvId + "selectComp") || JSON.stringify(null));
-    const selectComp = storageCompName ? document.querySelector("." + storageCompName) as HTMLElement : document.body;
+    const selectComp = getSelectComp(hvId);
+    console.log("카피 실행");
     if (selectComp.className) {
       if (e.key === 'c' && e.ctrlKey && selectComp.className !== document.getElementById("view")?.className) {
         copyComp = selectComp;
       } else if (e.key === 'v' && e.ctrlKey) {
-        const cloneComp = copyComp.cloneNode(true) as HTMLElement;
-        cloneComp.style.boxShadow = "";
-        if (ableInsert.indexOf(selectComp.tagName.toLowerCase()) > -1) {
-          window.alert("선택한 Html에는 Element를 복사할 수 없습니다.")
-        } else {
+        if (ableInsert.indexOf(selectComp.tagName.toLowerCase()) > -1) window.alert("선택한 Html에는 Element를 복사할 수 없습니다.")
+        else {
+          const cloneComp = copyComp.cloneNode(true) as HTMLElement;
+          const searchToChangeId = (comp: HTMLElement) => {
+            if (comp.nodeType !== 3) {
+              const compId = compData.find(i => i.tag === comp.tagName.toLowerCase())?.id || 0;
+              comp.className = `Hv${compId}${getRandomId()}`;
+              comp.style.boxShadow = "";
+              if (cloneComp.childNodes.length > 0) {
+                comp.childNodes.forEach((cNode) => {
+                  searchToChangeId(cNode as HTMLElement);
+                });
+              }
+            }
+          }
+          searchToChangeId(cloneComp);
           selectComp.append(cloneComp);
           changeHvStorage(hvId);
         }
@@ -82,8 +102,7 @@ const View = () => {
     }
   }
   const deleteEvent = (e: KeyboardEvent) => {
-    const storageCompName: string | null = JSON.parse(sessionStorage.getItem(hvId + "selectComp") || JSON.stringify(null));
-    const selectComp = storageCompName ? document.querySelector("." + storageCompName) as HTMLElement : document.body;
+    const selectComp = getSelectComp(hvId);
     if (e.key === "Delete" && selectComp.className && selectComp.id !== "view") {
       selectComp.remove();
       const viewComp = document.getElementById("view") as HTMLElement;
@@ -94,8 +113,7 @@ const View = () => {
   }
   const viewMouseoverEvent = (e: MouseEvent) => {
     const target = e.target as HTMLElement;
-    const storageCompName: string | null = JSON.parse(sessionStorage.getItem(hvId + "selectComp") || JSON.stringify(null));
-    const selectComp = storageCompName ? document.querySelector("." + storageCompName) as HTMLElement : document.body;
+    const selectComp = getSelectComp(hvId);
 
     if (target !== selectComp && target !== selectedComp) {
       if (mouseoverComp !== selectComp) {
@@ -108,8 +126,7 @@ const View = () => {
   const viewClickEvent = (e: MouseEvent) => {
     changeHvStorage(hvId);
     const target = e.target as HTMLElement;
-    const storageCompName: string | null = JSON.parse(sessionStorage.getItem(hvId + "selectComp") || JSON.stringify(null));
-    const selectComp = storageCompName ? document.querySelector("." + storageCompName) as HTMLElement : document.body;
+    const selectComp = getSelectComp(hvId);
 
     if (target !== dbClickComp) {
       dbClickComp.contentEditable = "false";
@@ -123,9 +140,7 @@ const View = () => {
     }
   }
   const viewBgClickEvent = (e: MouseEvent) => {
-    changeHvStorage(hvId);
-    const storageCompName: string | null = JSON.parse(sessionStorage.getItem(hvId + "selectComp") || JSON.stringify(null));
-    const selectComp = storageCompName ? document.querySelector("." + storageCompName) as HTMLElement : document.body;
+    const selectComp = getSelectComp(hvId);
     if (e.target !== dbClickComp) {
       dbClickComp.contentEditable = "false";
       dbClickComp = document.body;
@@ -134,10 +149,10 @@ const View = () => {
       selectComp.style.boxShadow = "";
       sessionStorage.removeItem(hvId + "selectComp");
     }
+    changeHvStorage(hvId);
   }
   const viewBgMouseoverEvent = () => {
-    const storageCompName: string | null = JSON.parse(sessionStorage.getItem(hvId + "selectComp") || JSON.stringify(null));
-    const selectComp = storageCompName ? document.querySelector("." + storageCompName) as HTMLElement : document.body;
+    const selectComp = getSelectComp(hvId);
     if (mouseoverComp !== selectComp) {
       mouseoverComp.style.boxShadow = "";
     }

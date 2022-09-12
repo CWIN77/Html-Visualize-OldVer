@@ -3,6 +3,7 @@ export interface ICompData {
   name: string;
   descript: string;
   comp: string;
+  tag: string;
 }
 
 export interface ICom {
