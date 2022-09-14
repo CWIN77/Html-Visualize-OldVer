@@ -15,7 +15,7 @@ const View = () => {
   const getRandomId = () => {
     const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
     let id = '';
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 5; i++) {
       const randomNum = Math.floor(Math.random() * chars.length);
       id += chars.substring(randomNum, randomNum + 1);
     }
@@ -74,7 +74,6 @@ const View = () => {
   }
   const copyEvent = (e: KeyboardEvent) => {
     const selectComp = getSelectComp(hvId);
-    console.log("카피 실행");
     if (selectComp.className) {
       if (e.key === 'c' && e.ctrlKey && selectComp.className !== document.getElementById("view")?.className) {
         copyComp = selectComp;

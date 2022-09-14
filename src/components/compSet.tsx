@@ -20,7 +20,7 @@ const CompSet = () => {
   const getRandomId = () => {
     const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
     let id = '';
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 5; i++) {
       const randomNum = Math.floor(Math.random() * chars.length);
       id += chars.substring(randomNum, randomNum + 1);
     }
@@ -46,9 +46,9 @@ const CompSet = () => {
     const createElement: HTMLElement = document.createElement("div");
     createElement.insertAdjacentHTML('beforeend', data.comp);
     const newComp = createElement.children[0] as HTMLElement;
-    let compName = `Hv${data.id}${getRandomId()}`;
+    let compName = `hv${data.id}${getRandomId()}`;
     while (nameList.indexOf(compName) > -1) {
-      compName = `Hv${data.id}${getRandomId()}`;
+      compName = `hv${data.id}${getRandomId()}`;
     }
     newComp.className = compName;
     setNameList([...nameList, compName]);
