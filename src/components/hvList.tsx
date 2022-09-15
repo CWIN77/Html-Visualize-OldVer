@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import { ReactComponent as SvgPlus } from '../svgs/plus.svg'
-import { Link } from 'react-router-dom';
+import SvgPlus from '../svgs/plus.svg'
+import Link from 'next/link'
 
 const HvList = () => {
   const iconStyles = { width: 24, height: 24, fill: "#FFFFFF" }
@@ -10,7 +10,7 @@ const HvList = () => {
         <div><SvgPlus {...iconStyles} /></div>
         <h1>새로운 프로젝트를 시작해보세요!</h1>
       </Delveop>
-      <Link to="/develop/id">
+      <Link href="/develop/id">
         <Delveop>
           <div>
 

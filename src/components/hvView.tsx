@@ -1,11 +1,12 @@
 import { useEffect } from 'react'
-import { useParams } from 'react-router-dom';
 import styled from 'styled-components'
 import { ableInsert, compData, dbClickAble } from '../addableComps/compData';
 import { useStore, changeHvStorage, getSelectComp } from '../stateManager'
+import { useRouter } from 'next/router'
 
 const View = () => {
-  const hvId = useParams().id as string;
+  const router = useRouter();
+  const hvId = router.query.id as string;
   const { selectedComp }: { selectedComp: HTMLElement } = useStore();
 
   let mouseoverComp = document.body;

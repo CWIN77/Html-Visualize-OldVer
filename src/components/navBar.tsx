@@ -1,13 +1,13 @@
 import styled from 'styled-components'
-import { ReactComponent as SvgHome } from '../svgs/home.svg'
-import { ReactComponent as SvgFullScreen } from '../svgs/fullScreen.svg'
-import { ReactComponent as SvgRectangle } from '../svgs/rectangle.svg'
-import { ReactComponent as SvgRectangleFill } from '../svgs/rectangle_fill.svg'
-import { ReactComponent as SvgDesktop } from '../svgs/desktop.svg'
-import { ReactComponent as SvgPhone } from '../svgs/phone.svg'
+import SvgHome from '../svgs/home.svg'
+import SvgFullScreen from '../svgs/fullScreen.svg'
+import SvgRectangle from '../svgs/rectangle.svg'
+import SvgRectangleFill from '../svgs/rectangle_fill.svg'
+import SvgDesktop from '../svgs/desktop.svg'
+import SvgPhone from '../svgs/phone.svg'
 import { useEffect, useState } from 'react';
 import HvExport from './hvExport'
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 
 const NavBar = () => {
   const [isFull, setIsFull] = useState(false);
@@ -87,7 +87,7 @@ const NavBar = () => {
 
   return (
     <Container>
-      <Link to="/">
+      <Link href="/">
         <SvgHome {...homeIcon} />
       </Link>
       <ZoomContainer id="zoomContainer" className={String(zoomLock)}>

@@ -4,14 +4,15 @@ import { elementStyle, styleName } from "../addableComps/compStyles"
 import { TAbleStyle } from "../types"
 import { compAttribute } from "../addableComps/compData"
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useRouter } from 'next/router'
 
-const StyleSetting = () => {
+const StyleSet = () => {
   const { selectedComp }: { selectedComp: HTMLElement } = useStore();
   const [styleList, setStyleList] = useState<TAbleStyle[]>([]);
   const [isShowDetail, setIsShowDetail] = useState(false);
   const [attList, setAttList] = useState<string[]>([]);
-  const hvId = useParams().id as string;
+  const router = useRouter();
+  const hvId = router.query.id as string;
 
   const deleteComp = () => {
     if (selectedComp !== document.body && selectedComp.id !== "view") {
@@ -69,13 +70,14 @@ const StyleSetting = () => {
       }
       setStyleList(newStyleList);
 
+      const newAttList: string[] = [];
+      newAttList.push("name");
       if (compAttribute[selectedComp.tagName.toLowerCase()]) {
-        const newAttList: string[] = [];
         compAttribute[selectedComp.tagName.toLowerCase()].forEach((att) => {
           newAttList.push(att);
         });
-        setAttList(newAttList);
       }
+      setAttList(newAttList);
     }
   }, [selectedComp]);
 
@@ -184,7 +186,6 @@ const StyleSetting = () => {
     </Container >
   )
 }
-export default StyleSetting;
 
 const Container = styled.div`
   position: absolute;
@@ -291,3 +292,5 @@ const DeleteComp = styled.div`
     color:white;
   }
 `
+
+export default StyleSet;

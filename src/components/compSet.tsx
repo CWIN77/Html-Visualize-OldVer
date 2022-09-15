@@ -1,16 +1,16 @@
 import styled from 'styled-components'
-import { ReactComponent as SvgSearch } from '../svgs/search.svg'
-import { ReactComponent as SvgPlus } from '../svgs/plus.svg'
+import SvgSearch from '../svgs/search.svg'
+import SvgPlus from '../svgs/plus.svg'
 import { compData, ableInsert } from '../addableComps/compData'
 import { useStore, changeHvStorage } from "../stateManager"
 import { useState } from 'react'
 import { ICompData } from "../types"
 import kmp from "kmp"
-import { useParams } from 'react-router-dom'
+import { useRouter } from 'next/router'
 
 const CompSet = () => {
-  const { id } = useParams();
-  const hvId = id || "history";
+  const router = useRouter();
+  const hvId = router.query.id as string;
   const iconStyles = { fill: "#282828", width: 14, height: 14 }
   const { selectedComp }: { selectedComp: HTMLElement } = useStore();
   const [compList, setCompList] = useState(compData);
@@ -177,7 +177,7 @@ const CompAddBtn = styled.span`
     h2{
       font-size: 14px;
       margin-left: 9px;
-      margin-top: 3px;
+      margin-top: 1px;
     }
   }
 `

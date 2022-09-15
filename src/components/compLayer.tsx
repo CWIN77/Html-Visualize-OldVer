@@ -1,9 +1,9 @@
 import styled from 'styled-components'
 import { useEffect, useState } from 'react'
 import { changeHvStorage, useStore } from '../stateManager'
-import { useParams } from 'react-router-dom'
-import { ReactComponent as SvgShapes } from '../svgs/shapes.svg'
-import { ReactComponent as SvgText } from '../svgs/text.svg'
+import { useRouter } from 'next/router'
+import SvgShapes from '../svgs/shapes.svg'
+import SvgText from '../svgs/text.svg'
 
 type compType = {
   tab: Number,
@@ -17,7 +17,8 @@ type textType = {
 }
 
 const CompLayer = () => {
-  const hvId = useParams().id as string;
+  const router = useRouter();
+  const hvId = router.query.id as string;
   const [compList, setCompList] = useState<(compType | textType)[]>([]);
   const { isChangeComp, selectedComp }: { isChangeComp: boolean, selectedComp: HTMLElement } = useStore();
   const iconStyle = { width: 18, height: 18, fill: "#282828", style: { marginRight: 4 } };

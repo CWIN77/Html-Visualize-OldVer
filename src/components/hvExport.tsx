@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { compAttribute, ableInsert } from "../addableComps/compData"
 import { useStore } from "../stateManager";
 
-const ExportHv = () => {
+const HvExport = () => {
   let usedStyle: { name: string, style: string }[] = [];
   let tabSize = 0;
 
@@ -20,7 +20,7 @@ const ExportHv = () => {
     //   imports += `import ${s.charAt(0).toUpperCase() + s.slice(1)} from "./${s.charAt(0).toUpperCase() + s.slice(1)}"\n`
     // })
 
-    const appCode = `${htmlComp}\n<style>\n${styleCode}</style>`;
+    const appCode = `${htmlComp}\n\n<style>\n${styleCode}</style>`;
 
     return appCode;
   }
@@ -193,7 +193,6 @@ const ExportHv = () => {
     }}>Export</Container>
   )
 }
-export default ExportHv;
 
 const Container = styled.button`
   background-color: #1264A3;
@@ -205,3 +204,4 @@ const Container = styled.button`
   margin-right: 12px;
 `
 
+export default HvExport;

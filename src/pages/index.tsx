@@ -10,7 +10,6 @@ const Home = () => {
     </Container>
   )
 }
-export default Home;
 
 const Container = styled.div`
   width:100vw;
@@ -18,3 +17,5 @@ const Container = styled.div`
   background-color: #F5F5F5;
   display:flex;
 `
+
+export default Home;
