@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
-import SvgPlus from '../svgs/plus.svg'
+import { ReactComponent as SvgPlus } from '../svgs/plus.svg'
 
 const UserInform = () => {
   const iconStyles = { fill: "#363636", width: 14, height: 14, style: { padding: 2, cursor: "pointer" } }
@@ -27,6 +27,7 @@ const UserInform = () => {
     </Container>
   )
 }
+export default UserInform;
 
 const Container = styled.div`
   width:320px;
@@ -85,5 +86,3 @@ const FriendList = styled.div`
   background-color: #363636;
   color:rgb(220,220,220);
 `
-
-export default UserInform;

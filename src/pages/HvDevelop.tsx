@@ -1,9 +1,9 @@
 import styled from 'styled-components'
-import StyleSet from '../../components/styleSet'
-import HvView from "../../components/hvView"
-import NavBar from '../../components/navBar'
-import HvResult from '../../components/hvResult'
-import LeftSideBar from '../../components/leftSideBar'
+import StyleSet from '../components/styleSet'
+import HvView from "../components/hvView"
+import NavBar from '../components/navBar'
+import HvResult from '../components/hvResult'
+import LeftSideBar from '../components/leftSideBar'
 
 const HvDevelop = () => {
   //TODO: 코드구조 변경

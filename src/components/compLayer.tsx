@@ -1,9 +1,9 @@
 import styled from 'styled-components'
 import { useEffect, useState } from 'react'
 import { changeHvStorage, getSelectComp, useStore } from '../stateManager'
-import { useRouter } from 'next/router'
-import SvgShapes from '../svgs/shapes.svg'
-import SvgText from '../svgs/text.svg'
+import { useParams } from 'react-router-dom'
+import { ReactComponent as SvgShapes } from '../svgs/shapes.svg'
+import { ReactComponent as SvgText } from '../svgs/text.svg'
 
 type compType = {
   tab: Number,
@@ -17,8 +17,7 @@ type textType = {
 }
 
 const CompLayer = () => {
-  const router = useRouter();
-  const hvId = router.query.id as string;
+  const hvId = useParams().id as string;
   const [compList, setCompList] = useState<(compType | textType)[]>([]);
   const { isChangeComp }: { isChangeComp: boolean } = useStore();
   const iconStyle = { width: 18, height: 18, fill: "#282828", style: { marginRight: 4 } };
@@ -46,13 +45,11 @@ const CompLayer = () => {
 
   useEffect(() => {
     if (isChangeComp) {
-      useStore.setState({ isChangeComp: false });
       setCompList(getHtmlNodes(document.getElementById("view") as HTMLElement, [], 0));
     }
   }, [isChangeComp])
 
   useEffect(() => {
-    useStore.setState({ isChangeComp: false });
     setCompList(getHtmlNodes(document.getElementById("view") as HTMLElement, [], 0));
   }, [])
 
@@ -69,10 +66,11 @@ const CompLayer = () => {
     <Container>
       {
         compList.map((comp, key) => {
+          const selectComp = getSelectComp(hvId);
           if ("tag" in comp) {
             return (
-              <Comp isSelect={String(getSelectComp(hvId) === comp.html)} key={key} onClick={() => {
-                getSelectComp(hvId).style.boxShadow = "";
+              <Comp isSelect={String(selectComp === comp.html)} key={key} onClick={() => {
+                selectComp.style.boxShadow = "";
                 comp.html.style.boxShadow = "inset 0px 0px 0px 2.5px #0D99FF";
                 sessionStorage.setItem(hvId + "selectComp", JSON.stringify(comp.html.className));
               }}>

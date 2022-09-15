@@ -4,15 +4,13 @@ import { elementStyle, styleName } from "../addableComps/compStyles"
 import { TAbleStyle } from "../types"
 import { compAttribute } from "../addableComps/compData"
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router'
-
+import { useParams } from 'react-router-dom';
 const StyleSet = () => {
   const { isSelectChange }: { isSelectChange: boolean } = useStore();
   const [styleList, setStyleList] = useState<TAbleStyle[]>([]);
   const [isShowDetail, setIsShowDetail] = useState(false);
   const [attList, setAttList] = useState<string[]>([]);
-  const router = useRouter();
-  const hvId = router.query.id as string;
+  const hvId = useParams().id as string;
 
   const deleteComp = () => {
     const selectComp = getSelectComp(hvId);
@@ -63,28 +61,31 @@ const StyleSet = () => {
   }
 
   useEffect(() => {
-    const selectComp = getSelectComp(hvId);
-    if (selectComp !== document.body) {
-      const newStyleList: TAbleStyle[] = [];
-      if (selectComp.id === "view" || selectComp === document.body) {
-        Object.keys(elementStyle.view).forEach((key) => {
-          newStyleList.push({ [key]: elementStyle["view"][key] });
-        });
-      } else {
-        Object.keys(elementStyle[selectComp.tagName.toLowerCase()]).forEach((key) => {
-          newStyleList.push({ [key]: elementStyle[selectComp.tagName.toLowerCase()][key] });
-        });
-      }
-      setStyleList(newStyleList);
+    if (isSelectChange) {
+      useStore.setState({ isSelectChange: false });
+      const selectComp = getSelectComp(hvId);
+      if (selectComp !== document.body) {
+        const newStyleList: TAbleStyle[] = [];
+        if (selectComp.id === "view" || selectComp === document.body) {
+          Object.keys(elementStyle.view).forEach((key) => {
+            newStyleList.push({ [key]: elementStyle["view"][key] });
+          });
+        } else {
+          Object.keys(elementStyle[selectComp.tagName.toLowerCase()]).forEach((key) => {
+            newStyleList.push({ [key]: elementStyle[selectComp.tagName.toLowerCase()][key] });
+          });
+        }
+        setStyleList(newStyleList);
 
-      const newAttList: string[] = [];
-      newAttList.push("name");
-      if (compAttribute[selectComp.tagName.toLowerCase()]) {
-        compAttribute[selectComp.tagName.toLowerCase()].forEach((att) => {
-          newAttList.push(att);
-        });
+        const newAttList: string[] = [];
+        newAttList.push("name");
+        if (compAttribute[selectComp.tagName.toLowerCase()]) {
+          compAttribute[selectComp.tagName.toLowerCase()].forEach((att) => {
+            newAttList.push(att);
+          });
+        }
+        setAttList(newAttList);
       }
-      setAttList(newAttList);
     }
   }, [isSelectChange]);
 
@@ -190,7 +191,7 @@ const StyleSet = () => {
 
       <span style={{ paddingTop: 24 }} />
       {
-        getSelectComp(hvId) !== document.body && getSelectComp(hvId).id !== "view" &&
+        getSelectComp(hvId) && getSelectComp(hvId) !== document.body && getSelectComp(hvId).id !== "view" &&
         <DeleteComp><h1 onClick={deleteComp}>요소 삭제</h1></DeleteComp>
       }
     </Container >

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useStore } from "../stateManager";
-import SvgClipBoard from '../svgs/clipBoard.svg'
-import SvgCross from '../svgs/cross.svg'
+import { ReactComponent as SvgClipBoard } from '../svgs/clipBoard.svg'
+import { ReactComponent as SvgCross } from '../svgs/cross.svg'
 import CopyToClipboard from 'react-copy-to-clipboard';
 
 const HvResult = () => {
@@ -27,7 +27,6 @@ const HvResult = () => {
     return null;
   }
 }
-export default HvResult;
 
 const Container = styled.div`
   width:100vw;
@@ -79,3 +78,5 @@ const ResultText = styled.pre`
     background-color: rgba(54,54,54,0.4);
   }
 `
+
+export default HvResult;
