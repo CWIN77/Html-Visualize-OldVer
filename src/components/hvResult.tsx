@@ -5,7 +5,7 @@ import SvgCross from '../svgs/cross.svg'
 import CopyToClipboard from 'react-copy-to-clipboard';
 
 const HvResult = () => {
-  const { hvResult }: { hvResult: String | null } = useStore();
+  const { hvResult } = useStore();
   const iconStyle = { fill: "white", style: { padding: 4, marginLeft: 14, cursor: "pointer" } }
 
   if (hvResult !== "") {

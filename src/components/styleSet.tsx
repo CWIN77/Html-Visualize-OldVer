@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router'
 
 const StyleSet = () => {
-  const { isSelectChange }: { isSelectChange: boolean } = useStore();
+  const { isSelectChange } = useStore();
   const [styleList, setStyleList] = useState<TAbleStyle[]>([]);
   const [isShowDetail, setIsShowDetail] = useState(false);
   const [attList, setAttList] = useState<string[]>([]);
@@ -16,7 +16,7 @@ const StyleSet = () => {
   const [selectComp, setSelectComp] = useState<HTMLElement>();
 
   const deleteComp = () => {
-    setSelectComp(getSelectComp(hvId));
+    const selectComp = getSelectComp(hvId);
 
     if (selectComp && selectComp !== document.body && selectComp.id !== "view") {
       selectComp.remove();
@@ -32,7 +32,7 @@ const StyleSet = () => {
   }
 
   const changeStyle = (e: any, styleKey: any) => {
-    setSelectComp(getSelectComp(hvId));
+    const selectComp = getSelectComp(hvId);
 
     if (selectComp) {
       selectComp.style[styleKey] = e.target.value;
@@ -47,7 +47,7 @@ const StyleSet = () => {
   }
 
   const changeAtt = (e: any, attName: string) => {
-    setSelectComp(getSelectComp(hvId));
+    const selectComp = getSelectComp(hvId);
     if (selectComp) {
       if (attName === "name") {
         selectComp.className = e.target.value;
@@ -67,9 +67,15 @@ const StyleSet = () => {
   }
 
   useEffect(() => {
+    setSelectComp(getSelectComp(hvId));
+  }, [])
+
+  useEffect(() => {
     if (isSelectChange) {
-      useStore.setState({ isSelectChange: false });
       setSelectComp(getSelectComp(hvId));
+
+      useStore.setState({ isSelectChange: false });
+      const selectComp = getSelectComp(hvId);
 
       if (selectComp && selectComp.className) {
         const newStyleList: TAbleStyle[] = [];
@@ -97,7 +103,7 @@ const StyleSet = () => {
   }, [isSelectChange]);
 
   useEffect(() => {
-    setSelectComp(getSelectComp(hvId));
+    const selectComp = getSelectComp(hvId);
 
     styleList.forEach((style: TAbleStyle) => {
       const styleKey = Object.keys(style)[0];
@@ -113,7 +119,7 @@ const StyleSet = () => {
   }, [styleList, isShowDetail])
 
   useEffect(() => {
-    setSelectComp(getSelectComp(hvId));
+    const selectComp = getSelectComp(hvId);
     if (selectComp) {
       attList.forEach((att) => {
         const attName = att;
