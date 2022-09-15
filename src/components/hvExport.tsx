@@ -95,7 +95,7 @@ const ExportHv = () => {
   }
 
   const makeVueCodeToCopy = (comp: HTMLElement) => {
-    //TODO:Vue 코드
+    // Vue 코드
   }
 
   const makeReactCodeToCopy = (comp: HTMLElement) => {
@@ -193,7 +193,6 @@ const ExportHv = () => {
     }}>Export</Container>
   )
 }
-export default ExportHv;
 
 const Container = styled.button`
   background-color: #1264A3;
@@ -205,3 +204,4 @@ const Container = styled.button`
   margin-right: 12px;
 `
 
+export default ExportHv;

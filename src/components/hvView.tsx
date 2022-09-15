@@ -1,14 +1,16 @@
 import { useEffect } from 'react'
-import { useParams } from 'react-router-dom';
 import styled from 'styled-components'
 import { ableInsert, compData, dbClickAble } from '../addableComps/compData';
 import { useStore, changeHvStorage, getSelectComp } from '../stateManager'
+import { useRouter } from 'next/router'
 
 const View = () => {
-  const hvId = useParams().id as string;
-  let mouseoverComp = document.body;
+  const router = useRouter();
+  const hvId = router.query.id as string;
+
+  let mouseoverComp: HTMLElement;
   let copyComp: HTMLElement;
-  let dbClickComp = document.body;
+  let dbClickComp: HTMLElement;
 
   const getRandomId = () => {
     const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
@@ -112,7 +114,7 @@ const View = () => {
     const selectComp = getSelectComp(hvId);
 
     if (target !== selectComp) {
-      if (mouseoverComp !== selectComp) {
+      if (mouseoverComp && mouseoverComp !== selectComp) {
         mouseoverComp.style.boxShadow = "";
       }
       target.style.boxShadow = "inset 0px 0px 0px 2.5px #8bccfb";
@@ -147,7 +149,7 @@ const View = () => {
   }
   const viewBgMouseoverEvent = () => {
     const selectComp = getSelectComp(hvId);
-    if (mouseoverComp !== selectComp) {
+    if (mouseoverComp && mouseoverComp !== selectComp) {
       mouseoverComp.style.boxShadow = "";
     }
   }
@@ -174,6 +176,9 @@ const View = () => {
       sessionStorage.setItem(hvId, JSON.stringify([viewElem.outerHTML]));
     }
 
+    mouseoverComp = document.body;
+    dbClickComp = document.body;
+
     const viewElem = document.getElementById('view') as HTMLElement;
     const bodyElem = document.body;
     const viewBgElem = document.getElementById('viewBackground') as HTMLElement;
@@ -199,7 +204,6 @@ const View = () => {
     </ViewContainer>
   )
 }
-export default View;
 
 const ViewBox = styled.div`
   width:360px;
@@ -263,3 +267,5 @@ const ViewBackground = styled.span`
     width: 100vw;
   }
 `
+
+export default View;

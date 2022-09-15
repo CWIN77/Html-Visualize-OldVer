@@ -1,16 +1,16 @@
 import styled from 'styled-components'
-import { ReactComponent as SvgSearch } from '../svgs/search.svg'
-import { ReactComponent as SvgPlus } from '../svgs/plus.svg'
+import SvgSearch from '../svgs/search.svg'
+import SvgPlus from '../svgs/plus.svg'
 import { compData, ableInsert } from '../addableComps/compData'
 import { changeHvStorage, getSelectComp } from "../stateManager"
 import { useState } from 'react'
 import { ICompData } from "../types"
 import kmp from "kmp"
-import { useParams } from 'react-router-dom'
+import { useRouter } from 'next/router'
 
 const CompSet = () => {
-  const { id } = useParams();
-  const hvId = id || "history";
+  const router = useRouter();
+  const hvId = router.query.id as string;
   const iconStyles = { fill: "#282828", width: 14, height: 14 };
   const [compList, setCompList] = useState(compData);
   const [searchText, setSearchText] = useState('');
@@ -73,7 +73,7 @@ const CompSet = () => {
       return 1;
     }
     return 0;
-  } //TODO: 배열 내부의 객체의 정렬에 대해 공부하기
+  }
 
   return (
     <>

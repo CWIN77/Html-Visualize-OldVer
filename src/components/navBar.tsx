@@ -1,14 +1,13 @@
 import styled from 'styled-components'
-import { ReactComponent as SvgHome } from '../svgs/home.svg'
-import { ReactComponent as SvgFullScreen } from '../svgs/fullScreen.svg'
-import { ReactComponent as SvgRectangle } from '../svgs/rectangle.svg'
-import { ReactComponent as SvgRectangleFill } from '../svgs/rectangle_fill.svg'
-import { ReactComponent as SvgDesktop } from '../svgs/desktop.svg'
-import { ReactComponent as SvgPhone } from '../svgs/phone.svg'
+import SvgHome from '../svgs/home.svg'
+import SvgFullScreen from '../svgs/fullScreen.svg'
+import SvgRectangle from '../svgs/rectangle.svg'
+import SvgRectangleFill from '../svgs/rectangle_fill.svg'
+import SvgDesktop from '../svgs/desktop.svg'
+import SvgPhone from '../svgs/phone.svg'
 import { useEffect, useState } from 'react';
 import HvExport from './hvExport'
-import { Link } from 'react-router-dom'
-
+import Link from 'next/link'
 const NavBar = () => {
   const [isFull, setIsFull] = useState(false);
   const [device, setDevice] = useState("phone"); // phone / desktop
@@ -87,8 +86,10 @@ const NavBar = () => {
 
   return (
     <Container>
-      <Link to="/">
-        <SvgHome {...homeIcon} />
+      <Link href="/">
+        <a>
+          <SvgHome {...homeIcon} />
+        </a>
       </Link>
       <ZoomContainer id="zoomContainer" className={String(zoomLock)}>
         <span>
@@ -113,7 +114,6 @@ const NavBar = () => {
     </Container >
   )
 }
-export default NavBar;
 
 const Container = styled.div`
   width:100vw;
@@ -145,3 +145,5 @@ const ZoomInput = styled.input`
   padding-left: 4px;
   font-size: 14px;
 `
+
+export default NavBar;
