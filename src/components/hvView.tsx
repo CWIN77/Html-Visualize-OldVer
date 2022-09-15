@@ -7,11 +7,10 @@ import { useRouter } from 'next/router'
 const View = () => {
   const router = useRouter();
   const hvId = router.query.id as string;
-  const { selectedComp }: { selectedComp: HTMLElement } = useStore();
 
-  let mouseoverComp = document.body;
+  let mouseoverComp: HTMLElement;
   let copyComp: HTMLElement;
-  let dbClickComp = document.body;
+  let dbClickComp: HTMLElement;
 
   const getRandomId = () => {
     const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
@@ -105,9 +104,8 @@ const View = () => {
     const selectComp = getSelectComp(hvId);
     if (e.key === "Delete" && selectComp.className && selectComp.id !== "view") {
       selectComp.remove();
-      const viewComp = document.getElementById("view") as HTMLElement;
       sessionStorage.removeItem(hvId + "selectComp");
-      useStore.setState({ selectedComp: viewComp });
+      useStore.setState({ isSelectChange: true });
       changeHvStorage(hvId);
     }
   }
@@ -115,7 +113,7 @@ const View = () => {
     const target = e.target as HTMLElement;
     const selectComp = getSelectComp(hvId);
 
-    if (target !== selectComp && target !== selectedComp) {
+    if (target !== selectComp) {
       if (mouseoverComp !== selectComp) {
         mouseoverComp.style.boxShadow = "";
       }
@@ -131,12 +129,11 @@ const View = () => {
     if (target !== dbClickComp) {
       dbClickComp.contentEditable = "false";
       dbClickComp = document.body;
-      selectedComp.style.boxShadow = "";
       selectComp.style.boxShadow = "";
 
       target.style.boxShadow = "inset 0px 0px 0px 2.5px #0D99FF";
       sessionStorage.setItem(hvId + "selectComp", JSON.stringify(target.className));
-      useStore.setState({ selectedComp: target });
+      useStore.setState({ isSelectChange: true });
     }
   }
   const viewBgClickEvent = (e: MouseEvent) => {
@@ -145,7 +142,6 @@ const View = () => {
       dbClickComp.contentEditable = "false";
       dbClickComp = document.body;
       mouseoverComp.style.boxShadow = "";
-      selectedComp.style.boxShadow = "";
       selectComp.style.boxShadow = "";
       sessionStorage.removeItem(hvId + "selectComp");
     }
@@ -179,6 +175,8 @@ const View = () => {
       const viewElem = document.getElementById('view') as HTMLElement;
       sessionStorage.setItem(hvId, JSON.stringify([viewElem.outerHTML]));
     }
+    dbClickComp = document.body;
+    mouseoverComp = document.body;
 
     const viewElem = document.getElementById('view') as HTMLElement;
     const bodyElem = document.body;

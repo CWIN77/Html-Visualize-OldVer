@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import SvgSearch from '../svgs/search.svg'
 import SvgPlus from '../svgs/plus.svg'
 import { compData, ableInsert } from '../addableComps/compData'
-import { useStore, changeHvStorage } from "../stateManager"
+import { changeHvStorage, getSelectComp } from "../stateManager"
 import { useState } from 'react'
 import { ICompData } from "../types"
 import kmp from "kmp"
@@ -11,8 +11,7 @@ import { useRouter } from 'next/router'
 const CompSet = () => {
   const router = useRouter();
   const hvId = router.query.id as string;
-  const iconStyles = { fill: "#282828", width: 14, height: 14 }
-  const { selectedComp }: { selectedComp: HTMLElement } = useStore();
+  const iconStyles = { fill: "#282828", width: 14, height: 14 };
   const [compList, setCompList] = useState(compData);
   const [searchText, setSearchText] = useState('');
   const [nameList, setNameList] = useState<String[]>([]);
@@ -52,11 +51,12 @@ const CompSet = () => {
     }
     newComp.className = compName;
     setNameList([...nameList, compName]);
-    if (selectedComp !== document.body) {
-      if (ableInsert.indexOf(selectedComp.tagName.toLowerCase()) > -1) {
+    const selectComp = getSelectComp(hvId);
+    if (selectComp !== document.body) {
+      if (ableInsert.indexOf(selectComp.tagName.toLowerCase()) > -1) {
         window.alert("선택한 Html에는 Element를 추가할 수 없습니다.")
       } else {
-        selectedComp.append(newComp);
+        selectComp.append(newComp);
         changeHvStorage(hvId);
       }
     } else {

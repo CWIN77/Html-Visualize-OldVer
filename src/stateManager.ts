@@ -1,11 +1,11 @@
 import create from "zustand";
 
-const selectedComp: HTMLElement = document.body;
+const isSelectChange: boolean = false;
 const hvResult: String = "";
 const isChangeComp: boolean = true;
 
 export const useStore = create(() => ({
-  selectedComp, hvResult, isChangeComp
+  isSelectChange, hvResult, isChangeComp
 }))
 
 export const changeHvStorage = (hvId: string) => {

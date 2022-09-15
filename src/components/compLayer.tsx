@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { useEffect, useState } from 'react'
-import { changeHvStorage, useStore } from '../stateManager'
+import { changeHvStorage, getSelectComp, useStore } from '../stateManager'
 import { useRouter } from 'next/router'
 import SvgShapes from '../svgs/shapes.svg'
 import SvgText from '../svgs/text.svg'
@@ -20,7 +20,7 @@ const CompLayer = () => {
   const router = useRouter();
   const hvId = router.query.id as string;
   const [compList, setCompList] = useState<(compType | textType)[]>([]);
-  const { isChangeComp, selectedComp }: { isChangeComp: boolean, selectedComp: HTMLElement } = useStore();
+  const { isChangeComp }: { isChangeComp: boolean } = useStore();
   const iconStyle = { width: 18, height: 18, fill: "#282828", style: { marginRight: 4 } };
   // const [mouseoverComp, setMouseoverComp] = useState<HTMLElement | null>(null);
 
@@ -71,11 +71,10 @@ const CompLayer = () => {
         compList.map((comp, key) => {
           if ("tag" in comp) {
             return (
-              <Comp isSelect={String(selectedComp === comp.html)} key={key} onClick={() => {
-                selectedComp.style.boxShadow = "";
+              <Comp isSelect={String(getSelectComp(hvId) === comp.html)} key={key} onClick={() => {
+                getSelectComp(hvId).style.boxShadow = "";
                 comp.html.style.boxShadow = "inset 0px 0px 0px 2.5px #0D99FF";
                 sessionStorage.setItem(hvId + "selectComp", JSON.stringify(comp.html.className));
-                useStore.setState({ selectedComp: comp.html });
               }}>
                 <pre>{`${"     ".repeat(Number(comp.tab))}`}</pre>
                 <SvgShapes {...iconStyle} />
