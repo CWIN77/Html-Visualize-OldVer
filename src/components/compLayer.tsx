@@ -21,7 +21,7 @@ const CompLayer = () => {
   const hvId = router.query.id as string;
   const [compList, setCompList] = useState<(compType | textType)[]>([]);
   const { isChangeComp } = useStore();
-  const iconStyle = { width: 18, height: 18, fill: "#282828", style: { marginRight: 4 } };
+  const iconStyle = { width: 18, height: 18, fill: "#242424", style: { marginRight: 4 } };
 
   const getHtmlNodes = (comp: HTMLElement, compList: (compType | textType)[], tabSize: Number) => {
     if (comp.nodeType === 3) {

@@ -44,19 +44,21 @@ const NavBar = () => {
   }
 
   useEffect(() => {
-    const viewBg = document.getElementById("viewBackground") as HTMLElement;
-    const viewBox = document.getElementById("viewBox") as HTMLInputElement;
-    if (device === "phone") {
-      zoom = viewBg.offsetHeight * 0.9 / 720;
-    } else if (device === "desktop") {
-      zoom = viewBg.offsetWidth * 0.9 / 1395;
+    const viewBg = document.getElementById("viewBackground");
+    const viewBox = document.getElementById("viewBox");
+    if (viewBg && viewBox) {
+      if (device === "phone") {
+        zoom = viewBg.offsetHeight * 0.9 / 720;
+      } else if (device === "desktop") {
+        zoom = viewBg.offsetWidth * 0.9 / 1395;
+      }
+      viewBox.style.transform = `scale(${zoom}, ${zoom})`;
+      const zommInput = document.getElementById("zoom") as HTMLInputElement;
+      zommInput.value = String(Math.floor(zoom * 100));
+      const viewContainerElem = document.getElementById("viewContainer") as HTMLElement;
+      zommInput.addEventListener("change", zoomEvent);
+      viewContainerElem.addEventListener('wheel', zoomEvent);
     }
-    viewBox.style.transform = `scale(${zoom}, ${zoom})`;
-    const zommInput = document.getElementById("zoom") as HTMLInputElement;
-    zommInput.value = String(Math.floor(zoom * 100));
-    const viewContainerElem = document.getElementById("viewContainer") as HTMLElement;
-    zommInput.addEventListener("change", zoomEvent);
-    viewContainerElem.addEventListener('wheel', zoomEvent);
   }, [])
 
   const changeDevice = (type: string) => {

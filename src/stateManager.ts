@@ -24,5 +24,6 @@ export const changeHvStorage = (hvId: string) => {
 export const getSelectComp = (hvId: string) => {
   const storageCompName: string | null = JSON.parse(sessionStorage.getItem(hvId + "selectComp") || JSON.stringify(null));
   const selectComp = storageCompName ? document.querySelector("." + storageCompName) as HTMLElement : document.body;
+  // console.log(storageCompName);
   return selectComp;
 }

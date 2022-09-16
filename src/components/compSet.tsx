@@ -11,7 +11,7 @@ import { useRouter } from 'next/router'
 const CompSet = () => {
   const router = useRouter();
   const hvId = router.query.id as string;
-  const iconStyles = { fill: "#282828", width: 14, height: 14 };
+  const iconStyles = { fill: "#242424", width: 14, height: 14 };
   const [compList, setCompList] = useState(compData);
   const [searchText, setSearchText] = useState('');
   const [nameList, setNameList] = useState<String[]>([]);

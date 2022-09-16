@@ -62,7 +62,7 @@ const ResultText = styled.pre`
   max-height: 400px;
   padding: 20px 22px;
   font-size: 13px;
-  background-color: #282828;
+  background-color: #242424;
   color:white;
   box-shadow: 0 0 0 1.5px #3d3d3d inset;
   user-select: text;
