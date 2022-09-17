@@ -52,6 +52,7 @@ export const createUser = /* GraphQL */ `
       id
       name
       img
+      hvList
       createdAt
       updatedAt
     }
@@ -66,6 +67,7 @@ export const updateUser = /* GraphQL */ `
       id
       name
       img
+      hvList
       createdAt
       updatedAt
     }
@@ -80,6 +82,7 @@ export const deleteUser = /* GraphQL */ `
       id
       name
       img
+      hvList
       createdAt
       updatedAt
     }

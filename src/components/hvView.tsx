@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import styled from 'styled-components'
 import { ableInsert, compData, dbClickAble } from '../addableComps/compData';
 import { useStore, changeHvStorage, getSelectComp } from '../stateManager'
 import { useRouter } from 'next/router'
+import { IHvData } from '../types';
 
-const View = () => {
+const HvView = ({ hvHtml }: { hvHtml: String }) => {
   const router = useRouter();
   const hvId: string = router.query.id || JSON.parse(sessionStorage.getItem("hvId") || JSON.stringify(null));
 
@@ -164,7 +165,7 @@ const View = () => {
     // window.onbeforeunload = () => {
     //   return false;
     // };
-    sessionStorage.setItem("hvId", JSON.stringify(hvId));
+    
     const compHistory: string[] = JSON.parse(sessionStorage.getItem(hvId) || JSON.stringify([]));
     if (compHistory.length > 0) {
       const viewElem = document.getElementById('view') as HTMLElement;
@@ -172,8 +173,7 @@ const View = () => {
       viewElem.remove();
       parentElem.insertAdjacentHTML('beforeend', compHistory[compHistory.length - 1]);
     } else {
-      const viewElem = document.getElementById('view') as HTMLElement;
-      sessionStorage.setItem(hvId, JSON.stringify([viewElem.outerHTML]));
+      sessionStorage.setItem(hvId, JSON.stringify([hvHtml]));
     }
 
     const viewElem = document.getElementById('view') as HTMLElement;
@@ -265,4 +265,4 @@ const ViewBackground = styled.span`
   }
 `
 
-export default View;
+export default HvView;

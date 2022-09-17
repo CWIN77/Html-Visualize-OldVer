@@ -10,7 +10,7 @@ import { useRouter } from 'next/router'
 
 const CompSet = () => {
   const router = useRouter();
-  const hvId = router.query.id as string;
+  const hvId = router.query.id || JSON.parse(sessionStorage.getItem("hvId") || JSON.stringify(null));
   const iconStyles = { fill: "#242424", width: 14, height: 14 };
   const [compList, setCompList] = useState(compData);
   const [searchText, setSearchText] = useState('');

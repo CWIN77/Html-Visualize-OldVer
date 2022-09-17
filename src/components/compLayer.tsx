@@ -18,7 +18,7 @@ type textType = {
 
 const CompLayer = () => {
   const router = useRouter();
-  const hvId = router.query.id as string;
+  const hvId = router.query.id || JSON.parse(sessionStorage.getItem("hvId") || JSON.stringify(null));
   const [compList, setCompList] = useState<(compType | textType)[]>([]);
   const { isChangeComp } = useStore();
   const iconStyle = { width: 18, height: 18, fill: "#242424", style: { marginRight: 4 } };

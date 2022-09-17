@@ -36,6 +36,7 @@ export const getUser = /* GraphQL */ `
       id
       name
       img
+      hvList
       createdAt
       updatedAt
     }
@@ -52,6 +53,7 @@ export const listUsers = /* GraphQL */ `
         id
         name
         img
+        hvList
         createdAt
         updatedAt
       }

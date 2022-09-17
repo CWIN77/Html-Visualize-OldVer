@@ -65,10 +65,6 @@ const StyleSet = () => {
   }
 
   useEffect(() => {
-    sessionStorage.setItem("hvId", JSON.stringify(hvId));
-  }, [])
-
-  useEffect(() => {
     useStore.setState({ isSelectChange: false });
     const selectComp = getSelectComp(hvId);
 

@@ -16,3 +16,11 @@ export interface ICom {
 export type TAbleStyle = {
   [key: string]: "value" | "detail" | string[];
 }
+
+export interface IHvData {
+  id: String;
+  html: String;
+  author: String;
+  createdAt: String;
+  updatedAt: String;
+}
