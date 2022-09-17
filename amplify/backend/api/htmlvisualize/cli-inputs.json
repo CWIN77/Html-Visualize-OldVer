@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "serviceConfiguration": {
+    "apiName": "htmlvisualize",
+    "serviceName": "AppSync",
+    "gqlSchemaPath": "C:\\Users\\6800U\\Desktop\\html_visualize\\amplify\\backend\\api\\htmlvisualize\\schema.graphql",
+    "defaultAuthType": {
+      "mode": "API_KEY",
+      "expirationTime": 7
+    }
+  }
+}

@@ -8,9 +8,9 @@ const View = () => {
   const router = useRouter();
   const hvId = router.query.id as string;
 
-  let mouseoverComp: HTMLElement = document.body;
+  let mouseoverComp: HTMLElement;
   let copyComp: HTMLElement;
-  let dbClickComp: HTMLElement = document.body;
+  let dbClickComp: HTMLElement;
 
   const getRandomId = () => {
     const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
@@ -175,6 +175,9 @@ const View = () => {
       const viewElem = document.getElementById('view') as HTMLElement;
       sessionStorage.setItem(hvId, JSON.stringify([viewElem.outerHTML]));
     }
+
+    mouseoverComp = document.body;
+    dbClickComp = document.body;
 
     const viewElem = document.getElementById('view') as HTMLElement;
     const bodyElem = document.body;
