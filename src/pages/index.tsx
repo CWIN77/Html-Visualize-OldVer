@@ -1,15 +1,18 @@
+import dynamic from 'next/dynamic';
 import styled from 'styled-components'
-import User from '../components/userInform'
-import HvList from '../components/hvList'
+const UserInform = dynamic(() => import('../components/userInform'), { ssr: false });
+const HvList = dynamic(() => import('../components/hvList'), { ssr: false });
 
 const Home = () => {
   return (
     <Container>
-      <User />
+      <UserInform />
       <HvList />
     </Container>
   )
 }
+
+
 
 const Container = styled.div`
   width:100vw;

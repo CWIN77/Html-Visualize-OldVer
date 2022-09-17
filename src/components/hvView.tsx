@@ -1,9 +1,8 @@
-import { useEffect } from 'react'
-import styled from 'styled-components'
-import { ableInsert, compData, dbClickAble } from '../addableComps/compData';
-import { useStore, changeHvStorage, getSelectComp } from '../stateManager'
-import { useRouter } from 'next/router'
-import { IHvData } from '../types';
+import { useEffect } from 'react';
+import styled from 'styled-components';
+import { ableInsert, compData, dbClickAble } from '../addableComps/compData';;
+import { useStore, changeHvStorage, getSelectComp } from '../stateManager';
+import { useRouter } from 'next/router';
 
 const HvView = ({ hvHtml }: { hvHtml: String }) => {
   const router = useRouter();
@@ -165,7 +164,7 @@ const HvView = ({ hvHtml }: { hvHtml: String }) => {
     // window.onbeforeunload = () => {
     //   return false;
     // };
-    
+
     const compHistory: string[] = JSON.parse(sessionStorage.getItem(hvId) || JSON.stringify([]));
     if (compHistory.length > 0) {
       const viewElem = document.getElementById('view') as HTMLElement;

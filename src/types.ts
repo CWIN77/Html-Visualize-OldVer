@@ -24,3 +24,9 @@ export interface IHvData {
   createdAt: String;
   updatedAt: String;
 }
+
+export interface IUser {
+  photoURL: String;
+  displayName: String;
+  uid: String;
+}

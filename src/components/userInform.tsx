@@ -1,20 +1,34 @@
 import styled from 'styled-components'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import SvgPlus from '../svgs/plus.svg'
+import { loginGoogle, logOut, getCurrentUser } from "../firebase/auth";
+import { useEffect, useState } from 'react';
+import { IUser } from '../types';
 
 const UserInform = () => {
-  const iconStyles = { fill: "#363636", width: 14, height: 14, style: { padding: 2, cursor: "pointer" } }
+  const iconStyles = { fill: "#363636", width: 14, height: 14, style: { padding: 2, cursor: "pointer" } };
+  const [user, setUser] = useState<IUser | null>(null);
+  useEffect(() => {
+    const user = getCurrentUser();
+    setUser(user);
+  }, [])
+
   return (
     <Container>
-      <Profile>
-        <ProfileImg src="https://lh3.googleusercontent.com/a-/AOh14GhBIpwktw4iDwX7_dafbrn64O2wNRJbx1hivycj5A=s96-c" />
-        <span>
-          <ProfileName>CWIN77</ProfileName>
-          <CopyToClipboard text={"#2x81Ezi7"}>
-            <ProfileId>#2x81Ezi7</ProfileId>
-          </CopyToClipboard>
-        </span>
-      </Profile>
+      {
+        user
+          ? <Profile>
+            <ProfileImg src={String(user.photoURL)} />
+            <span>
+              <ProfileName>{user.displayName}</ProfileName>
+              <CopyToClipboard text={"#2x81Ezi7"}>
+                <ProfileId>#2x81Ezi7</ProfileId>
+              </CopyToClipboard>
+            </span>
+          </Profile>
+          : <button onClick={() => { loginGoogle() }}>로그인</button>
+      }
+      <button onClick={() => { console.log(getCurrentUser()); }}>현재 로그인</button>
       {/* <Friends>
         <FriendTitle>
           <h1>Friend</h1>
@@ -45,6 +59,7 @@ const ProfileImg = styled.img`
   height:70px;
   border-radius: 200px;
   margin-right: 18px;
+  cursor: pointer;
 `
 const ProfileName = styled.h1`
   font-size: 20px;
