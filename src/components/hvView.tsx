@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { ableInsert, compData, dbClickAble } from '../addableComps/compData';
 import { useStore, changeHvStorage, getSelectComp } from '../stateManager'
@@ -6,11 +6,11 @@ import { useRouter } from 'next/router'
 
 const View = () => {
   const router = useRouter();
-  const hvId = router.query.id as string;
+  const hvId: string = router.query.id || JSON.parse(sessionStorage.getItem("hvId") || JSON.stringify(null));
 
-  let mouseoverComp: HTMLElement;
+  let mouseoverComp: HTMLElement = document.body;
   let copyComp: HTMLElement;
-  let dbClickComp: HTMLElement;
+  let dbClickComp: HTMLElement = document.body;
 
   const getRandomId = () => {
     const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
@@ -164,7 +164,7 @@ const View = () => {
     // window.onbeforeunload = () => {
     //   return false;
     // };
-
+    sessionStorage.setItem("hvId", JSON.stringify(hvId));
     const compHistory: string[] = JSON.parse(sessionStorage.getItem(hvId) || JSON.stringify([]));
     if (compHistory.length > 0) {
       const viewElem = document.getElementById('view') as HTMLElement;
@@ -175,9 +175,6 @@ const View = () => {
       const viewElem = document.getElementById('view') as HTMLElement;
       sessionStorage.setItem(hvId, JSON.stringify([viewElem.outerHTML]));
     }
-
-    mouseoverComp = document.body;
-    dbClickComp = document.body;
 
     const viewElem = document.getElementById('view') as HTMLElement;
     const bodyElem = document.body;

@@ -12,8 +12,7 @@ const StyleSet = () => {
   const [isShowDetail, setIsShowDetail] = useState(false);
   const [attList, setAttList] = useState<string[]>([]);
   const router = useRouter();
-  const hvId = router.query.id as string;
-  const [selectComp, setSelectComp] = useState<HTMLElement>();
+  const hvId: string = router.query.id || JSON.parse(sessionStorage.getItem("hvId") || JSON.stringify(null));
 
   const deleteComp = () => {
     const selectComp = getSelectComp(hvId);
@@ -33,7 +32,6 @@ const StyleSet = () => {
 
   const changeStyle = (e: any, styleKey: any) => {
     const selectComp = getSelectComp(hvId);
-
     if (selectComp) {
       selectComp.style[styleKey] = e.target.value;
       if (selectComp.style[styleKey] === "") {
@@ -67,38 +65,34 @@ const StyleSet = () => {
   }
 
   useEffect(() => {
-    setSelectComp(getSelectComp(hvId));
+    sessionStorage.setItem("hvId", JSON.stringify(hvId));
   }, [])
 
   useEffect(() => {
-    if (isSelectChange) {
-      setSelectComp(getSelectComp(hvId));
+    useStore.setState({ isSelectChange: false });
+    const selectComp = getSelectComp(hvId);
 
-      useStore.setState({ isSelectChange: false });
-      const selectComp = getSelectComp(hvId);
-
-      if (selectComp && selectComp.className) {
-        const newStyleList: TAbleStyle[] = [];
-        if (selectComp.id === "view" || selectComp === document.body) {
-          Object.keys(elementStyle.view).forEach((key) => {
-            newStyleList.push({ [key]: elementStyle["view"][key] });
-          });
-        } else {
-          Object.keys(elementStyle[selectComp.tagName.toLowerCase()]).forEach((key) => {
-            newStyleList.push({ [key]: elementStyle[selectComp.tagName.toLowerCase()][key] });
-          });
-        }
-        setStyleList(newStyleList);
-
-        const newAttList: string[] = [];
-        newAttList.push("name");
-        if (compAttribute[selectComp.tagName.toLowerCase()]) {
-          compAttribute[selectComp.tagName.toLowerCase()].forEach((att) => {
-            newAttList.push(att);
-          });
-        }
-        setAttList(newAttList);
+    if (selectComp && selectComp.className) {
+      const newStyleList: TAbleStyle[] = [];
+      if (selectComp.id === "view" || selectComp === document.body) {
+        Object.keys(elementStyle.view).forEach((key) => {
+          newStyleList.push({ [key]: elementStyle["view"][key] });
+        });
+      } else {
+        Object.keys(elementStyle[selectComp.tagName.toLowerCase()]).forEach((key) => {
+          newStyleList.push({ [key]: elementStyle[selectComp.tagName.toLowerCase()][key] });
+        });
       }
+      setStyleList(newStyleList);
+
+      const newAttList: string[] = [];
+      newAttList.push("name");
+      if (compAttribute[selectComp.tagName.toLowerCase()]) {
+        compAttribute[selectComp.tagName.toLowerCase()].forEach((att) => {
+          newAttList.push(att);
+        });
+      }
+      setAttList(newAttList);
     }
   }, [isSelectChange]);
 
@@ -183,7 +177,7 @@ const StyleSet = () => {
       </StyleContainer>
 
       {
-        selectComp && selectComp.className &&
+        getSelectComp(hvId)?.className &&
         <Style><h2 onClick={() => { setIsShowDetail(!isShowDetail) }}>{isShowDetail ? "그 외 스타일 접기" : "그 외 스타일 펼치기"}</h2></Style>
       }
       <StyleContainer>
@@ -206,7 +200,7 @@ const StyleSet = () => {
 
       <span style={{ paddingTop: 24 }} />
       {
-        selectComp && selectComp.className && selectComp.id !== "view" &&
+        getSelectComp(hvId)?.className && getSelectComp(hvId).id !== "view" &&
         <DeleteComp><h1 onClick={deleteComp}>요소 삭제</h1></DeleteComp>
       }
     </Container >

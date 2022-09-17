@@ -44,20 +44,40 @@ const NavBar = () => {
   }
 
   useEffect(() => {
-    const viewBg = document.getElementById("viewBackground");
+    const viewBg = document.getElementById("viewBackground") as HTMLElement;
     const viewBox = document.getElementById("viewBox");
-    if (viewBg && viewBox) {
+    const zommInput = document.getElementById("zoom") as HTMLInputElement | null;
+    const viewContainerElem = document.getElementById("viewContainer");
+
+    if (viewBg && viewBox && zommInput && viewContainerElem) {
       if (device === "phone") {
         zoom = viewBg.offsetHeight * 0.9 / 720;
       } else if (device === "desktop") {
         zoom = viewBg.offsetWidth * 0.9 / 1395;
       }
       viewBox.style.transform = `scale(${zoom}, ${zoom})`;
-      const zommInput = document.getElementById("zoom") as HTMLInputElement;
       zommInput.value = String(Math.floor(zoom * 100));
-      const viewContainerElem = document.getElementById("viewContainer") as HTMLElement;
       zommInput.addEventListener("change", zoomEvent);
       viewContainerElem.addEventListener('wheel', zoomEvent);
+    } else {
+      const zoomSetter = setInterval(() => {
+        const viewBg = document.getElementById("viewBackground") as HTMLElement;
+        const viewBox = document.getElementById("viewBox");
+        const zommInput = document.getElementById("zoom") as HTMLInputElement | null;
+        const viewContainerElem = document.getElementById("viewContainer");
+        if (viewBg && viewBox && zommInput && viewContainerElem) {
+          if (device === "phone") {
+            zoom = viewBg.offsetHeight * 0.9 / 720;
+          } else if (device === "desktop") {
+            zoom = viewBg.offsetWidth * 0.9 / 1395;
+          }
+          viewBox.style.transform = `scale(${zoom}, ${zoom})`;
+          zommInput.value = String(Math.floor(zoom * 100));
+          zommInput.addEventListener("change", zoomEvent);
+          viewContainerElem.addEventListener('wheel', zoomEvent);
+          clearInterval(zoomSetter);
+        }
+      }, 100)
     }
   }, [])
 
@@ -85,6 +105,8 @@ const NavBar = () => {
     viewContainerElem.addEventListener('wheel', zoomEvent);
     zommInput.addEventListener("change", zoomEvent);
   }
+
+
 
   return (
     <Container>

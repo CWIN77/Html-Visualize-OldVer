@@ -4,12 +4,12 @@ import type { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 const HvResult = dynamic(() => import('../../components/hvResult'), { ssr: false });
-// const StyleSet = dynamic(() => import('../../components/styleSet'), { ssr: false });
-import StyleSet from '../../components/styleSet';
-import HvView from '../../components/hvView';
+const StyleSet = dynamic(() => import('../../components/styleSet'), { ssr: false });
+// import StyleSet from '../../components/styleSet';
+// import HvView from '../../components/hvView';
 const LeftSideBar = dynamic(() => import('../../components/leftSideBar'), { ssr: false });
 const NavBar = dynamic(() => import('../../components/navBar'), { ssr: false });
-// const HvView = dynamic(() => import('../../components/hvView'), { ssr: false });
+const HvView = dynamic(() => import('../../components/hvView'), { ssr: false });
 
 const HvDevelop: NextPage<{ hvData: any }> = ({ hvData }: { hvData: any }) => {
   const router = useRouter();
