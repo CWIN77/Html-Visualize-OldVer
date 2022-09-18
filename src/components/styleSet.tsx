@@ -4,15 +4,14 @@ import { elementStyle, styleName } from "../addableComps/compStyles"
 import { TAbleStyle } from "../types"
 import { compAttribute } from "../addableComps/compData"
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router'
+import { useParams } from "react-router-dom";
 
 const StyleSet = () => {
   const { isSelectChange } = useStore();
   const [styleList, setStyleList] = useState<TAbleStyle[]>([]);
   const [isShowDetail, setIsShowDetail] = useState(false);
   const [attList, setAttList] = useState<string[]>([]);
-  const router = useRouter();
-  const hvId: string = router.query.id || JSON.parse(sessionStorage.getItem("hvId") || JSON.stringify(null));
+  const hvId = useParams().id || JSON.parse(sessionStorage.getItem("hvId") || JSON.stringify(null));
 
   const deleteComp = () => {
     const selectComp = getSelectComp(hvId);

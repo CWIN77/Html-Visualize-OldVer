@@ -1,9 +1,9 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 import { useEffect, useState } from 'react'
 import { changeHvStorage, getSelectComp, useStore } from '../stateManager'
-import { useRouter } from 'next/router'
-import SvgShapes from '../svgs/shapes.svg'
-import SvgText from '../svgs/text.svg'
+import { ReactComponent as SvgShapes } from "../svgs/shapes.svg";
+import { ReactComponent as SvgText } from "../svgs/text.svg";
+import { useParams } from "react-router-dom";
 
 type compType = {
   tab: Number,
@@ -17,8 +17,7 @@ type textType = {
 }
 
 const CompLayer = () => {
-  const router = useRouter();
-  const hvId = router.query.id || JSON.parse(sessionStorage.getItem("hvId") || JSON.stringify(null));
+  const hvId = useParams().id || JSON.parse(sessionStorage.getItem("hvId") || JSON.stringify(null));
   const [compList, setCompList] = useState<(compType | textType)[]>([]);
   const { isChangeComp } = useStore();
   const iconStyle = { width: 18, height: 18, fill: "#242424", style: { marginRight: 4 } };

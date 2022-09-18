@@ -1,10 +1,10 @@
-import styled from 'styled-components'
-import SvgPlus from '../svgs/plus.svg'
-import Link from 'next/link'
+import styled from 'styled-components';
+import { ReactComponent as SvgPlus } from "../svgs/plus.svg";
 import { API } from 'aws-amplify';
 import { listHvData } from '../graphql/queries';
 import { useEffect, useState } from 'react';
 import { IHvData } from '../types';
+import { Link } from 'react-router-dom'
 
 const HvList = () => {
   const iconStyles = { width: 24, height: 24, fill: "#FFFFFF" };
@@ -32,15 +32,13 @@ const HvList = () => {
       </Delveop>
       {
         hvList && hvList.map((data, key) => (
-          <Link key={key} href={`/develop/${data.id}`}>
-            <a>
-              <Delveop>
-                <div>
-                  {data.html}
-                </div>
-                <h1>{data.title}</h1>
-              </Delveop>
-            </a>
+          <Link key={key} to={`/develop/${data.id}`}>
+            <Delveop>
+              <div>
+                {data.html}
+              </div>
+              <h1>{data.title}</h1>
+            </Delveop>
           </Link>
         ))
       }

@@ -1,16 +1,15 @@
-import styled from 'styled-components'
-import SvgSearch from '../svgs/search.svg'
-import SvgPlus from '../svgs/plus.svg'
+import styled from 'styled-components';
+import { ReactComponent as SvgSearch } from "../svgs/search.svg";
+import { ReactComponent as SvgPlus } from "../svgs/plus.svg";
 import { compData, ableInsert } from '../addableComps/compData'
 import { changeHvStorage, getSelectComp } from "../stateManager"
 import { useState } from 'react'
 import { ICompData } from "../types"
-import kmp from "kmp"
-import { useRouter } from 'next/router'
+import kmp from "kmp";
+import { useParams } from "react-router-dom";
 
 const CompSet = () => {
-  const router = useRouter();
-  const hvId = router.query.id || JSON.parse(sessionStorage.getItem("hvId") || JSON.stringify(null));
+  const hvId = useParams().id || JSON.parse(sessionStorage.getItem("hvId") || JSON.stringify(null));
   const iconStyles = { fill: "#242424", width: 14, height: 14 };
   const [compList, setCompList] = useState(compData);
   const [searchText, setSearchText] = useState('');

@@ -1,12 +1,11 @@
 import { useEffect } from 'react';
 import styled from 'styled-components';
-import { ableInsert, compData, dbClickAble } from '../addableComps/compData';;
+import { ableInsert, compData, dbClickAble } from '../addableComps/compData';
 import { useStore, changeHvStorage, getSelectComp } from '../stateManager';
-import { useRouter } from 'next/router';
+import { useParams } from "react-router-dom";
 
 const HvView = ({ hvHtml }: { hvHtml: String }) => {
-  const router = useRouter();
-  const hvId: string = router.query.id || JSON.parse(sessionStorage.getItem("hvId") || JSON.stringify(null));
+  const hvId = useParams().id || JSON.parse(sessionStorage.getItem("hvId") || JSON.stringify(null));
 
   let mouseoverComp: HTMLElement = document.body;
   let copyComp: HTMLElement;

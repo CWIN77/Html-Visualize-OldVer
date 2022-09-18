@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-import { CopyToClipboard } from 'react-copy-to-clipboard'
-import SvgPlus from '../svgs/plus.svg'
+// import { CopyToClipboard } from 'react-copy-to-clipboard'
+// import SvgPlus from '../svgs/plus.svg'
 import { loginGoogle, logOut, getCurrentUser } from "../firebase/auth";
 import { useEffect, useState } from 'react';
 import { IUser } from '../types';

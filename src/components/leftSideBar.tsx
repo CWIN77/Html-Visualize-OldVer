@@ -1,7 +1,7 @@
-import styled from 'styled-components'
-import CompSet from './compSet'
-import CompLayer from './compLayer'
-import { useState } from 'react'
+import styled from 'styled-components';
+import CompSet from './compSet';
+import CompLayer from './compLayer';
+import { useState } from 'react';
 
 const LeftSideBar = () => {
   const [sidePage, setSidePage] = useState(0);
