@@ -21,12 +21,14 @@ export interface IHvData {
   id: String;
   html: String;
   author: String;
+  title: String;
   createdAt: String;
   updatedAt: String;
 }
 
 export interface IUser {
-  photoURL: String;
-  displayName: String;
+  img: String;
+  name: String;
   uid: String;
+  joinId: String;
 }

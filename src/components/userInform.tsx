@@ -18,17 +18,14 @@ const UserInform = () => {
       {
         user
           ? <Profile>
-            <ProfileImg src={String(user.photoURL)} />
+            <ProfileImg src={String(user.img)} />
             <span>
-              <ProfileName>{user.displayName}</ProfileName>
-              <CopyToClipboard text={"#2x81Ezi7"}>
-                <ProfileId>#2x81Ezi7</ProfileId>
-              </CopyToClipboard>
+              <ProfileName onClick={() => { logOut() }}>{user.name}</ProfileName>
             </span>
           </Profile>
           : <button onClick={() => { loginGoogle() }}>로그인</button>
       }
-      <button onClick={() => { console.log(getCurrentUser()); }}>현재 로그인</button>
+      <button onClick={() => { console.log(user); }}>현재 로그인</button>
       {/* <Friends>
         <FriendTitle>
           <h1>Friend</h1>
@@ -55,17 +52,15 @@ const Profile = styled.div`
   margin-top: 12px;
 `
 const ProfileImg = styled.img`
-  width:70px;
-  height:70px;
+  width:35px;
+  height:35px;
   border-radius: 200px;
-  margin-right: 18px;
+  margin-right: 12px;
   cursor: pointer;
 `
 const ProfileName = styled.h1`
   font-size: 20px;
   width:160px;
-  font-weight: bold;
-  margin-top: 8px;
 `
 const ProfileId = styled.h2`
   font-size: 14px;

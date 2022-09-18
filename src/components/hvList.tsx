@@ -1,24 +1,49 @@
 import styled from 'styled-components'
 import SvgPlus from '../svgs/plus.svg'
 import Link from 'next/link'
+import { API } from 'aws-amplify';
+import { listHvData } from '../graphql/queries';
+import { useEffect, useState } from 'react';
+import { IHvData } from '../types';
+
 const HvList = () => {
-  const iconStyles = { width: 24, height: 24, fill: "#FFFFFF" }
+  const iconStyles = { width: 24, height: 24, fill: "#FFFFFF" };
+  const [hvList, setHvList] = useState<IHvData[] | null>(null);
+  
+  const getHvDataList = async () => {
+    const { data }: any = await API.graphql({
+      query: listHvData,
+      variables: {
+        filter: { author: { contains: "01" } }
+      }
+    })
+    setHvList(data.listHvData.items);
+  }
+
+  useEffect(() => {
+    getHvDataList();
+  }, [])
+
   return (
     <Container>
       <Delveop>
         <div><SvgPlus {...iconStyles} /></div>
         <h1>새로운 프로젝트를 시작해보세요!</h1>
       </Delveop>
-      <Link href="/develop/id">
-        <a>
-          <Delveop>
-            <div>
-
-            </div>
-            <h1>테스트용 이름, 테스트용 이름</h1>
-          </Delveop>
-        </a>
-      </Link>
+      {
+        hvList && hvList.map((data, key) => (
+          <Link key={key} href={`/develop/${data.id}`}>
+            <a>
+              <Delveop>
+                <div>
+                  {data.html}
+                </div>
+                <h1>{data.title}</h1>
+              </Delveop>
+            </a>
+          </Link>
+        ))
+      }
     </Container>
   )
 }

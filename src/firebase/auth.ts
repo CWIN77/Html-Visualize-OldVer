@@ -1,7 +1,7 @@
 import { IUser } from '../types';
 import firebase from './config'
 
-export const loginGoogle = () => {
+export const loginGoogle = (): void => {
   firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
     .then(() => {
       const provider = new firebase.auth.GoogleAuthProvider();
@@ -10,19 +10,23 @@ export const loginGoogle = () => {
       alert('로그인 실패\n' + error.message)
     }).then(({ user }: any) => {
       const { displayName, photoURL, uid } = user;
-      // const id = displayName + uid.substr(0, 8);
-      const userData = { photoURL, displayName, uid };
-      localStorage.setItem("user", JSON.stringify(userData));
+      if (displayName && photoURL) {
+        const joinId = displayName + uid.substr(0, 8);
+        const userData: IUser = { img: photoURL, name: displayName, uid, joinId };
+        localStorage.setItem("user", JSON.stringify(userData));
+        alert('로그인 완료');
+      }
+      window.location.reload();
     }).catch((error) => {
       alert('로그인 실패\n' + error.message);
     });
 }
 
-export const logOut = () => {
+export const logOut = (): void => {
   if (window.confirm('로그아웃 하겠습니까?')) {
     firebase.auth().signOut().then(() => {
-      localStorage.removeItem('user')
-      alert('로그아웃완료');
+      localStorage.removeItem('user');
+      alert('로그아웃 완료');
       window.location.reload();
     }).catch(() => {
       alert('로그아웃 실패');
@@ -31,15 +35,26 @@ export const logOut = () => {
 }
 
 export const getCurrentUser = () => {
-  const user: IUser | null = firebase.auth().currentUser || JSON.parse(localStorage.getItem("user") || JSON.stringify(null));
+  const currentUser = firebase.auth().currentUser;
+  if (currentUser) {
+    const { displayName, photoURL, uid } = currentUser;
+    if (displayName && photoURL) {
+      const joinId = displayName + uid.substr(0, 8);
+      const userData: IUser = { img: photoURL, name: displayName, uid, joinId };
+      localStorage.setItem("user", JSON.stringify(userData));
+      return userData;
+    }
+  }
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
       const { displayName, photoURL, uid } = user;
-      const userData = { photoURL, displayName, uid };
-      if (displayName && photoURL && uid) {
+      if (displayName && photoURL) {
+        const joinId = displayName + uid.substr(0, 8);
+        const userData: IUser = { img: photoURL, name: displayName, uid, joinId };
         localStorage.setItem("user", JSON.stringify(userData));
+        return userData;
       }
     }
   });
-  return user;
+  return JSON.parse(localStorage.getItem("user") || JSON.stringify(null));
 }

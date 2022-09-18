@@ -6,11 +6,11 @@ type HvData @model {
   id:ID!
   html:String!
   author:String!
+  title:String!
 }
 
 type User @model {
   id:ID!
   name:String!
   img:String!
-  hvList:[String]!
 }
