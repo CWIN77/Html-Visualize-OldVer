@@ -9,7 +9,7 @@ import { IHvData } from '../types';
 const HvList = () => {
   const iconStyles = { width: 24, height: 24, fill: "#FFFFFF" };
   const [hvList, setHvList] = useState<IHvData[] | null>(null);
-  
+
   const getHvDataList = async () => {
     const { data }: any = await API.graphql({
       query: listHvData,
