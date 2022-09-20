@@ -3,26 +3,32 @@ import { ReactComponent as SvgPlus } from "../svgs/plus.svg";
 import { API } from 'aws-amplify';
 import { listHvData } from '../graphql/queries';
 import { useEffect, useState } from 'react';
-import { IHvData } from '../types';
+import { IHvData, IUser } from '../types';
 import { Link } from 'react-router-dom'
 
-const HvList = () => {
+const HvList = ({ user }: { user: IUser | null }) => {
   const iconStyles = { width: 24, height: 24, fill: "#FFFFFF" };
   const [hvList, setHvList] = useState<IHvData[] | null>(null);
 
   const getHvDataList = async () => {
-    const { data }: any = await API.graphql({
+    const { data } = await API.graphql({
       query: listHvData,
       variables: {
-        filter: { author: { contains: "01" } }
+        filter: { author: { contains: user?.uid } }
       }
-    })
-    setHvList(data.listHvData.items);
+    }) as { data: { listHvData: { items: IHvData[] | null } } };
+    const result = data.listHvData.items;
+    if (result) {
+      result.forEach((hv, i) => {
+        if (result !== null) result[i].html = String(hv.html.replace(/\\/g, ""));
+      })
+    }
+    setHvList(result);
   }
 
   useEffect(() => {
-    getHvDataList();
-  }, [])
+    if (user) getHvDataList();
+  }, [user])
 
   return (
     <Container>

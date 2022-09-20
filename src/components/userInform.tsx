@@ -2,16 +2,10 @@ import styled from 'styled-components'
 // import { CopyToClipboard } from 'react-copy-to-clipboard'
 // import SvgPlus from '../svgs/plus.svg'
 import { loginGoogle, logOut, getCurrentUser } from "../firebase/auth";
-import { useEffect, useState } from 'react';
 import { IUser } from '../types';
 
-const UserInform = () => {
+const UserInform = ({ user }: { user: IUser | null }) => {
   const iconStyles = { fill: "#363636", width: 14, height: 14, style: { padding: 2, cursor: "pointer" } };
-  const [user, setUser] = useState<IUser | null>(null);
-  useEffect(() => {
-    const user = getCurrentUser();
-    setUser(user);
-  }, [])
 
   return (
     <Container>

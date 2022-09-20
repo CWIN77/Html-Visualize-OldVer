@@ -6,7 +6,7 @@ import { ReactComponent as SvgRectangleFill } from '../svgs/rectangle_fill.svg';
 import { ReactComponent as SvgDesktop } from '../svgs/desktop.svg';
 import { ReactComponent as SvgPhone } from '../svgs/phone.svg';
 import { useEffect, useState } from 'react';
-import HvExport from './hvExport';
+import HvExport from './HvExport';
 import { Link } from 'react-router-dom';
 
 const NavBar = () => {

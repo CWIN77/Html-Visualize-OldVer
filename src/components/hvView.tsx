@@ -62,6 +62,10 @@ const HvView = ({ hvHtml }: { hvHtml: String }) => {
       }
     }
   }
+  const changeHvEvent = () => {
+    changeHvStorage(hvId);
+    dbClickComp = document.body;
+  }
   const textEditEvent = (e: MouseEvent) => {
     const target = e.target as HTMLElement;
     const tagName = target.tagName.toLowerCase();
@@ -69,6 +73,7 @@ const HvView = ({ hvHtml }: { hvHtml: String }) => {
       target.style.boxShadow = "";
       target.contentEditable = "true";
       dbClickComp = target;
+      target.addEventListener("focusout", changeHvEvent);
     }
   }
   const copyEvent = (e: KeyboardEvent) => {
@@ -101,7 +106,7 @@ const HvView = ({ hvHtml }: { hvHtml: String }) => {
   }
   const deleteEvent = (e: KeyboardEvent) => {
     const selectComp = getSelectComp(hvId);
-    if (e.key === "Delete" && selectComp.className && selectComp.id !== "view") {
+    if (dbClickComp === document.body && e.key === "Delete" && selectComp.className && selectComp.id !== "view") {
       selectComp.remove();
       sessionStorage.removeItem(hvId + "selectComp");
       useStore.setState({ isSelectChange: true });
@@ -112,7 +117,7 @@ const HvView = ({ hvHtml }: { hvHtml: String }) => {
     const target = e.target as HTMLElement;
     const selectComp = getSelectComp(hvId);
 
-    if (target !== selectComp) {
+    if (target !== selectComp && dbClickComp === document.body) {
       if (mouseoverComp && mouseoverComp !== selectComp) {
         mouseoverComp.style.boxShadow = "";
       }
@@ -121,7 +126,6 @@ const HvView = ({ hvHtml }: { hvHtml: String }) => {
     }
   }
   const viewClickEvent = (e: MouseEvent) => {
-    changeHvStorage(hvId);
     const target = e.target as HTMLElement;
     const selectComp = getSelectComp(hvId);
 
@@ -177,7 +181,6 @@ const HvView = ({ hvHtml }: { hvHtml: String }) => {
       parentElem.insertAdjacentHTML('beforeend', String(hvHtml));
       sessionStorage.setItem(hvId, JSON.stringify([hvHtml]));
     }
-
     const viewElem = document.getElementById('view') as HTMLElement;
     const bodyElem = document.body;
     const viewBgElem = document.getElementById('viewBackground') as HTMLElement;

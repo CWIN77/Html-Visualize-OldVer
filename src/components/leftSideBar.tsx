@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import CompSet from './compSet';
-import CompLayer from './compLayer';
+import CompSet from './CompSet';
+import CompLayer from './CompLayer';
 import { useState } from 'react';
 
 const LeftSideBar = () => {

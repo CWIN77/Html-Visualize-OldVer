@@ -18,6 +18,7 @@ export const changeHvStorage = (hvId: string) => {
       sessionStorage.setItem(hvId, JSON.stringify([...sHistory, html]));
       sessionStorage.setItem(hvId + "undo", JSON.stringify([]));
       useStore.setState({ isChangeComp: true });
+      
     }
   }
 }
