@@ -170,7 +170,11 @@ const HvView = ({ hvHtml }: { hvHtml: String }) => {
       const parentElem = viewElem.parentElement as HTMLElement;
       viewElem.remove();
       parentElem.insertAdjacentHTML('beforeend', compHistory[compHistory.length - 1]);
-    } else {
+    } else if (hvHtml) {
+      const viewElem = document.getElementById('view') as HTMLElement;
+      const parentElem = viewElem.parentElement as HTMLElement;
+      viewElem.remove();
+      parentElem.insertAdjacentHTML('beforeend', String(hvHtml));
       sessionStorage.setItem(hvId, JSON.stringify([hvHtml]));
     }
 
@@ -188,7 +192,7 @@ const HvView = ({ hvHtml }: { hvHtml: String }) => {
     viewBgElem.addEventListener("mouseover", viewBgMouseoverEvent);
 
     bodyElem.addEventListener('click', stopAnchorEvent);
-  }, [])
+  }, [hvHtml])
 
   return (
     <ViewContainer id="viewContainer">
