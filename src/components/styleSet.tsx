@@ -25,10 +25,6 @@ const StyleSet = () => {
     }
   }
 
-  const changeFocus = (target: HTMLElement) => {
-    target.style.boxShadow = "inset 0px 0px 0px 2.5px #0D99FF";
-  }
-
   const changeStyle = (e: any, styleKey: any) => {
     const selectComp = getSelectComp(hvId);
     if (selectComp) {
@@ -39,15 +35,22 @@ const StyleSet = () => {
         e.target.value = selectComp.style[styleKey];
       }
       changeHvStorage(hvId);
-      changeFocus(selectComp);
+      selectComp.style.boxShadow = "inset 0px 0px 0px 2.5px #0D99FF";
     }
   }
 
   const changeAtt = (e: any, attName: string) => {
     const selectComp = getSelectComp(hvId);
     if (selectComp) {
-      if (attName === "name") {
-        selectComp.className = e.target.value;
+      const viewElem = document.getElementById("view");
+      if (attName === "name" && viewElem && e.target.value.toLowerCase() !== selectComp.className.toLowerCase()) {
+        if (!document.querySelector("." + e.target.value)) {
+          selectComp.className = e.target.value;
+          sessionStorage.setItem(hvId + "selectComp", JSON.stringify(e.target.value));
+        } else {
+          e.target.value = selectComp.className;
+          alert("동일한 이름의 요소가 있습니다.\n요소의 이름은 겹칠 수 없습니다.");
+        }
       } else {
         selectComp.setAttribute(attName, e.target.value);
       }
@@ -110,11 +113,10 @@ const StyleSet = () => {
   useEffect(() => {
     const selectComp = getSelectComp(hvId);
     if (selectComp) {
-      attList.forEach((att) => {
-        const attName = att;
+      attList.forEach((attName) => {
         const attComp = document.getElementById(attName) as HTMLInputElement | null;
         const attValue = attName !== "name" ? selectComp.getAttribute(attName) : selectComp.className;
-        if (attComp && attValue !== null) {
+        if (attComp && attValue) {
           if (attValue === "") {
             attComp.value = "none";
           } else {
@@ -130,12 +132,16 @@ const StyleSet = () => {
       <Name>Style</Name>
       <AttContainer>
         {
-          attList.map((att, k: number) => {
-            const attName = att;
+          attList.map((attName, k: number) => {
             return (
               <Att key={k}>
                 <h1>{attName}</h1>
-                <input onBlur={(e) => { changeAtt(e, attName) }} onKeyDown={(e) => { if (e.key === "Enter") changeAtt(e, attName) }} id={attName} type={"text"} />
+                <input
+                  onBlur={(e) => { changeAtt(e, attName) }}
+                  onKeyDown={(e) => { if (e.key === "Enter") changeAtt(e, attName) }}
+                  id={attName}
+                  type={"text"}
+                />
               </Att>
             )
           })

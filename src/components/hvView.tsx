@@ -78,8 +78,8 @@ const HvView = ({ hvHtml }: { hvHtml: String }) => {
   }
   const copyEvent = (e: KeyboardEvent) => {
     const selectComp = getSelectComp(hvId);
-    if (selectComp.className) {
-      if (e.key === 'c' && e.ctrlKey && selectComp.className !== document.getElementById("view")?.className) {
+    if (selectComp && selectComp.className !== document.getElementById("view")?.className) {
+      if (e.key === 'c' && e.ctrlKey) {
         copyComp = selectComp;
       } else if (e.key === 'v' && e.ctrlKey) {
         if (ableInsert.indexOf(selectComp.tagName.toLowerCase()) > -1) window.alert("선택한 Html에는 Element를 복사할 수 없습니다.")

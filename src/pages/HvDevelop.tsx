@@ -22,8 +22,7 @@ const HvDevelop = () => {
       }
     }) as { data: { getHvData: IHvData | null } };
     const hvData: IHvData | null = data.getHvData;
-    // if (hvData) console.log(String(hvData.html.replace(/\\/g, "").replace(/\\/g, "")));
-    if (hvData) setHvData(String(hvData.html.replace(/\\/g, "").replace(/\\/g, "")));
+    if (hvData) setHvData(String(hvData.html.replace(/\\/g, "")));
     else setHvData(null);
   }
 
