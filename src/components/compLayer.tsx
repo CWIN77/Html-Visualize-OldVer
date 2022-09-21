@@ -4,6 +4,7 @@ import { changeHvStorage, getSelectComp, useStore } from '../stateManager'
 import { ReactComponent as SvgShapes } from "../svgs/shapes.svg";
 import { ReactComponent as SvgText } from "../svgs/text.svg";
 import { useParams } from "react-router-dom";
+import { IHvData } from '../types';
 
 type compType = {
   tab: Number,
@@ -16,7 +17,7 @@ type textType = {
   html: HTMLElement
 }
 
-const CompLayer = () => {
+const CompLayer = ({ hvData }: { hvData: IHvData }) => {
   const hvId = useParams().id || JSON.parse(sessionStorage.getItem("hvId") || JSON.stringify(null));
   const [compList, setCompList] = useState<(compType | textType)[]>([]);
   const { isChangeComp } = useStore();
@@ -85,7 +86,7 @@ const CompLayer = () => {
                 <SvgText {...iconStyle} />
                 <input id={comp.parent.className} onChange={(e: any) => {
                   comp.html.textContent = e.target.value;
-                  changeHvStorage(hvId);
+                  changeHvStorage(hvData);
                 }} />
               </Comp>
             )

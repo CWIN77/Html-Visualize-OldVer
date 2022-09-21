@@ -14,7 +14,7 @@ export interface ICom {
 }
 
 export type TAbleStyle = {
-  [key: string]: "value" | "detail" | string[];
+  [key: string]: "value" | "detail" | "color" | string[];
 }
 
 export interface IHvData {

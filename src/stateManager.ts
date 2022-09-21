@@ -1,4 +1,8 @@
+import { API } from "aws-amplify";
 import create from "zustand";
+import { getCurrentUser } from "./firebase/auth";
+import { updateHvData } from "./graphql/mutations";
+import { IHvData } from "./types";
 
 const isSelectChange: boolean = false;
 const hvResult: String = "";
@@ -8,17 +12,30 @@ export const useStore = create(() => ({
   isSelectChange, hvResult, isChangeComp
 }))
 
-export const changeHvStorage = (hvId: string) => {
+export const changeHvStorage = async (hvData: IHvData) => {
+  const user = getCurrentUser();
   if (document.getElementById("view")?.outerHTML !== undefined) {
-    const sHistory: string[] = JSON.parse(sessionStorage.getItem(hvId) || JSON.stringify([]));
+    const sHistory: string[] = JSON.parse(sessionStorage.getItem(String(hvData.id)) || JSON.stringify([]));
     const html = (document.getElementById("view")?.outerHTML as string)
       .replace("box-shadow: rgb(13, 153, 255) 0px 0px 0px 2.5px inset;", "")
       .replace("box-shadow: rgb(139, 204, 251) 0px 0px 0px 2.5px inset;", "");
     if (sHistory[sHistory.length - 1] !== html) {
-      sessionStorage.setItem(hvId, JSON.stringify([...sHistory, html]));
-      sessionStorage.setItem(hvId + "undo", JSON.stringify([]));
+      sessionStorage.setItem(String(hvData.id), JSON.stringify([...sHistory, html]));
+      sessionStorage.setItem(hvData.id + "undo", JSON.stringify([]));
       useStore.setState({ isChangeComp: true });
-      
+      if (user?.uid === hvData.author) {
+        // await API.graphql({
+        //   query: updateHvData,
+        //   variables: {
+        //     input: {
+        //       id: hvData.id,
+        //       html: html
+        //     }
+        //   }
+        // });
+      } else {
+        alert("로그인 되어있지 않습니다.");
+      }
     }
   }
 }

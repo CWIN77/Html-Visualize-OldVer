@@ -34,7 +34,7 @@ export const logOut = (): void => {
   }
 }
 
-export const getCurrentUser = () => {
+export const getCurrentUser = (): IUser | null => {
   const currentUser = firebase.auth().currentUser;
   if (currentUser) {
     const { displayName, photoURL, uid } = currentUser;
@@ -44,6 +44,7 @@ export const getCurrentUser = () => {
       localStorage.setItem("user", JSON.stringify(userData));
       return userData;
     }
+    return null;
   }
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {

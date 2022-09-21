@@ -4,11 +4,11 @@ import { ReactComponent as SvgPlus } from "../svgs/plus.svg";
 import { compData, ableInsert } from '../addableComps/compData'
 import { changeHvStorage, getSelectComp } from "../stateManager"
 import { useState } from 'react'
-import { ICompData } from "../types"
+import { ICompData, IHvData } from "../types"
 import kmp from "kmp";
 import { useParams } from "react-router-dom";
 
-const CompSet = () => {
+const CompSet = ({ hvData }: { hvData: IHvData }) => {
   const hvId = useParams().id || JSON.parse(sessionStorage.getItem("hvId") || JSON.stringify(null));
   const iconStyles = { fill: "#242424", width: 14, height: 14 };
   const [compList, setCompList] = useState(compData);
@@ -56,11 +56,11 @@ const CompSet = () => {
         window.alert("선택한 Html에는 Element를 추가할 수 없습니다.")
       } else {
         selectComp.append(newComp);
-        changeHvStorage(hvId);
+        changeHvStorage(hvData);
       }
     } else {
       document.getElementById("view")?.append(newComp);
-      changeHvStorage(hvId);
+      changeHvStorage(hvData);
     }
   }
 

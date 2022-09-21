@@ -12,23 +12,23 @@ import HvView from "../components/HvView";
 
 const HvDevelop = () => {
   const hvId = useParams().id || JSON.parse(sessionStorage.getItem("hvId") || JSON.stringify(null));
-  const [hvData, setHvData] = useState<String | null>(null);
+  const [hvData, setHvData] = useState<IHvData | null>(null);
 
-  const setHvDataFromAmplify = async () => {
+  const getHvDataFromAmplify = async () => {
     const { data } = await API.graphql({
       query: getHvData,
       variables: {
         id: hvId
       }
     }) as { data: { getHvData: IHvData | null } };
-    const hvData: IHvData | null = data.getHvData;
-    if (hvData) setHvData(String(hvData.html.replace(/\\/g, "")));
-    else setHvData(null);
+    const result: IHvData | null = data.getHvData;
+    if (result !== null) result.html = String(result.html.replace(/\\/g, "").replace(/<br>/g, ""));
+    setHvData(result);
   }
 
   useEffect(() => {
     sessionStorage.removeItem(hvId + "selectComp");
-    setHvDataFromAmplify();
+    getHvDataFromAmplify();
   }, [])
 
   if (hvData) {
@@ -37,9 +37,9 @@ const HvDevelop = () => {
         <HvResult />
         <NavBar />
         <Container>
-          <LeftSideBar />
-          <HvView hvHtml={hvData} />
-          <StyleSet />
+          <LeftSideBar hvData={hvData} />
+          <HvView hvData={hvData} />
+          <StyleSet hvData={hvData} />
         </Container>
       </>
     )

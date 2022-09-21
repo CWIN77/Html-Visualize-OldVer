@@ -7,6 +7,7 @@ export const getHvData = /* GraphQL */ `
       id
       html
       author
+      title
       createdAt
       updatedAt
     }
@@ -23,6 +24,7 @@ export const listHvData = /* GraphQL */ `
         id
         html
         author
+        title
         createdAt
         updatedAt
       }

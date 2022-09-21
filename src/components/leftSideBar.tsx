@@ -2,8 +2,9 @@ import styled from 'styled-components';
 import CompSet from './CompSet';
 import CompLayer from './CompLayer';
 import { useState } from 'react';
+import { IHvData } from '../types';
 
-const LeftSideBar = () => {
+const LeftSideBar = ({ hvData }: { hvData: IHvData }) => {
   const [sidePage, setSidePage] = useState(0);
   return (
     <Container>
@@ -12,10 +13,10 @@ const LeftSideBar = () => {
         <h1 style={{ opacity: sidePage === 1 ? "1" : "0.6" }} onClick={() => { setSidePage(1) }}>Layer</h1>
       </PageSelectBtn>
       {
-        sidePage === 0 && <CompSet />
+        sidePage === 0 && <CompSet hvData={hvData} />
       }
       {
-        sidePage === 1 && <CompLayer />
+        sidePage === 1 && <CompLayer hvData={hvData} />
       }
     </Container>
   )

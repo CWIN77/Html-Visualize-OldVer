@@ -3,8 +3,9 @@ import styled from 'styled-components';
 import { ableInsert, compData, dbClickAble } from '../addableComps/compData';
 import { useStore, changeHvStorage, getSelectComp } from '../stateManager';
 import { useParams } from "react-router-dom";
+import { IHvData } from '../types';
 
-const HvView = ({ hvHtml }: { hvHtml: String }) => {
+const HvView = ({ hvData }: { hvData: IHvData }) => {
   const hvId = useParams().id || JSON.parse(sessionStorage.getItem("hvId") || JSON.stringify(null));
 
   let mouseoverComp: HTMLElement = document.body;
@@ -63,7 +64,8 @@ const HvView = ({ hvHtml }: { hvHtml: String }) => {
     }
   }
   const changeHvEvent = () => {
-    changeHvStorage(hvId);
+    changeHvStorage(hvData);
+    dbClickComp.contentEditable = "false";
     dbClickComp = document.body;
   }
   const textEditEvent = (e: MouseEvent) => {
@@ -78,8 +80,8 @@ const HvView = ({ hvHtml }: { hvHtml: String }) => {
   }
   const copyEvent = (e: KeyboardEvent) => {
     const selectComp = getSelectComp(hvId);
-    if (selectComp && selectComp.className !== document.getElementById("view")?.className) {
-      if (e.key === 'c' && e.ctrlKey) {
+    if (selectComp) {
+      if (e.key === 'c' && e.ctrlKey && selectComp.className !== document.getElementById("view")?.className) {
         copyComp = selectComp;
       } else if (e.key === 'v' && e.ctrlKey) {
         if (ableInsert.indexOf(selectComp.tagName.toLowerCase()) > -1) window.alert("선택한 Html에는 Element를 복사할 수 없습니다.")
@@ -99,7 +101,7 @@ const HvView = ({ hvHtml }: { hvHtml: String }) => {
           }
           searchToChangeId(cloneComp);
           selectComp.append(cloneComp);
-          changeHvStorage(hvId);
+          changeHvStorage(hvData);
         }
       }
     }
@@ -110,7 +112,7 @@ const HvView = ({ hvHtml }: { hvHtml: String }) => {
       selectComp.remove();
       sessionStorage.removeItem(hvId + "selectComp");
       useStore.setState({ isSelectChange: true });
-      changeHvStorage(hvId);
+      changeHvStorage(hvData);
     }
   }
   const viewMouseoverEvent = (e: MouseEvent) => {
@@ -123,6 +125,8 @@ const HvView = ({ hvHtml }: { hvHtml: String }) => {
       }
       target.style.boxShadow = "inset 0px 0px 0px 2.5px #8bccfb";
       mouseoverComp = target;
+    } else {
+      mouseoverComp.style.boxShadow = "";
     }
   }
   const viewClickEvent = (e: MouseEvent) => {
@@ -148,7 +152,7 @@ const HvView = ({ hvHtml }: { hvHtml: String }) => {
       selectComp.style.boxShadow = "";
       sessionStorage.removeItem(hvId + "selectComp");
     }
-    changeHvStorage(hvId);
+    changeHvStorage(hvData);
   }
   const viewBgMouseoverEvent = () => {
     const selectComp = getSelectComp(hvId);
@@ -174,12 +178,12 @@ const HvView = ({ hvHtml }: { hvHtml: String }) => {
       const parentElem = viewElem.parentElement as HTMLElement;
       viewElem.remove();
       parentElem.insertAdjacentHTML('beforeend', compHistory[compHistory.length - 1]);
-    } else if (hvHtml) {
+    } else if (hvData.html) {
       const viewElem = document.getElementById('view') as HTMLElement;
       const parentElem = viewElem.parentElement as HTMLElement;
       viewElem.remove();
-      parentElem.insertAdjacentHTML('beforeend', String(hvHtml));
-      sessionStorage.setItem(hvId, JSON.stringify([hvHtml]));
+      parentElem.insertAdjacentHTML('beforeend', String(hvData.html));
+      sessionStorage.setItem(hvId, JSON.stringify([hvData.html]));
     }
     const viewElem = document.getElementById('view') as HTMLElement;
     const bodyElem = document.body;
@@ -195,7 +199,7 @@ const HvView = ({ hvHtml }: { hvHtml: String }) => {
     viewBgElem.addEventListener("mouseover", viewBgMouseoverEvent);
 
     bodyElem.addEventListener('click', stopAnchorEvent);
-  }, [hvHtml])
+  }, [hvData])
 
   return (
     <ViewContainer id="viewContainer">

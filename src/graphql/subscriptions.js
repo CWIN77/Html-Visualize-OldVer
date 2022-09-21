@@ -7,6 +7,7 @@ export const onCreateHvData = /* GraphQL */ `
       id
       html
       author
+      title
       createdAt
       updatedAt
     }
@@ -18,6 +19,7 @@ export const onUpdateHvData = /* GraphQL */ `
       id
       html
       author
+      title
       createdAt
       updatedAt
     }
@@ -29,6 +31,7 @@ export const onDeleteHvData = /* GraphQL */ `
       id
       html
       author
+      title
       createdAt
       updatedAt
     }

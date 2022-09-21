@@ -1,12 +1,12 @@
 import styled from 'styled-components'
 import { useStore, changeHvStorage, getSelectComp } from "../stateManager"
-import { elementStyle, styleName } from "../addableComps/compStyles"
-import { TAbleStyle } from "../types"
+import { elementStyle, styleName, compColors } from "../addableComps/compStyles"
+import { IHvData, TAbleStyle } from "../types"
 import { compAttribute } from "../addableComps/compData"
 import { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
 
-const StyleSet = () => {
+const StyleSet = ({ hvData }: { hvData: IHvData }) => {
   const { isSelectChange } = useStore();
   const [styleList, setStyleList] = useState<TAbleStyle[]>([]);
   const [isShowDetail, setIsShowDetail] = useState(false);
@@ -15,26 +15,48 @@ const StyleSet = () => {
 
   const deleteComp = () => {
     const selectComp = getSelectComp(hvId);
-
     if (selectComp && selectComp !== document.body && selectComp.id !== "view") {
       selectComp.remove();
       const viewComp = document.getElementById("view") as HTMLElement;
       viewComp.style.boxShadow = "inset 0px 0px 0px 2.5px #0D99FF";
       useStore.setState({ isSelectChange: true });
-      changeHvStorage(hvId);
+      changeHvStorage(hvData);
     }
   }
 
+  const colorToHex = (color: Number) => {
+    const hexadecimal = color.toString(16);
+    return hexadecimal.length == 1 ? "0" + hexadecimal : hexadecimal;
+  }
   const changeStyle = (e: any, styleKey: any) => {
     const selectComp = getSelectComp(hvId);
+    let inputValue = JSON.parse(JSON.stringify(e.target.value)).toLowerCase();
     if (selectComp) {
-      selectComp.style[styleKey] = e.target.value;
+      if (inputValue in compColors) {
+        inputValue = compColors[inputValue];
+      }
+      if (inputValue === "null" || inputValue === "none") {
+        inputValue = "";
+      }
+      selectComp.style[styleKey] = inputValue;
       if (selectComp.style[styleKey] === "") {
         e.target.value = "none";
       } else {
         e.target.value = selectComp.style[styleKey];
       }
-      changeHvStorage(hvId);
+      if (e.target.type === "color") {
+        const [r, g, b] = selectComp.style[styleKey].substr(4).slice(0, -1).split(",");
+        e.target.value = "#" + colorToHex(Number(r)) + colorToHex(Number(g)) + colorToHex(Number(b));
+        const colorText = document.getElementById(e.target.id + "colorText") as HTMLInputElement;
+        colorText.value = "#" + colorToHex(Number(r)) + colorToHex(Number(g)) + colorToHex(Number(b));
+      } else if (e.target.id.includes("colorText")) {
+        const [r, g, b] = selectComp.style[styleKey].substr(4).slice(0, -1).split(",");
+        if (r && g && b) {
+          const colorInput = document.getElementById(e.target.id.replace("colorText", "")) as HTMLInputElement;
+          colorInput.value = "#" + colorToHex(Number(r)) + colorToHex(Number(g)) + colorToHex(Number(b));
+        }
+      }
+      changeHvStorage(hvData);
       selectComp.style.boxShadow = "inset 0px 0px 0px 2.5px #0D99FF";
     }
   }
@@ -61,8 +83,7 @@ const StyleSet = () => {
       } else {
         e.target.value = attValue;
       }
-
-      changeHvStorage(hvId);
+      changeHvStorage(hvData);
     }
   }
 
@@ -98,13 +119,23 @@ const StyleSet = () => {
     const selectComp = getSelectComp(hvId);
 
     styleList.forEach((style: TAbleStyle) => {
-      const styleKey = Object.keys(style)[0];
+      const styleKey: any = Object.keys(style)[0];
       const styleComp = document.getElementById(styleKey) as HTMLInputElement | null;
       if (styleComp && selectComp) {
-        if (selectComp.style[styleKey as any] === "") {
+        if (selectComp.style[styleKey] === "") {
           styleComp.value = "none";
         } else {
-          styleComp.value = selectComp.style[styleKey as any];
+          styleComp.value = selectComp.style[styleKey];
+        }
+        if (Object.values(style)[0] === "color") {
+          const [r, g, b] = selectComp.style[styleKey].substr(4).slice(0, -1).split(",");
+          styleComp.value = "#" + colorToHex(Number(r)) + colorToHex(Number(g)) + colorToHex(Number(b));
+          const colorTextInput = document.getElementById(styleComp.id + "colorText") as HTMLInputElement;
+          if (selectComp.style[styleKey] !== "") {
+            colorTextInput.value = "#" + colorToHex(Number(r)) + colorToHex(Number(g)) + colorToHex(Number(b));
+          } else {
+            colorTextInput.value = "none";
+          }
         }
       }
     })
@@ -158,17 +189,24 @@ const StyleSet = () => {
                 <Style key={k}>
                   <h1 title={key}>{name}</h1>
                   {
-                    value !== "value"
-                      ? (
-                        <select onChange={(e) => { changeStyle(e, key) }} id={key}>
-                          {
-                            value.map((v, key) => (
-                              <option key={key} value={v}>{v}</option>
-                            ))
-                          }
-                        </select>
-                      )
-                      : <input onBlur={(e) => { changeStyle(e, key) }} onKeyDown={(e) => { if (e.key === "Enter") changeStyle(e, key) }} id={key} type={"text"} />
+                    value === "value"
+                      ? <StyleTextInput onBlur={(e) => { changeStyle(e, key) }} onKeyDown={(e) => { if (e.key === "Enter") changeStyle(e, key) }} id={key} type={"text"} />
+                      : value === "color"
+                        ? (
+                          <>
+                            <StyleColorInput type={"color"} id={key} onInput={(e) => { changeStyle(e, key) }} />
+                            <StyleColorTextInput onBlur={(e) => { changeStyle(e, key) }} onKeyDown={(e) => { if (e.key === "Enter") changeStyle(e, key) }} id={key + "colorText"} type={"text"} />
+                          </>
+                        )
+                        : (
+                          <StyleSelectInput onChange={(e) => { changeStyle(e, key) }} id={key}>
+                            {
+                              value.map((v, key) => (
+                                <option key={key} value={v}>{v}</option>
+                              ))
+                            }
+                          </StyleSelectInput>
+                        )
                   }
                 </Style>
               )
@@ -279,26 +317,34 @@ const Style = styled.div`
     margin-top: 4px;
     cursor: pointer;
   }
-  input{
+`
+const StyleTextInput = styled.input`
+  font-size: 13px;
+  font-weight: bold;
+  width:100%;
+  padding: 2px;
+`
+const StyleColorInput = styled.input`
+  width:18px;
+  padding: 2px;
+`
+const StyleColorTextInput = styled.input`
+  font-size: 12px;
+  font-weight: bold;
+  width:calc(100% - 15px);
+  padding: 2px;
+`
+const StyleSelectInput = styled.select`
+  font-size: 13px;
+  font-weight: bold;
+  margin-right: 8px;
+  width:100%;
+  border: 2px solid #ededed;
+  padding: 5px 0px;
+  text-align: center;
+  option{
     font-size: 13px;
-    font-weight: bold;
-    border-radius: 4px;
-    width:100%;
-    padding: 2px;
-  }
-  select{
-    font-size: 13px;
-    font-weight: bold;
-    margin-right: 8px;
-    width:100%;
-    border-radius: 4px;
-    border: 2px solid #ededed;
-    padding: 5px 0px;
-    text-align: center;
-    option{
-      font-size: 13px;
-      /* font-weight: bold; */
-    }
+    /* font-weight: bold; */
   }
 `
 const DeleteComp = styled.div`

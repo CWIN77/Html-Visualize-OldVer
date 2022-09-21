@@ -22,7 +22,7 @@ const Home = () => {
 
 const Container = styled.div`
   width:100vw;
-  min-height:calc(100vh - 46px);
+  min-height:100vh;
   background-color: #F5F5F5;
   display:flex;
 `
