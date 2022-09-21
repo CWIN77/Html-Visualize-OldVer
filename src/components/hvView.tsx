@@ -160,6 +160,11 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
       mouseoverComp.style.boxShadow = "";
     }
   }
+  const saveEvent = (e: KeyboardEvent) => {
+    if (e.key === 's' && e.ctrlKey) {
+      alert("HV는 0.5초 마다 변경사항을 자동 저장해줍니다.");
+    }
+  }
   const stopAnchorEvent = (e: MouseEvent) => {
     const target = e.target as HTMLElement;
     if (target.nodeName == 'A' && target.id == 'hvAnchor') {
@@ -192,6 +197,7 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
     bodyElem.addEventListener('keydown', redoEvent);
     bodyElem.addEventListener('keydown', copyEvent);
     bodyElem.addEventListener('keydown', deleteEvent);
+    bodyElem.addEventListener('keydown', saveEvent);
     viewElem.addEventListener("dblclick", textEditEvent);
     viewElem.addEventListener("mouseover", viewMouseoverEvent);
     viewElem.addEventListener("click", viewClickEvent);

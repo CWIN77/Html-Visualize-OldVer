@@ -25,7 +25,7 @@ const StyleSet = ({ hvData }: { hvData: IHvData }) => {
   }
 
   const colorToHex = (color: Number) => {
-    const hexadecimal = color.toString(16);
+    const hexadecimal = color.toString(16).toUpperCase();
     return hexadecimal.length == 1 ? "0" + hexadecimal : hexadecimal;
   }
   const changeStyle = (e: any, styleKey: any) => {
@@ -131,7 +131,7 @@ const StyleSet = ({ hvData }: { hvData: IHvData }) => {
           const [r, g, b] = selectComp.style[styleKey].substr(4).slice(0, -1).split(",");
           styleComp.value = "#" + colorToHex(Number(r)) + colorToHex(Number(g)) + colorToHex(Number(b));
           const colorTextInput = document.getElementById(styleComp.id + "colorText") as HTMLInputElement;
-          if (selectComp.style[styleKey] !== "") {
+          if (r && g && b && selectComp.style[styleKey] !== "") {
             colorTextInput.value = "#" + colorToHex(Number(r)) + colorToHex(Number(g)) + colorToHex(Number(b));
           } else {
             colorTextInput.value = "none";

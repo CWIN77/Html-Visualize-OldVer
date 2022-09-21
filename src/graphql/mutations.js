@@ -10,8 +10,6 @@ export const createHvData = /* GraphQL */ `
       id
       html
       author
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -24,8 +22,6 @@ export const updateHvData = /* GraphQL */ `
       id
       html
       author
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -38,8 +34,6 @@ export const deleteHvData = /* GraphQL */ `
       id
       html
       author
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -52,8 +46,6 @@ export const createUser = /* GraphQL */ `
       id
       name
       img
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -66,8 +58,6 @@ export const updateUser = /* GraphQL */ `
       id
       name
       img
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -80,8 +70,6 @@ export const deleteUser = /* GraphQL */ `
       id
       name
       img
-      createdAt
-      updatedAt
     }
   }
 `;
