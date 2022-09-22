@@ -8,6 +8,8 @@ import { Amplify } from "aws-amplify";
 import awsExports from './aws-exports';
 Amplify.configure(awsExports);
 
+sessionStorage.removeItem("isSetEvent");
+
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <BrowserRouter>

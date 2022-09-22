@@ -80,29 +80,30 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
   }
   const copyEvent = (e: KeyboardEvent) => {
     const selectComp = getSelectComp(hvId);
-    if (selectComp) {
-      if (e.key === 'c' && e.ctrlKey && selectComp.className !== document.getElementById("view")?.className) {
-        copyComp = selectComp;
-      } else if (e.key === 'v' && e.ctrlKey && copyComp && copyComp.className) {
-        if (ableInsert.indexOf(selectComp.tagName.toLowerCase()) > -1) window.alert("선택한 Html에는 Element를 복사할 수 없습니다.")
-        else {
-          const cloneComp = copyComp.cloneNode(true) as HTMLElement;
-          const searchToChangeId = (comp: HTMLElement) => {
-            if (comp.nodeType !== 3) {
-              const compId = compData.find(i => i.tag === comp.tagName.toLowerCase())?.id || 0;
-              comp.className = `Hv${compId}${getRandomId()}`;
-              comp.style.boxShadow = "";
-              if (cloneComp.childNodes.length > 0) {
-                comp.childNodes.forEach((cNode) => {
-                  searchToChangeId(cNode as HTMLElement);
-                });
-              }
-            }
-          }
-          searchToChangeId(cloneComp);
-          selectComp.append(cloneComp);
-          changeHvStorage(hvData);
-        }
+    if (e.key === 'c' && e.ctrlKey && selectComp.className !== document.getElementById("view")?.className) {
+      copyComp = selectComp;
+      console.log("ctrl c");
+    } else if (e.key === 'v' && e.ctrlKey && copyComp && copyComp.className) {
+      console.log("ctrl v");
+      if (ableInsert.indexOf(selectComp.tagName.toLowerCase()) > -1) window.alert("선택한 Html에는 Element를 복사할 수 없습니다.")
+      else {
+        const cloneComp = copyComp.cloneNode(true) as HTMLElement;
+        console.log("copy!");
+        // const searchToChangeId = (comp: HTMLElement) => {
+        //   if (comp.nodeType !== 3) {
+        //     const compId = compData.find(i => i.tag === comp.tagName.toLowerCase())?.id || 0;
+        //     comp.className = `Hv${compId}${getRandomId()}`;
+        //     comp.style.boxShadow = "";
+        //     if (cloneComp.childNodes.length > 0) {
+        //       comp.childNodes.forEach((cNode) => {
+        //         searchToChangeId(cNode as HTMLElement);
+        //       });
+        //     }
+        //   }
+        // }
+        // searchToChangeId(cloneComp);
+        // selectComp.append(cloneComp);
+        // changeHvStorage(hvData);
       }
     }
   }
@@ -188,21 +189,29 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
       parentElem.insertAdjacentHTML('beforeend', String(hvData.html));
       sessionStorage.setItem(hvId, JSON.stringify([hvData.html]));
     }
+    
+    const isSetEvent: boolean | null = JSON.parse(sessionStorage.getItem("isSetEvent") || JSON.stringify(null));
+    if (!isSetEvent) {
+      const bodyElem = document.body;
+
+      bodyElem.addEventListener('keydown', undoEvent);
+      bodyElem.addEventListener('keydown', redoEvent);
+      bodyElem.addEventListener("keyup", copyEvent);
+      bodyElem.addEventListener('keyup', deleteEvent);
+      bodyElem.addEventListener('keydown', saveEvent);
+      bodyElem.addEventListener('click', stopAnchorEvent);
+
+      sessionStorage.setItem("isSetEvent", JSON.stringify(true));
+    }
+
     const viewElem = document.getElementById('view') as HTMLElement;
-    const bodyElem = document.body;
     const viewBgElem = document.getElementById('viewBackground') as HTMLElement;
-    bodyElem.addEventListener('keydown', undoEvent);
-    bodyElem.addEventListener('keydown', redoEvent);
-    bodyElem.addEventListener("keyup", copyEvent);
-    bodyElem.addEventListener('keyup', deleteEvent);
-    bodyElem.addEventListener('keydown', saveEvent);
+
     viewElem.addEventListener("dblclick", textEditEvent);
     viewElem.addEventListener("mouseover", viewMouseoverEvent);
     viewElem.addEventListener("click", viewClickEvent);
     viewBgElem.addEventListener("click", viewBgClickEvent);
     viewBgElem.addEventListener("mouseover", viewBgMouseoverEvent);
-
-    bodyElem.addEventListener('click', stopAnchorEvent);
   }, [])
 
   return (
