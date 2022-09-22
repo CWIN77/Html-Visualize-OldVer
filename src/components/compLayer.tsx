@@ -20,7 +20,7 @@ type textType = {
 const CompLayer = ({ hvData }: { hvData: IHvData }) => {
   const hvId = useParams().id || JSON.parse(sessionStorage.getItem("hvId") || JSON.stringify(null));
   const [compList, setCompList] = useState<(compType | textType)[]>([]);
-  const { isChangeComp } = useStore();
+  const { isChangeHv } = useStore();
   const iconStyle = { width: 18, height: 18, fill: "#242424", style: { marginRight: 4 } };
 
   const getHtmlNodes = (comp: HTMLElement, compList: (compType | textType)[], tabSize: Number) => {
@@ -44,10 +44,11 @@ const CompLayer = ({ hvData }: { hvData: IHvData }) => {
   }
 
   useEffect(() => {
-    if (isChangeComp) {
+    if (isChangeHv) {
+      useStore.setState({ isChangeHv: false });
       setCompList(getHtmlNodes(document.getElementById("view") as HTMLElement, [], 0));
     }
-  }, [isChangeComp])
+  }, [isChangeHv])
 
   useEffect(() => {
     setCompList(getHtmlNodes(document.getElementById("view") as HTMLElement, [], 0));

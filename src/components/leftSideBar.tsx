@@ -3,8 +3,6 @@ import CompSet from './CompSet';
 import CompLayer from './CompLayer';
 import { useState } from 'react';
 import { IHvData } from '../types';
-import { API } from 'aws-amplify';
-import { updateHvData } from '../graphql/mutations';
 
 const LeftSideBar = ({ hvData }: { hvData: IHvData }) => {
   const [sidePage, setSidePage] = useState(0);

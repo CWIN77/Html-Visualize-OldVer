@@ -6,10 +6,10 @@ import { IHvData } from "./types";
 
 const isSelectChange: boolean = false;
 const hvResult: String = "";
-const isChangeComp: boolean = true;
+const isChangeHv: boolean = true;
 
 export const useStore = create(() => ({
-  isSelectChange, hvResult, isChangeComp
+  isSelectChange, hvResult, isChangeHv
 }))
 
 let onDelay = false;
@@ -20,11 +20,10 @@ export const changeHvStorage = async (hvData: IHvData) => {
     const html = (document.getElementById("view")?.outerHTML as string)
       .replace("box-shadow: rgb(13, 153, 255) 0px 0px 0px 2.5px inset;", "")
       .replace("box-shadow: rgb(139, 204, 251) 0px 0px 0px 2.5px inset;", "");
-    console.log(sHistory[sHistory.length - 1] !== html);
     if (sHistory[sHistory.length - 1] !== html) {
       sessionStorage.setItem(String(hvData.id), JSON.stringify([...sHistory, html]));
       sessionStorage.setItem(hvData.id + "undo", JSON.stringify([]));
-      useStore.setState({ isChangeComp: true });
+      useStore.setState({ isChangeHv: true });
       if (!onDelay) {
         if (user?.uid === hvData.author) {
           const result = API.graphql({

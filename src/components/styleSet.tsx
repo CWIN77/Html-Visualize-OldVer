@@ -88,30 +88,34 @@ const StyleSet = ({ hvData }: { hvData: IHvData }) => {
   }
 
   useEffect(() => {
-    useStore.setState({ isSelectChange: false });
     const selectComp = getSelectComp(hvId);
+    if (isSelectChange) {
+      useStore.setState({ isSelectChange: false });
+      if (selectComp && selectComp.className) {
+        const newStyleList: TAbleStyle[] = [];
+        if (selectComp.id === "view" || selectComp === document.body) {
+          Object.keys(elementStyle.view).forEach((key) => {
+            newStyleList.push({ [key]: elementStyle["view"][key] });
+          });
+        } else {
+          Object.keys(elementStyle[selectComp.tagName.toLowerCase()]).forEach((key) => {
+            newStyleList.push({ [key]: elementStyle[selectComp.tagName.toLowerCase()][key] });
+          });
+        }
+        setStyleList(newStyleList);
 
-    if (selectComp && selectComp.className) {
-      const newStyleList: TAbleStyle[] = [];
-      if (selectComp.id === "view" || selectComp === document.body) {
-        Object.keys(elementStyle.view).forEach((key) => {
-          newStyleList.push({ [key]: elementStyle["view"][key] });
-        });
+        const newAttList: string[] = [];
+        newAttList.push("name");
+        if (compAttribute[selectComp.tagName.toLowerCase()]) {
+          compAttribute[selectComp.tagName.toLowerCase()].forEach((att) => {
+            newAttList.push(att);
+          });
+        }
+        setAttList(newAttList);
       } else {
-        Object.keys(elementStyle[selectComp.tagName.toLowerCase()]).forEach((key) => {
-          newStyleList.push({ [key]: elementStyle[selectComp.tagName.toLowerCase()][key] });
-        });
+        setStyleList([]);
+        setAttList([]);
       }
-      setStyleList(newStyleList);
-
-      const newAttList: string[] = [];
-      newAttList.push("name");
-      if (compAttribute[selectComp.tagName.toLowerCase()]) {
-        compAttribute[selectComp.tagName.toLowerCase()].forEach((att) => {
-          newAttList.push(att);
-        });
-      }
-      setAttList(newAttList);
     }
   }, [isSelectChange]);
 

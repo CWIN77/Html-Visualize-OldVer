@@ -8,9 +8,9 @@ import { IHvData } from '../types';
 const HvView = ({ hvData }: { hvData: IHvData }) => {
   const hvId = useParams().id || JSON.parse(sessionStorage.getItem("hvId") || JSON.stringify(null));
 
-  let mouseoverComp: HTMLElement = document.body;
-  let copyComp: HTMLElement;
-  let dbClickComp: HTMLElement = document.body;
+  let mouseoverComp = document.body;
+  let copyComp = document.body;
+  let dbClickComp = document.body;
 
   const getRandomId = () => {
     const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
@@ -33,7 +33,7 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
         viewParentElem.insertAdjacentHTML('beforeend', compHistory[compHistory.length - 2]);
         compHistory.pop();
         sessionStorage.setItem(hvId, JSON.stringify(compHistory));
-        useStore.setState({ isChangeComp: true });
+        useStore.setState({ isChangeHv: true });
 
         const remakeViewElem = document.getElementById('view') as HTMLElement;
         remakeViewElem.addEventListener("dblclick", textEditEvent);
@@ -54,7 +54,7 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
         sessionStorage.setItem(hvId, JSON.stringify([...compHistory, undoHistory[undoHistory.length - 1]]));
         undoHistory.pop();
         sessionStorage.setItem(hvId + "undo", JSON.stringify(undoHistory));
-        useStore.setState({ isChangeComp: true });
+        useStore.setState({ isChangeHv: true });
 
         const remakeViewElem = document.getElementById('view') as HTMLElement;
         remakeViewElem.addEventListener("dblclick", textEditEvent);
@@ -83,7 +83,7 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
     if (selectComp) {
       if (e.key === 'c' && e.ctrlKey && selectComp.className !== document.getElementById("view")?.className) {
         copyComp = selectComp;
-      } else if (e.key === 'v' && e.ctrlKey) {
+      } else if (e.key === 'v' && e.ctrlKey && copyComp && copyComp.className) {
         if (ableInsert.indexOf(selectComp.tagName.toLowerCase()) > -1) window.alert("선택한 Html에는 Element를 복사할 수 없습니다.")
         else {
           const cloneComp = copyComp.cloneNode(true) as HTMLElement;
@@ -125,8 +125,6 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
       }
       target.style.boxShadow = "inset 0px 0px 0px 2.5px #8bccfb";
       mouseoverComp = target;
-    } else {
-      mouseoverComp.style.boxShadow = "";
     }
   }
   const viewClickEvent = (e: MouseEvent) => {
@@ -151,8 +149,8 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
       mouseoverComp.style.boxShadow = "";
       selectComp.style.boxShadow = "";
       sessionStorage.removeItem(hvId + "selectComp");
+      useStore.setState({ isSelectChange: true });
     }
-    changeHvStorage(hvData);
   }
   const viewBgMouseoverEvent = () => {
     const selectComp = getSelectComp(hvId);
@@ -195,8 +193,8 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
     const viewBgElem = document.getElementById('viewBackground') as HTMLElement;
     bodyElem.addEventListener('keydown', undoEvent);
     bodyElem.addEventListener('keydown', redoEvent);
-    bodyElem.addEventListener('keydown', copyEvent);
-    bodyElem.addEventListener('keydown', deleteEvent);
+    bodyElem.addEventListener("keyup", copyEvent);
+    bodyElem.addEventListener('keyup', deleteEvent);
     bodyElem.addEventListener('keydown', saveEvent);
     viewElem.addEventListener("dblclick", textEditEvent);
     viewElem.addEventListener("mouseover", viewMouseoverEvent);
@@ -205,7 +203,7 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
     viewBgElem.addEventListener("mouseover", viewBgMouseoverEvent);
 
     bodyElem.addEventListener('click', stopAnchorEvent);
-  }, [hvData])
+  }, [])
 
   return (
     <ViewContainer id="viewContainer">
