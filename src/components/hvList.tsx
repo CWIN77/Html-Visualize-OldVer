@@ -4,13 +4,14 @@ import { API } from 'aws-amplify';
 import { listHvData } from '../graphql/queries';
 import { useEffect, useState } from 'react';
 import { IHvData, IUser } from '../types';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { createHvData } from '../graphql/mutations';
 import { getCurrentUser } from '../firebase/auth';
 
 const HvList = ({ user }: { user: IUser | null }) => {
   const iconStyles = { width: 28, height: 28, fill: "#676767" };
-  const [hvList, setHvList] = useState<IHvData[] | null>(null);
+  const [hvList, setHvList] = useState<IHvData[] | null>(JSON.parse(sessionStorage.getItem("hvList") || JSON.stringify(null)));
+  const navigate = useNavigate();
 
   const getRandomId = () => {
     const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
@@ -31,30 +32,39 @@ const HvList = ({ user }: { user: IUser | null }) => {
     const result = data.listHvData.items;
     if (result) {
       result.forEach((hv, i) => {
-        if (result !== null) result[i].html = String(hv.html.replace(/\\/g, "").replace(/<br>/g, ""));
+        if (result !== null) {
+          result[i].html = String(hv.html.replace(/\\/g, "").replace(/<br>/g, ""));
+          sessionStorage.setItem(String(hv.id), JSON.stringify(hv));
+        }
       });
+      sessionStorage.setItem("hvList", JSON.stringify(result));
       setHvList(result);
-    } else {
-      setHvList(null);
-    }
+    } else setHvList(null);
   }
   const tempHtml = `<div class=\"App\" style=\"width: 100%; height: 100%; overflow: auto; display: block; background-color: white;\" id=\"view\"></div>`;
   const addHv = async () => {
-    const user = getCurrentUser();
-    if (user) {
-      const result = await API.graphql({
-        query: createHvData,
-        variables: {
-          input: {
-            id: getRandomId(),
-            html: tempHtml,
-            title: "New Hv Project",
-            author: user.uid
+    if (window.confirm("새 프로젝트를 생성 하시겠습니까?")) {
+      const user = getCurrentUser();
+      if (user) {
+        const result = await API.graphql({
+          query: createHvData,
+          variables: {
+            input: {
+              id: getRandomId(),
+              html: tempHtml,
+              title: "New Hv Project",
+              author: user.uid
+            }
           }
-        }
-      }) as { data: { createHvData: IHvData } };
-      const data = result.data.createHvData
-      console.log(data);
+        }) as { data: { createHvData: IHvData } };
+        const data = result.data.createHvData;
+        if (data) {
+          getHvDataList();
+          if (window.confirm("생성 완료!\n새 프로젝트로 이동 하시겠습니까?")) {
+            navigate(`/hv/${data.id}`);
+          }
+        } else alert("오류! 프로젝트 생성 실패!");
+      } else alert("로그인이 되어있지 않습니다.");
     }
   }
 
@@ -77,7 +87,7 @@ const HvList = ({ user }: { user: IUser | null }) => {
       {
         hvList && hvList.sort(compare).map((data, key) => {
           return (
-            <Link key={key} to={`/develop/${data.id}`}>
+            <Link key={key} to={`/hv/${data.id}`}>
               <Develop num={String(key % 2)}>
                 <HvPreviewContainer>
                   <HvPreview dangerouslySetInnerHTML={{ __html: String(data.html) }} />

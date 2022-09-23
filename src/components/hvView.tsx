@@ -32,7 +32,7 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
         sessionStorage.setItem(hvId + "undo", JSON.stringify([...undoHistory, compHistory[compHistory.length - 1]]));
         viewParentElem.insertAdjacentHTML('beforeend', compHistory[compHistory.length - 2]);
         compHistory.pop();
-        sessionStorage.setItem(hvId, JSON.stringify(compHistory));
+        sessionStorage.setItem(hvId + "hstry", JSON.stringify(compHistory));
         useStore.setState({ isChangeHv: true });
 
         const remakeViewElem = document.getElementById('view') as HTMLElement;
@@ -51,7 +51,7 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
         const viewParentElem = viewElem.parentElement as HTMLElement;
         viewElem.remove();
         viewParentElem.insertAdjacentHTML('beforeend', undoHistory[undoHistory.length - 1]);
-        sessionStorage.setItem(hvId, JSON.stringify([...compHistory, undoHistory[undoHistory.length - 1]]));
+        sessionStorage.setItem(hvId + "hstry", JSON.stringify([...compHistory, undoHistory[undoHistory.length - 1]]));
         undoHistory.pop();
         sessionStorage.setItem(hvId + "undo", JSON.stringify(undoHistory));
         useStore.setState({ isChangeHv: true });
@@ -184,7 +184,7 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
       const parentElem = viewElem.parentElement as HTMLElement;
       viewElem.remove();
       parentElem.insertAdjacentHTML('beforeend', String(hvData.html));
-      sessionStorage.setItem(hvId, JSON.stringify([hvData.html]));
+      sessionStorage.setItem(hvId + "hstry", JSON.stringify([hvData.html]));
     }
 
     const isSetEvent: boolean | null = JSON.parse(sessionStorage.getItem("isSetEvent") || JSON.stringify(null));

@@ -12,7 +12,7 @@ import HvView from "../components/HvView";
 
 const HvDevelop = () => {
   const hvId = useParams().id || JSON.parse(sessionStorage.getItem("hvId") || JSON.stringify(null));
-  const [hvData, setHvData] = useState<IHvData | null | "loading">("loading");
+  const [hvData, setHvData] = useState<IHvData | null | "loading">(JSON.parse(sessionStorage.getItem(hvId) || JSON.stringify(null)));
 
   const getHvDataFromAmplify = async () => {
     const { data } = await API.graphql({
@@ -28,7 +28,9 @@ const HvDevelop = () => {
 
   useEffect(() => {
     sessionStorage.removeItem(hvId + "selectComp");
-    getHvDataFromAmplify();
+    if (hvData === null) {
+      getHvDataFromAmplify();
+    }
   }, [])
 
   if (hvData !== null && hvData !== "loading") {
