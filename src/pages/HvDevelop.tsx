@@ -64,10 +64,11 @@ const Container = styled.div`
   min-height:100%;
   display:flex;
 `
-const Loading = styled.div`
+const Loading = styled.h1`
   width:100vw;
   height:100vh;
   display:flex;
+  font-size: 18px;
   align-items: center;
   justify-content: center;
 `

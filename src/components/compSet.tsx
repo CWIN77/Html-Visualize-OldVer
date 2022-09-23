@@ -65,12 +65,8 @@ const CompSet = ({ hvData }: { hvData: IHvData }) => {
   }
 
   function compare(a: ICompData, b: ICompData) {
-    if (a.name < b.name) {
-      return -1;
-    }
-    if (a.name > b.name) {
-      return 1;
-    }
+    if (a.name < b.name) return -1;
+    if (a.name > b.name) return 1;
     return 0;
   }
 

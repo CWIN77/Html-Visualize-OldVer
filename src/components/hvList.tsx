@@ -9,7 +9,7 @@ import { createHvData } from '../graphql/mutations';
 import { getCurrentUser } from '../firebase/auth';
 
 const HvList = ({ user }: { user: IUser | null }) => {
-  const iconStyles = { width: 24, height: 24, fill: "#FFFFFF" };
+  const iconStyles = { width: 24, height: 24, fill: "#242424" };
   const [hvList, setHvList] = useState<IHvData[] | null>(null);
 
   const getRandomId = () => {
@@ -32,11 +32,13 @@ const HvList = ({ user }: { user: IUser | null }) => {
     if (result) {
       result.forEach((hv, i) => {
         if (result !== null) result[i].html = String(hv.html.replace(/\\/g, "").replace(/<br>/g, ""));
-      })
+      });
+      setHvList(result);
+    } else {
+      setHvList(null);
     }
-    setHvList(result);
   }
-  const tempHtml = `<div class=\"App\" style=\"width: 100%; height: 100%; overflow: auto; display: flex; background-color: white;\" id=\"view\"></div>`;
+  const tempHtml = `<div class=\"App\" style=\"width: 100%; height: 100%; overflow: auto; display: block; background-color: white;\" id=\"view\"></div>`;
   const addHv = async () => {
     const user = getCurrentUser();
     if (user) {
@@ -60,20 +62,28 @@ const HvList = ({ user }: { user: IUser | null }) => {
     if (user) getHvDataList();
   }, [user])
 
+  function compare(a: IHvData, b: IHvData) {
+    if (a.updatedAt < b.updatedAt) return 1;
+    if (a.updatedAt > b.updatedAt) return -1;
+    return 0;
+  }
+
   return (
     <Container>
-      <AppDelveop onClick={() => { addHv() }}>
+      <AppDevelop onClick={() => { addHv() }}>
         <div><SvgPlus {...iconStyles} /></div>
         <h1>새로운 프로젝트를 시작해보세요!</h1>
-      </AppDelveop>
+      </AppDevelop>
       {
-        hvList && hvList.map((data, key) => {
+        hvList && hvList.sort(compare).map((data, key) => {
           return (
             <Link key={key} to={`/develop/${data.id}`}>
-              <Delveop num={String(key % 2)}>
-                <div>{data.html}</div>
-                <h1>{data.title}</h1>
-              </Delveop>
+              <Develop num={String(key % 2)}>
+                <HvPreviewContainer>
+                  <HvPreview dangerouslySetInnerHTML={{ __html: String(data.html) }} />
+                </HvPreviewContainer>
+                <DevelopTitle>{data.title}</DevelopTitle>
+              </Develop>
             </Link>
           )
         })
@@ -87,59 +97,90 @@ const Container = styled.div`
   flex-wrap:wrap;
   width:100%;
   height:100%;
+  padding-bottom: 24px;
   background-color: initial;
 `
-const AppDelveop = styled.div`
+const AppDevelop = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 24px;
-  margin-right: 12px;
-  margin-bottom: 0px;
+  margin: 28px;
+  margin-right: 0px;
+  margin-bottom: 6px;
   cursor: pointer;
-  border-radius: 0px 0px 2px 2px;
+  outline: 2px solid #dedede;
+  border-radius: 8px;
   div{
     display:flex;
     align-items: center;
     justify-content: center;
-    width:calc(((100vw - 251px) / 2) - 36px);
-    height:calc((((100vw - 251px) / 2) - 36px) / 3 * 2);
-    background-color: #888888;
-    border-radius: 2px 2px 0px 0px;
+    width:calc(((100vw - 251px) / 2) - 42px);
+    height:calc((((100vw - 251px) / 2) - 42px) / 3 * 2);
+    background-color: #ffffff;
   }
   h1{
-    background-color: white;
+    background-color: #d0d0d0;
+    color:black;
     font-size: 13px;
-    width:calc(((100vw - 251px) / 2) - 36px - 28px);
-    height:17px;
-    padding:10px 14px;
+    width:calc(((100vw - 251px) / 2) - 42px - 32px);
+    height:20px;
+    padding:10px 16px;
     display:flex;
     align-items: center;
   }
 `
-const Delveop = styled.div<{ num: string }>` // 0은 오른쪽 1은 왼쪽
-  margin: 24px;
-  margin-left: ${props => props.num === "0" ? "12px" : "24px"};
-  margin-right: ${props => props.num === "0" ? "24px" : "12px"};
-  margin-bottom: 12px;
+const Develop = styled.div<{ num: string }>` // 0은 오른쪽 1은 왼쪽
+  margin: 28px;
+  margin-right: 0px;
+  margin-bottom: 6px;
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  div{
-    display:flex;
-    align-items: center;
-    justify-content: center;
-    width:calc(((100vw - 251px) / 2) - 36px);
-    height:calc((((100vw - 251px) / 2) - 36px) / 3 * 2);
-    background-color: #888888;
+  outline: 2px solid #dedede;
+  border-radius: 8px;
+`
+const DevelopTitle = styled.h1`
+  background-color: #d0d0d0;
+  color:black;
+  font-size: 13px;
+  width:calc(((100vw - 251px) / 2) - 42px - 32px);
+  height:20px;
+  padding:10px 16px;
+  display:flex;
+  align-items: center;
+`
+const HvPreviewContainer = styled.div`
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  width:calc(((100vw - 251px) / 2) - 42px);
+  height:calc((((100vw - 251px) / 2) - 42px) / 3 * 2);
+  background-color: #ededed;
+`
+const HvPreview = styled.div`
+  width:360px;
+  height:720px;
+  position: absolute;
+  transform: scale(0.3,0.3);
+  border-radius: 8px;
+  z-index: 2;
+  &::-webkit-scrollbar{
+    width:8px;
+    height:8px;
+    background-color: initial;
   }
-  h1{
-    background-color: white;
-    font-size: 13px;
-    width:calc(((100vw - 251px) / 2) - 36px - 28px);
-    height:17px;
-    padding:10px 14px;
-    display:flex;
-    align-items: center;
+  &::-webkit-scrollbar-thumb{
+    background-color: rgba(54,54,54,0.4);
+  }
+  div{
+    &::-webkit-scrollbar{
+    width:8px;
+    height:8px;
+    background-color: initial;
+    }
+    &::-webkit-scrollbar-thumb{
+      background-color: rgba(54,54,54,0.4);
+    }
   }
 `
+
 export default HvList;

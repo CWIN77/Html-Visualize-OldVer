@@ -8,6 +8,8 @@ export const getHvData = /* GraphQL */ `
       html
       author
       title
+      createdAt
+      updatedAt
     }
   }
 `;
@@ -23,6 +25,8 @@ export const listHvData = /* GraphQL */ `
         html
         author
         title
+        createdAt
+        updatedAt
       }
       nextToken
     }
@@ -34,6 +38,8 @@ export const getUser = /* GraphQL */ `
       id
       name
       img
+      createdAt
+      updatedAt
     }
   }
 `;
@@ -48,6 +54,8 @@ export const listUsers = /* GraphQL */ `
         id
         name
         img
+        createdAt
+        updatedAt
       }
       nextToken
     }
