@@ -19,7 +19,6 @@ const UserInform = ({ user }: { user: IUser | null }) => {
           </Profile>
           : <button onClick={() => { loginGoogle() }}>로그인</button>
       }
-      <button onClick={() => { console.log(user); }}>현재 로그인</button>
       {/* <Friends>
         <FriendTitle>
           <h1>Friend</h1>

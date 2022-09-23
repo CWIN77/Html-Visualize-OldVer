@@ -9,7 +9,7 @@ import { createHvData } from '../graphql/mutations';
 import { getCurrentUser } from '../firebase/auth';
 
 const HvList = ({ user }: { user: IUser | null }) => {
-  const iconStyles = { width: 24, height: 24, fill: "#242424" };
+  const iconStyles = { width: 28, height: 28, fill: "#676767" };
   const [hvList, setHvList] = useState<IHvData[] | null>(null);
 
   const getRandomId = () => {
@@ -115,14 +115,14 @@ const AppDevelop = styled.div`
     justify-content: center;
     width:calc(((100vw - 251px) / 2) - 42px);
     height:calc((((100vw - 251px) / 2) - 42px) / 3 * 2);
-    background-color: #ffffff;
+    background-color: #ededed;
   }
   h1{
-    background-color: #d0d0d0;
+    background-color: #fafafa;
     color:black;
     font-size: 13px;
     width:calc(((100vw - 251px) / 2) - 42px - 32px);
-    height:20px;
+    height:18px;
     padding:10px 16px;
     display:flex;
     align-items: center;
@@ -139,11 +139,11 @@ const Develop = styled.div<{ num: string }>` // 0은 오른쪽 1은 왼쪽
   border-radius: 8px;
 `
 const DevelopTitle = styled.h1`
-  background-color: #d0d0d0;
+  background-color: #fafafa;
   color:black;
   font-size: 13px;
   width:calc(((100vw - 251px) / 2) - 42px - 32px);
-  height:20px;
+  height:18px;
   padding:10px 16px;
   display:flex;
   align-items: center;
