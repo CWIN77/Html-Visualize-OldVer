@@ -38,16 +38,22 @@ const HvList = ({ user }: { user: IUser | null }) => {
   }
   const tempHtml = `<div class=\"App\" style=\"width: 100%; height: 100%; overflow: auto; display: flex; background-color: white;\" id=\"view\"></div>`;
   const addHv = async () => {
-    const result = await API.graphql({
-      query: createHvData,
-      variables: {
-        id: getRandomId(),
-        html: tempHtml,
-        title: "Title",
-        author: getCurrentUser()
-      }
-    });
-    console.log(result);
+    const user = getCurrentUser();
+    if (user) {
+      const result = await API.graphql({
+        query: createHvData,
+        variables: {
+          input: {
+            id: getRandomId(),
+            html: tempHtml,
+            title: "New Hv Project",
+            author: user.uid
+          }
+        }
+      }) as { data: { createHvData: IHvData } };
+      const data = result.data.createHvData
+      console.log(data);
+    }
   }
 
   useEffect(() => {
@@ -56,7 +62,7 @@ const HvList = ({ user }: { user: IUser | null }) => {
 
   return (
     <Container>
-      <AppDelveop>
+      <AppDelveop onClick={() => { addHv() }}>
         <div><SvgPlus {...iconStyles} /></div>
         <h1>새로운 프로젝트를 시작해보세요!</h1>
       </AppDelveop>

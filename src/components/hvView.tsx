@@ -82,28 +82,25 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
     const selectComp = getSelectComp(hvId);
     if (e.key === 'c' && e.ctrlKey && selectComp.className !== document.getElementById("view")?.className) {
       copyComp = selectComp;
-      console.log("ctrl c");
     } else if (e.key === 'v' && e.ctrlKey && copyComp && copyComp.className) {
-      console.log("ctrl v");
       if (ableInsert.indexOf(selectComp.tagName.toLowerCase()) > -1) window.alert("선택한 Html에는 Element를 복사할 수 없습니다.")
       else {
         const cloneComp = copyComp.cloneNode(true) as HTMLElement;
-        console.log("copy!");
-        // const searchToChangeId = (comp: HTMLElement) => {
-        //   if (comp.nodeType !== 3) {
-        //     const compId = compData.find(i => i.tag === comp.tagName.toLowerCase())?.id || 0;
-        //     comp.className = `Hv${compId}${getRandomId()}`;
-        //     comp.style.boxShadow = "";
-        //     if (cloneComp.childNodes.length > 0) {
-        //       comp.childNodes.forEach((cNode) => {
-        //         searchToChangeId(cNode as HTMLElement);
-        //       });
-        //     }
-        //   }
-        // }
-        // searchToChangeId(cloneComp);
-        // selectComp.append(cloneComp);
-        // changeHvStorage(hvData);
+        const searchToChangeId = (comp: HTMLElement) => {
+          if (comp.nodeType !== 3) {
+            const compId = compData.find(i => i.tag === comp.tagName.toLowerCase())?.id || 0;
+            comp.className = `Hv${compId}${getRandomId()}`;
+            comp.style.boxShadow = "";
+            if (cloneComp.childNodes.length > 0) {
+              comp.childNodes.forEach((cNode) => {
+                searchToChangeId(cNode as HTMLElement);
+              });
+            }
+          }
+        }
+        searchToChangeId(cloneComp);
+        selectComp.append(cloneComp);
+        changeHvStorage(hvData);
       }
     }
   }
@@ -189,7 +186,7 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
       parentElem.insertAdjacentHTML('beforeend', String(hvData.html));
       sessionStorage.setItem(hvId, JSON.stringify([hvData.html]));
     }
-    
+
     const isSetEvent: boolean | null = JSON.parse(sessionStorage.getItem("isSetEvent") || JSON.stringify(null));
     if (!isSetEvent) {
       const bodyElem = document.body;

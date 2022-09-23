@@ -12,7 +12,7 @@ import HvView from "../components/HvView";
 
 const HvDevelop = () => {
   const hvId = useParams().id || JSON.parse(sessionStorage.getItem("hvId") || JSON.stringify(null));
-  const [hvData, setHvData] = useState<IHvData | null>(null);
+  const [hvData, setHvData] = useState<IHvData | null | "loading">("loading");
 
   const getHvDataFromAmplify = async () => {
     const { data } = await API.graphql({
@@ -31,11 +31,11 @@ const HvDevelop = () => {
     getHvDataFromAmplify();
   }, [])
 
-  if (hvData) {
+  if (hvData !== null && hvData !== "loading") {
     return (
       <>
         <HvResult />
-        <NavBar />
+        <NavBar hvData={hvData} />
         <Container>
           <LeftSideBar hvData={hvData} />
           <HvView hvData={hvData} />
@@ -43,7 +43,14 @@ const HvDevelop = () => {
         </Container>
       </>
     )
-  } else {
+  } else if (hvData === "loading") {
+    return (
+      <Loading>
+        로딩중입니다.
+      </Loading>
+    )
+  }
+  else {
     return (
       <div>
         존재하지 않는 페이지 입니다.
@@ -56,6 +63,13 @@ const Container = styled.div`
   width:100%;
   min-height:100%;
   display:flex;
+`
+const Loading = styled.div`
+  width:100vw;
+  height:100vh;
+  display:flex;
+  align-items: center;
+  justify-content: center;
 `
 
 export default HvDevelop;

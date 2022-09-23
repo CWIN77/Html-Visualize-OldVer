@@ -205,9 +205,11 @@ const StyleSet = ({ hvData }: { hvData: IHvData }) => {
                         : (
                           <StyleSelectInput onChange={(e) => { changeStyle(e, key) }} id={key}>
                             {
-                              value.map((v, key) => (
-                                <option key={key} value={v}>{v}</option>
-                              ))
+                              value.map((v, key) => {
+                                let style = v
+                                if (style === "Default Style") style = "'Nanum Gothic', sans-serif";
+                                return <option key={key} value={style}>{v}</option>
+                              })
                             }
                           </StyleSelectInput>
                         )

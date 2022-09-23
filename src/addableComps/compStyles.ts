@@ -1,5 +1,26 @@
 import { TAbleStyle } from "../types"
 
+const fontFamily = [
+  `'Courier New', Courier, monospace`,
+  `'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif`,
+  `'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif`,
+  `'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif`,
+  `'Segoe UI', Tahoma, Geneva, Verdana, sans-serif`,
+  `'Times New Roman', Times, serif`,
+  `'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif`,
+  `Arial, Helvetica, sans-serif`,
+  `Cambria, Cochin, Georgia, Times, 'Times New Roman', serif`,
+  `Georgia, 'Times New Roman', Times, serif`,
+  `Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif`,
+  `Verdana, Geneva, Tahoma, sans-serif`,
+  `cursive`,
+  `fantasy`,
+  `monospace`,
+  `sans-serif`,
+  `serif`,
+  `Default Style`
+]
+
 export const compColors: { [key: string]: string } = {
   "black": "#000000",
   "silver": "#c0c0c0",
@@ -185,7 +206,8 @@ export const styleName: { [key: string]: string } = {
   "text-align": "Tx-Al",
   "font-style": "Fo-St",
   "list-style": "Li-St",
-  "text-decoration": "Te-De"
+  "text-decoration": "Te-De",
+  "font-family": "Fo-Fa"
 }
 
 const defaultStyle: TAbleStyle = {
@@ -208,7 +230,6 @@ const defaultStyle: TAbleStyle = {
   "background-color": "color",
   "border": "value",
   "border-radius": "value",
-  // "box-shadow": "detail",
   "position": [
     "static",
     "absolute",
@@ -292,7 +313,8 @@ const textStyle: TAbleStyle = {
     "space-around",
     "space-evenly",
   ],
-  "text-decoration": "detail"
+  "text-decoration": "detail",
+  "font-family": fontFamily
 }
 
 const imgStyle: TAbleStyle = {

@@ -8,11 +8,16 @@ import { ReactComponent as SvgPhone } from '../svgs/phone.svg';
 import { useEffect, useState } from 'react';
 import HvExport from './HvExport';
 import { Link } from 'react-router-dom';
+import { IHvData } from '../types';
+import { API } from 'aws-amplify';
+import { updateHvData } from "../graphql/mutations";
+import { getCurrentUser } from '../firebase/auth';
 
-const NavBar = () => {
+const NavBar = ({ hvData }: { hvData: IHvData }) => {
   const [isFull, setIsFull] = useState(false);
   const [device, setDevice] = useState("phone"); // phone / desktop
   const [zoomLock, setZoomLock] = useState(false);
+  const [hvTitle, setHvTitle] = useState(hvData.title);
   const fullIcon = { width: 22, height: 22, fill: "rgb(200, 200, 200)", style: { padding: 12, backgroundColor: isFull ? "#363636" : "initial", cursor: "pointer" } };
   const homeIcon = { width: 22, height: 22, fill: "rgb(200, 200, 200)", style: { padding: 12, cursor: "pointer" } };
   const rectangleIcon = { onClick: () => { setZoomLock(!zoomLock) }, width: 22, height: 22, fill: zoomLock ? "white" : "rgb(200, 200, 200)", style: { padding: 6, cursor: "pointer" } };
@@ -107,13 +112,44 @@ const NavBar = () => {
     zommInput.addEventListener("change", zoomEvent);
   }
 
-
+  const changeHvTitle = () => {
+    const user = getCurrentUser();
+    if (user?.uid === hvData.author) {
+      const result = API.graphql({
+        query: updateHvData,
+        variables: {
+          input: {
+            id: hvData.id,
+            title: hvTitle
+          }
+        }
+      }) as any;
+      result.then(({ data }: { data: { updateHvData: IHvData } }) => {
+        if (data && data.updateHvData) {
+          console.log("HV 업데이트 성공");
+        } else {
+          console.error("HV 업데이트 실패");
+        }
+      });
+    } else {
+      alert("로그인 되어있지 않습니다.");
+    }
+  }
 
   return (
     <Container>
-      <Link to="/">
-        <SvgHome {...homeIcon} />
-      </Link>
+      <div>
+        <Link to="/">
+          <SvgHome {...homeIcon} />
+        </Link>
+        <HvNameInput
+          type={"text"}
+          value={String(hvTitle)}
+          onBlur={() => { changeHvTitle() }}
+          onKeyDown={(e) => { if (e.key === "Enter") changeHvTitle() }}
+          onChange={(e) => { setHvTitle(e.target.value) }}
+        />
+      </div>
       <ZoomContainer id="zoomContainer" className={String(zoomLock)}>
         <span>
           <SvgDesktop fill={device === "desktop" ? "white" : "rgb(200, 200, 200)"} {...deviceIcon} onClick={() => { changeDevice("desktop") }} />
@@ -162,11 +198,18 @@ const ZoomContainer = styled.div`
   }
 `
 const ZoomInput = styled.input`
-  color:rgb(255,255,255);
+  color:white;
   width:40px;
   padding: 8px;
   padding-left: 4px;
   font-size: 14px;
+`
+const HvNameInput = styled.input`
+  color:white;
+  font-size: 16px;
+  margin-left: 8px;
+  width:200px;
+  padding: 4px;
 `
 
 export default NavBar;
