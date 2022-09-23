@@ -117,7 +117,7 @@ const AppDevelop = styled.div`
   margin-right: 0px;
   margin-bottom: 6px;
   cursor: pointer;
-  outline: 2px solid #dedede;
+  outline: 2px solid #dadada;
   border-radius: 8px;
   div{
     display:flex;
@@ -145,7 +145,7 @@ const Develop = styled.div<{ num: string }>` // 0은 오른쪽 1은 왼쪽
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  outline: 2px solid #dedede;
+  outline: 2px solid #dadada;
   border-radius: 8px;
 `
 const DevelopTitle = styled.h1`
