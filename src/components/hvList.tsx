@@ -72,6 +72,27 @@ const HvList = ({ user }: { user: IUser | null }) => {
     if (user) getHvDataList();
   }, [user])
 
+  useEffect(() => {
+    hvList?.forEach((hv) => {
+      const width = document.getElementById(hv.id + "cont")?.offsetWidth;
+      const preview = document.getElementById(String(hv.id));
+      if (preview && width) {
+        const scale = width / 360 / 3.3;
+        preview.style.transform = `scale(${scale},${scale})`;
+      }
+    });
+    window.addEventListener("resize", () => {
+      hvList?.forEach((hv) => {
+        const width = document.getElementById(hv.id + "cont")?.offsetWidth;
+        const preview = document.getElementById(String(hv.id));
+        if (preview && width) {
+          const scale = width / 360 / 3.3;
+          preview.style.transform = `scale(${scale},${scale})`;
+        }
+      });
+    });
+  }, [])
+
   function compare(a: IHvData, b: IHvData) {
     if (a.updatedAt < b.updatedAt) return 1;
     if (a.updatedAt > b.updatedAt) return -1;
@@ -87,14 +108,14 @@ const HvList = ({ user }: { user: IUser | null }) => {
       {
         hvList && hvList.sort(compare).map((data, key) => {
           return (
-            <Link key={key} to={`/hv/${data.id}`}>
-              <Develop num={String(key % 2)}>
-                <HvPreviewContainer>
-                  <HvPreview dangerouslySetInnerHTML={{ __html: String(data.html) }} />
+            <Develop key={key} num={String(key % 2)}>
+              <Link to={`/hv/${data.id}`}>
+                <HvPreviewContainer id={data.id + "cont"}>
+                  <HvPreview id={String(data.id)} dangerouslySetInnerHTML={{ __html: String(data.html) }} />
                 </HvPreviewContainer>
                 <DevelopTitle>{data.title}</DevelopTitle>
-              </Develop>
-            </Link>
+              </Link>
+            </Develop>
           )
         })
       }
@@ -130,9 +151,9 @@ const AppDevelop = styled.div`
   h1{
     background-color: #fafafa;
     color:black;
-    font-size: 13px;
+    font-size: 14px;
     width:calc(((100vw - 251px) / 2) - 42px - 32px);
-    height:18px;
+    height:20px;
     padding:10px 16px;
     display:flex;
     align-items: center;
@@ -151,9 +172,9 @@ const Develop = styled.div<{ num: string }>` // 0은 오른쪽 1은 왼쪽
 const DevelopTitle = styled.h1`
   background-color: #fafafa;
   color:black;
-  font-size: 13px;
+  font-size: 14px;
   width:calc(((100vw - 251px) / 2) - 42px - 32px);
-  height:18px;
+  height:20px;
   padding:10px 16px;
   display:flex;
   align-items: center;
@@ -167,12 +188,12 @@ const HvPreviewContainer = styled.div`
   background-color: #ededed;
 `
 const HvPreview = styled.div`
-  width:360px;
-  height:720px;
   position: absolute;
-  transform: scale(0.3,0.3);
   border-radius: 8px;
   z-index: 2;
+  width:360px;
+  height:720px;
+  transform: scale(0.3,0.3);
   &::-webkit-scrollbar{
     width:8px;
     height:8px;

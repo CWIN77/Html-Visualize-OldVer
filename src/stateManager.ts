@@ -31,27 +31,20 @@ export const changeHvStorage = async (hvData: IHvData) => {
             variables: {
               input: {
                 id: hvData.id,
-                html: html
+                html
               }
             }
           }) as any;
           result.then(({ data }: { data: { updateHvData: IHvData } }) => {
-            if (data && data.updateHvData) {
-              console.log("HV 업데이트 성공");
-            } else {
-              console.error("HV 업데이트 실패");
-            }
+            if (data && data.updateHvData) console.log("HV 업데이트 성공");
+            else console.error("HV 업데이트 실패");
           });
           onDelay = true;
           setTimeout(() => {
             onDelay = false;
           }, 500);
-        } else {
-          alert("로그인 되어있지 않습니다.");
-        }
-      } else {
-        return;
-      }
+        } else alert("로그인 되어있지 않습니다.");
+      } else return;
     }
   }
 }
