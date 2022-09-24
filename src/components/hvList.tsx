@@ -91,7 +91,7 @@ const HvList = ({ user }: { user: IUser | null }) => {
         }
       });
     });
-  }, [])
+  }, [hvList])
 
   function compare(a: IHvData, b: IHvData) {
     if (a.updatedAt < b.updatedAt) return 1;
@@ -193,7 +193,14 @@ const HvPreview = styled.div`
   z-index: 2;
   width:360px;
   height:720px;
-  transform: scale(0.3,0.3);
+  transform: ${(hv) => {
+    const width = document.getElementById(hv.id + "cont")?.offsetWidth;
+    if (width) {
+      const scale = width / 360 / 3.3;
+      return `scale(${scale},${scale})`;
+    }
+    return null;
+  }};
   &::-webkit-scrollbar{
     width:8px;
     height:8px;

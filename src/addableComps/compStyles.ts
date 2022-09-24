@@ -403,5 +403,6 @@ export const elementStyle: { [key: string]: TAbleStyle } = {
   select: boxStyle,
   option: textStyle,
   article: boxStyle,
-  section: boxStyle
+  section: boxStyle,
+  main: boxStyle
 }

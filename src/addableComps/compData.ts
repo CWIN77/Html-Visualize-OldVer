@@ -145,20 +145,20 @@ export const compData: ICompData[] = [
     comp: comps.nav,
     tag: "nav"
   },
-  {
-    id: 19,
-    name: "Select (select)",
-    descript: `select 태그의 요소입니다. 내부에 option 태그의 요소를 넣어서 선택이 가능하게 해줍니다. 기본적으로 내부에 option 태그의 요소가 하나 들어있습니다.`,
-    comp: comps.select,
-    tag: "select"
-  },
-  {
-    id: 20,
-    name: "Option (option)",
-    descript: `option 태그의 요소입니다. select 태그의 요소 내부에 넣을 수 있습니다.`,
-    comp: comps.option,
-    tag: "option"
-  },
+  // {
+  //   id: 19,
+  //   name: "Select (select)",
+  //   descript: `select 태그의 요소입니다. 내부에 option 태그의 요소를 넣어서 선택이 가능하게 해줍니다. 기본적으로 내부에 option 태그의 요소가 하나 들어있습니다.`,
+  //   comp: comps.select,
+  //   tag: "select"
+  // },
+  // {
+  //   id: 20,
+  //   name: "Option (option)",
+  //   descript: `option 태그의 요소입니다. select 태그의 요소 내부에 넣을 수 있습니다.`,
+  //   comp: comps.option,
+  //   tag: "option"
+  // },
   {
     id: 21,
     name: "Main (main)",

@@ -13,16 +13,20 @@ export const useStore = create(() => ({
 }))
 
 let onDelay = false;
-export const changeHvStorage = async (hvData: IHvData) => {
+export const changeHvStorage = async (hvData: IHvData, newHvList?: String[]) => {
   const user = getCurrentUser();
   if (document.getElementById("view")?.outerHTML !== undefined) {
     const sHistory: string[] = JSON.parse(sessionStorage.getItem(hvData.id + "hstry") || JSON.stringify([]));
-    const html = (document.getElementById("view")?.outerHTML as string)
+    const html = newHvList ? newHvList[newHvList.length - 1] : (document.getElementById("view")?.outerHTML as string)
       .replace("box-shadow: rgb(13, 153, 255) 0px 0px 0px 2.5px inset;", "")
       .replace("box-shadow: rgb(139, 204, 251) 0px 0px 0px 2.5px inset;", "");
-    if (sHistory[sHistory.length - 1] !== html) {
-      sessionStorage.setItem(hvData.id + "hstry", JSON.stringify([...sHistory, html]));
-      sessionStorage.setItem(hvData.id + "undo", JSON.stringify([]));
+    if (sHistory[sHistory.length - 1] !== html || (newHvList && newHvList.length > 0)) {
+      if (newHvList) {
+        sessionStorage.setItem(hvData.id + "hstry", JSON.stringify(newHvList));
+      } else {
+        sessionStorage.setItem(hvData.id + "hstry", JSON.stringify([...sHistory, html]));
+        sessionStorage.setItem(hvData.id + "undo", JSON.stringify([]));
+      }
       useStore.setState({ isChangeHv: true });
       if (!onDelay) {
         if (user?.uid === hvData.author) {

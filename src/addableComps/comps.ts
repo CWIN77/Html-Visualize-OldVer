@@ -139,9 +139,8 @@ export const select = `
 
 export const option = `
   <option style="
-    background-color:white;
+    background-color:gray;
   ">
-    옵션
   </option>
 `
 

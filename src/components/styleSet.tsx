@@ -15,10 +15,9 @@ const StyleSet = ({ hvData }: { hvData: IHvData }) => {
 
   const deleteComp = () => {
     const selectComp = getSelectComp(hvId);
-    if (selectComp && selectComp !== document.body && selectComp.id !== "view") {
+    if (selectComp.className && selectComp.id !== "view") {
       selectComp.remove();
-      const viewComp = document.getElementById("view") as HTMLElement;
-      viewComp.style.boxShadow = "inset 0px 0px 0px 2.5px #0D99FF";
+      sessionStorage.removeItem(hvId + "selectComp");
       useStore.setState({ isSelectChange: true });
       changeHvStorage(hvData);
     }

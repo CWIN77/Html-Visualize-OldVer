@@ -24,13 +24,13 @@ const CompLayer = ({ hvData }: { hvData: IHvData }) => {
   const iconStyle = { width: 18, height: 18, fill: "#242424", style: { marginRight: 4 } };
 
   const getHtmlNodes = (comp: HTMLElement, compList: (compType | textType)[], tabSize: Number) => {
-    if (comp.nodeType === 3) {
+    if (comp.nodeType === 3 && comp.nodeValue !== "\n  ") {
       compList.push({
         tab: tabSize,
         parent: comp.parentElement as HTMLElement,
         html: comp
       });
-    } else {
+    } else if (comp.nodeType !== 3) {
       compList.push({
         tag: comp.tagName.toLowerCase(),
         tab: tabSize,
