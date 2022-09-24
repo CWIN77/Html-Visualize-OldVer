@@ -105,21 +105,21 @@ const HvList = ({ user }: { user: IUser | null }) => {
 
   return (
     <Container>
-      <HvDevelop num={"1"} onClick={() => { addHv() }}>
+      <Develop num={"1"} onClick={() => { addHv() }}>
         <HvPreviewContainer><SvgPlus {...iconStyles} /></HvPreviewContainer>
-        <HvTitle>새로운 프로젝트를 시작해보세요!</HvTitle>
-      </HvDevelop>
+        <DevelopTitle>새로운 프로젝트를 시작해보세요!</DevelopTitle>
+      </Develop>
       {
         hvList && hvList.sort(compare).map((data, key) => {
           return (
-            <HvDevelop key={key} num={String(key % 2)}>
+            <Develop key={key} num={String(key % 2)}>
               <Link to={`/hv/${data.id}`}>
                 <HvPreviewContainer id={data.id + "cont"}>
                   <HvPreview id={String(data.id)} dangerouslySetInnerHTML={{ __html: String(data.html) }} />
                 </HvPreviewContainer>
-                <HvTitle>{data.title}</HvTitle>
+                <DevelopTitle>{data.title}</DevelopTitle>
               </Link>
-            </HvDevelop>
+            </Develop>
           )
         })
       }
@@ -135,7 +135,27 @@ const Container = styled.div`
   padding-bottom: 24px;
   background-color: initial;
 `
-const HvDevelop = styled.div<{ num: string }>` // 0은 오른쪽 1은 왼쪽
+const HvPreviewContainer = styled.div`
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ededed;
+  width:calc(((100vw - ${UserInformWidth}) / 2) - 42px);
+  height:calc((((100vw - ${UserInformWidth}) / 2) - 42px) / 3 * 2);
+  @media screen and (min-width: 1600px) {
+    width:calc(((100vw - ${UserInformWidth}) / 3) - 38px);
+    height:calc((((100vw - ${UserInformWidth}) / 3) - 38px) / 3 * 2);
+  }
+  @media screen and (max-width: 900px) {
+    width:calc(((100vw - ${UserInformWidth}) / 1) - 58px);
+    height:calc((((100vw - ${UserInformWidth}) / 1) - 58px) / 3 * 2);
+  }
+  @media screen and (max-width: 600px) {
+    width:calc((100vw / 1) - 58px);
+    height:calc(((100vw / 1) - 58px) / 3 * 2);
+  }
+`
+const Develop = styled.div<{ num: string }>` // 0은 오른쪽 1은 왼쪽
   margin: 28px;
   margin-right: 0px;
   margin-bottom: 6px;
@@ -145,41 +165,14 @@ const HvDevelop = styled.div<{ num: string }>` // 0은 오른쪽 1은 왼쪽
   outline: 2px solid #dadada;
   border-radius: 8px;
 `
-const HvTitle = styled.h1`
+const DevelopTitle = styled.h1`
   background-color: #fafafa;
   color:black;
   font-size: 14px;
-  width:calc(((100vw - ${UserInformWidth}) / 2) - 42px - 32px);
   height:20px;
   padding:10px 16px;
   display:flex;
   align-items: center;
-  @media screen and (max-width: 600px) {
-    width:calc((100vw / 1) - 54px - 32px);
-  }
-  @media screen and (max-width: 800px) {
-    width:calc(((100vw - ${UserInformWidth}) / 1) - 54px - 32px);
-  }
-  @media screen and (min-width: 1600px) {
-    width:calc(((100vw - ${UserInformWidth}) / 3) - 36px - 32px);
-  }
-`
-const HvPreviewContainer = styled.div`
-  display:flex;
-  align-items: center;
-  justify-content: center;
-  height:calc((((100vw - ${UserInformWidth}) / 2) - 42px) / 3 * 2);
-  background-color: #ededed;
-  @media screen and (max-width: 600px) {
-    width:calc((100vw / 1) - 54px);
-    height:calc(((100vw / 1) - 54px) / 3 * 2);
-  }
-  @media screen and (max-width: 800px) {
-    height:calc((((100vw - ${UserInformWidth}) / 1) - 54px) / 3 * 2);
-  }
-  @media screen and (min-width: 1600px) {
-    height:calc((((100vw - ${UserInformWidth}) / 3) - 54px) / 3 * 2);
-  }
 `
 const HvPreview = styled.div`
   position: absolute;
