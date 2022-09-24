@@ -6,10 +6,9 @@ import { ReactComponent as SvgRectangleFill } from '../svgs/rectangle_fill.svg';
 import { ReactComponent as SvgDesktop } from '../svgs/desktop.svg';
 import { ReactComponent as SvgPhone } from '../svgs/phone.svg';
 import { ReactComponent as SvgSetting } from '../svgs/setting.svg';
-import { ReactComponent as SvgList } from '../svgs/list.svg';
 import { useEffect, useState } from 'react';
 import HvExport from './HvExport';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { IHvData } from '../types';
 import { API } from 'aws-amplify';
 import { deleteHvData, updateHvData } from "../graphql/mutations";
@@ -26,6 +25,7 @@ const NavBar = ({ hvData }: { hvData: IHvData }) => {
   const rectangleIcon = { onClick: () => { setZoomLock(!zoomLock) }, width: 22, height: 22, fill: zoomLock ? "white" : "rgb(200, 200, 200)", style: { padding: 6, cursor: "pointer" } };
   const deviceIcon = { width: 24, height: 24, style: { padding: 8, marginLeft: 2, cursor: "pointer" } };
   let zoom = 1;
+  const navigate = useNavigate();
 
   const zoomEvent = (e: WheelEvent | Event) => {
     const zommInput = document.getElementById("zoom") as HTMLInputElement;
@@ -151,9 +151,10 @@ const NavBar = ({ hvData }: { hvData: IHvData }) => {
             }
           }
         }) as any;
-        result.then(({ data }: { data: { updateHvData: IHvData } }) => {
-          if (data && data.updateHvData) {
+        result.then(({ data }: { data: { deleteHvData: IHvData } }) => {
+          if (data && data.deleteHvData) {
             console.log("HV 삭제 완료");
+            navigate("/");
           } else {
             console.error("HV 삭제 실패");
           }
