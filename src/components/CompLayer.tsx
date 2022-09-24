@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react'
 import { changeHvStorage, getSelectComp, useStore } from '../stateManager'
-import { ReactComponent as SvgShapes } from "../svgs/shapes.svg";
-import { ReactComponent as SvgText } from "../svgs/text.svg";
+import { ReactComponent as SvgShapes } from "../icons/shapes.svg";
+import { ReactComponent as SvgText } from "../icons/text.svg";
 import { useParams } from "react-router-dom";
 import { IHvData } from '../types';
 

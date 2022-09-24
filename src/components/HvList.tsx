@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ReactComponent as SvgPlus } from "../svgs/plus.svg";
+import { ReactComponent as SvgPlus } from "../icons/plus.svg";
 import { API } from 'aws-amplify';
 import { listHvData } from '../graphql/queries';
 import { useEffect, useState } from 'react';
@@ -7,6 +7,7 @@ import { IHvData, IUser } from '../types';
 import { Link, useNavigate } from 'react-router-dom';
 import { createHvData } from '../graphql/mutations';
 import { getCurrentUser } from '../firebase/auth';
+const UserInformWidth = "230px";
 
 const HvList = ({ user }: { user: IUser | null }) => {
   const iconStyles = { width: 28, height: 28, fill: "#676767" };
@@ -23,22 +24,25 @@ const HvList = ({ user }: { user: IUser | null }) => {
     return id;
   }
   const getHvDataList = async () => {
-    const { data } = await API.graphql({
-      query: listHvData,
-      variables: {
-        input: { author: { contains: user?.uid } }
-      }
-    }) as { data: { listHvData: { items: IHvData[] | null } } };
-    const result = data.listHvData.items;
-    if (result) {
-      result.forEach((hv, i) => {
-        if (result !== null) {
-          result[i].html = String(hv.html.replace(/\\/g, "").replace(/<br>/g, "")).replace(/contenteditable="true"/g, "");
-          sessionStorage.setItem(String(hv.id), JSON.stringify(hv));
+    const user = getCurrentUser();
+    if (user) {
+      const { data } = await API.graphql({
+        query: listHvData,
+        variables: {
+          input: { author: { contains: user?.uid } }
         }
-      });
-      sessionStorage.setItem("hvList", JSON.stringify(result));
-      setHvList(result);
+      }) as { data: { listHvData: { items: IHvData[] | null } } };
+      const result = data.listHvData.items;
+      if (result) {
+        result.forEach((hv, i) => {
+          if (result !== null) {
+            result[i].html = String(hv.html.replace(/\\/g, "").replace(/<br>/g, "")).replace(/contenteditable="true"/g, "");
+            sessionStorage.setItem(String(hv.id), JSON.stringify(hv));
+          }
+        });
+        sessionStorage.setItem("hvList", JSON.stringify(result));
+        setHvList(result);
+      } else setHvList(null);
     } else setHvList(null);
   }
   const tempHtml = `<div class=\"App\" style=\"width: 100%; height: 100%; overflow: auto; display: block; background-color: white;\" id=\"view\"></div>`;
@@ -69,8 +73,7 @@ const HvList = ({ user }: { user: IUser | null }) => {
   }
 
   useEffect(() => {
-    if (user) getHvDataList();
-    //
+    getHvDataList();
   }, [user])
 
   useEffect(() => {
@@ -145,15 +148,15 @@ const AppDevelop = styled.div`
     display:flex;
     align-items: center;
     justify-content: center;
-    width:calc(((100vw - 251px) / 2) - 42px);
-    height:calc((((100vw - 251px) / 2) - 42px) / 3 * 2);
+    width:calc(((100vw - ${UserInformWidth}) / 2) - 42px);
+    height:calc((((100vw - ${UserInformWidth}) / 2) - 42px) / 3 * 2);
     background-color: #ededed;
   }
   h1{
     background-color: #fafafa;
     color:black;
     font-size: 14px;
-    width:calc(((100vw - 251px) / 2) - 42px - 32px);
+    width:calc(((100vw - ${UserInformWidth}) / 2) - 42px - 32px);
     height:20px;
     padding:10px 16px;
     display:flex;
@@ -174,7 +177,7 @@ const DevelopTitle = styled.h1`
   background-color: #fafafa;
   color:black;
   font-size: 14px;
-  width:calc(((100vw - 251px) / 2) - 42px - 32px);
+  width:calc(((100vw - ${UserInformWidth}) / 2) - 42px - 32px);
   height:20px;
   padding:10px 16px;
   display:flex;
@@ -184,8 +187,8 @@ const HvPreviewContainer = styled.div`
   display:flex;
   align-items: center;
   justify-content: center;
-  width:calc(((100vw - 251px) / 2) - 42px);
-  height:calc((((100vw - 251px) / 2) - 42px) / 3 * 2);
+  width:calc(((100vw - ${UserInformWidth}) / 2) - 42px);
+  height:calc((((100vw - ${UserInformWidth}) / 2) - 42px) / 3 * 2);
   background-color: #ededed;
 `
 const HvPreview = styled.div`

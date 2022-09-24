@@ -1,11 +1,11 @@
 import styled from 'styled-components'
-import { ReactComponent as SvgHome } from '../svgs/home.svg';
-import { ReactComponent as SvgFullScreen } from '../svgs/fullScreen.svg';
-import { ReactComponent as SvgRectangle } from '../svgs/rectangle.svg';
-import { ReactComponent as SvgRectangleFill } from '../svgs/rectangle_fill.svg';
-import { ReactComponent as SvgDesktop } from '../svgs/desktop.svg';
-import { ReactComponent as SvgPhone } from '../svgs/phone.svg';
-import { ReactComponent as SvgSetting } from '../svgs/setting.svg';
+import { ReactComponent as SvgHome } from '../icons/home.svg';
+import { ReactComponent as SvgFullScreen } from '../icons/fullScreen.svg';
+import { ReactComponent as SvgRectangle } from '../icons/rectangle.svg';
+import { ReactComponent as SvgRectangleFill } from '../icons/rectangle_fill.svg';
+import { ReactComponent as SvgDesktop } from '../icons/desktop.svg';
+import { ReactComponent as SvgPhone } from '../icons/phone.svg';
+import { ReactComponent as SvgSetting } from '../icons/setting.svg';
 import { useEffect, useState } from 'react';
 import HvExport from './HvExport';
 import { Link, useNavigate } from 'react-router-dom';

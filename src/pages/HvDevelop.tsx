@@ -9,26 +9,30 @@ import StyleSet from "../components/StyleSet";
 import LeftSideBar from "../components/LeftSideBar";
 import NavBar from "../components/NavBar";
 import HvView from "../components/HvView";
+import { getCurrentUser } from '../firebase/auth';
 
 const HvDevelop = () => {
   const hvId = useParams().id || JSON.parse(sessionStorage.getItem("hvId") || JSON.stringify(null));
-  const [hvData, setHvData] = useState<IHvData | null | "loading">(JSON.parse(sessionStorage.getItem(hvId) || JSON.stringify(null)));
+  const [hvData, setHvData] = useState<IHvData | null | "loading">(JSON.parse(sessionStorage.getItem(hvId) || JSON.stringify("loading")));
 
   const getHvDataFromAmplify = async () => {
-    const { data } = await API.graphql({
-      query: getHvData,
-      variables: {
-        id: hvId
-      }
-    }) as { data: { getHvData: IHvData | null } };
-    const result: IHvData | null = data.getHvData;
-    if (result !== null) result.html = String(result.html.replace(/\\/g, "").replace(/<br>/g, "")).replace(/contenteditable="true"/g, "");
-    setHvData(result);
+    const user = getCurrentUser();
+    if (user) {
+      const { data } = await API.graphql({
+        query: getHvData,
+        variables: {
+          id: hvId
+        }
+      }) as { data: { getHvData: IHvData | null } };
+      const result: IHvData | null = data.getHvData;
+      if (result !== null) result.html = String(result.html.replace(/\\/g, "").replace(/<br>/g, "")).replace(/contenteditable="true"/g, "");
+      setHvData(result);
+    } else setHvData(null);
   }
 
   useEffect(() => {
     sessionStorage.removeItem(hvId + "selectComp");
-    if (hvData === null) {
+    if (hvData === null || hvData === "loading") {
       getHvDataFromAmplify();
     }
   }, [])

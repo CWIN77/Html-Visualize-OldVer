@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { useStore } from "../stateManager";
-import { ReactComponent as SvgClipBoard } from "../svgs/clipBoard.svg";
-import { ReactComponent as SvgCross } from "../svgs/cross.svg";
+import { ReactComponent as SvgClipBoard } from "../icons/clipBoard.svg";
+import { ReactComponent as SvgCross } from "../icons/cross.svg";
 import CopyToClipboard from 'react-copy-to-clipboard';
 
 const HvResult = () => {

@@ -26,6 +26,7 @@ export const logOut = (): void => {
   if (window.confirm('로그아웃 하겠습니까?')) {
     firebase.auth().signOut().then(() => {
       localStorage.removeItem('user');
+      // sessionStorage.clear();
       alert('로그아웃 완료');
       window.location.reload();
     }).catch(() => {
@@ -35,7 +36,7 @@ export const logOut = (): void => {
 }
 
 export const getCurrentUser = (): IUser | null => {
-  const currentUser = firebase.auth().currentUser;
+  const { currentUser } = firebase.auth();
   if (currentUser) {
     const { displayName, photoURL, uid } = currentUser;
     if (displayName && photoURL) {

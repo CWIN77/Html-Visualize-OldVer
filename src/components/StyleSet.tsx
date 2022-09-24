@@ -163,7 +163,7 @@ const StyleSet = ({ hvData }: { hvData: IHvData }) => {
 
   return (
     <Container>
-      <Name>Style</Name>
+      <SetterName>Style</SetterName>
       <AttContainer>
         {
           attList.map((attName, k: number) => {
@@ -243,15 +243,21 @@ const StyleSet = ({ hvData }: { hvData: IHvData }) => {
       }
       <StyleContainer>
         {
-          styleList.map((style: TAbleStyle, k: number) => {
+          isShowDetail && styleList.map((style: TAbleStyle, k: number) => {
             const value = Object.values(style)[0];
             const key = Object.keys(style)[0];
             const name = styleName[Object.keys(style)[0]];
-            if (value === "detail" && isShowDetail) {
+            if (value === "detail") {
               return (
                 <Style key={k}>
                   <h1>{name}</h1>
-                  <input onBlur={(e) => { changeStyle(e, key) }} onKeyDown={(e) => { if (e.key === "Enter") changeStyle(e, key) }} id={Object.keys(style)[0]} type={"text"} />
+                  <StyleTextInput
+                    onClick={() => { sessionStorage.removeItem("copyHv") }}
+                    onBlur={(e) => { changeStyle(e, key) }}
+                    onKeyDown={(e) => { if (e.key === "Enter") changeStyle(e, key) }}
+                    id={key}
+                    type={"text"}
+                  />
                 </Style>
               )
             }
@@ -274,7 +280,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  width: 280px;
+  width: 300px;
   height: calc(100vh - 46px);
   background-color: white;
   z-index: 10;
@@ -299,13 +305,13 @@ const Att = styled.div`
   display:flex;
   align-items: center;
   h1{
-    margin-left: 14px;
-    margin-right: 16px;
-    font-size: 12px;
-    opacity: 0.75;
+    margin-left: 13px;
+    margin-right: 14px;
+    font-size: 13px;
+    opacity: 0.8;
   }
   input{
-    font-size: 13px;
+    font-size: 14px;
     font-weight: bold;
     border-radius: 4px;
     padding: 2px;
@@ -316,7 +322,7 @@ const StyleContainer = styled.div`
   align-items: center;
   flex-wrap: wrap;
 `
-const Name = styled.h1`
+const SetterName = styled.h1`
   font-size: 13px;
   padding: 17px 19px;
   border-bottom: 1.5px solid rgba(54,54,54,0.25);
@@ -327,10 +333,10 @@ const Style = styled.div`
   align-items: center;
   width:50%;
   h1{
-    min-width:46px;
+    min-width:44px;
     margin-left: 14px;
-    font-size: 12px;
-    opacity: 0.75;
+    font-size: 13px;
+    opacity: 0.8;
   }
   h2{
     padding : 8px;
@@ -341,7 +347,7 @@ const Style = styled.div`
   }
 `
 const StyleTextInput = styled.input`
-  font-size: 13px;
+  font-size: 14px;
   font-weight: bold;
   width:100%;
   padding: 2px;
@@ -351,13 +357,13 @@ const StyleColorInput = styled.input`
   padding: 2px;
 `
 const StyleColorTextInput = styled.input`
-  font-size: 12px;
+  font-size: 14px;
   font-weight: bold;
   width:calc(100% - 15px);
   padding: 2px;
 `
 const StyleSelect = styled.select`
-  font-size: 13px;
+  font-size: 14px;
   font-weight: bold;
   margin-right: 8px;
   width:100%;

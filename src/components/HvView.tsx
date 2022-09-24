@@ -254,8 +254,8 @@ const ViewBox = styled.div`
   }
 `
 const ViewContainer = styled.div`
-  width:calc(100vw - 280px - 335px);
-  margin-left: 335px;
+  width:calc(100vw - 300px - 340px);
+  margin-left: 340px;
   position: fixed;
   height:calc(100vh - 46px);
   display:flex;
@@ -279,8 +279,7 @@ const ViewContainer = styled.div`
   }
 `
 const ViewBackground = styled.span`
-  /* position: fixed; */
-  width:calc(100vw - 280px - 335px);
+  width:calc(100vw - 300px - 340px);
   height:calc(100vh - 46px);
   z-index: 1;
 
