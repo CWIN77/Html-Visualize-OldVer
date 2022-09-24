@@ -5,12 +5,14 @@ import { ReactComponent as SvgRectangle } from '../svgs/rectangle.svg';
 import { ReactComponent as SvgRectangleFill } from '../svgs/rectangle_fill.svg';
 import { ReactComponent as SvgDesktop } from '../svgs/desktop.svg';
 import { ReactComponent as SvgPhone } from '../svgs/phone.svg';
+import { ReactComponent as SvgSetting } from '../svgs/setting.svg';
+import { ReactComponent as SvgList } from '../svgs/list.svg';
 import { useEffect, useState } from 'react';
 import HvExport from './HvExport';
 import { Link } from 'react-router-dom';
 import { IHvData } from '../types';
 import { API } from 'aws-amplify';
-import { updateHvData } from "../graphql/mutations";
+import { deleteHvData, updateHvData } from "../graphql/mutations";
 import { getCurrentUser } from '../firebase/auth';
 
 const NavBar = ({ hvData }: { hvData: IHvData }) => {
@@ -18,8 +20,9 @@ const NavBar = ({ hvData }: { hvData: IHvData }) => {
   const [device, setDevice] = useState("phone"); // phone / desktop
   const [zoomLock, setZoomLock] = useState(false);
   const [hvTitle, setHvTitle] = useState(hvData.title);
-  const fullIcon = { width: 22, height: 22, fill: "rgb(200, 200, 200)", style: { padding: 12, backgroundColor: isFull ? "#363636" : "initial", cursor: "pointer" } };
-  const homeIcon = { width: 22, height: 22, fill: "rgb(200, 200, 200)", style: { padding: 12, cursor: "pointer" } };
+  const iconStyle = { width: 19, height: 19, fill: "rgb(255, 255, 255)" };
+  const fullIcon = { ...iconStyle, style: { padding: 12, backgroundColor: isFull ? "#424242" : "initial", cursor: "pointer" } };
+  const homeIcon = { ...iconStyle, style: { padding: 12, cursor: "pointer" } };
   const rectangleIcon = { onClick: () => { setZoomLock(!zoomLock) }, width: 22, height: 22, fill: zoomLock ? "white" : "rgb(200, 200, 200)", style: { padding: 6, cursor: "pointer" } };
   const deviceIcon = { width: 24, height: 24, style: { padding: 8, marginLeft: 2, cursor: "pointer" } };
   let zoom = 1;
@@ -136,6 +139,31 @@ const NavBar = ({ hvData }: { hvData: IHvData }) => {
     }
   }
 
+  const deleteHv = () => {
+    if (window.confirm("프로젝트를 제거 하겠습니까?\n한번 제거한 프로젝트는 되돌리지 못합니다.")) {
+      const user = getCurrentUser();
+      if (user?.uid === hvData.author) {
+        const result = API.graphql({
+          query: deleteHvData,
+          variables: {
+            input: {
+              id: hvData.id
+            }
+          }
+        }) as any;
+        result.then(({ data }: { data: { updateHvData: IHvData } }) => {
+          if (data && data.updateHvData) {
+            console.log("HV 업데이트 성공");
+          } else {
+            console.error("HV 업데이트 실패");
+          }
+        });
+      } else {
+        alert("로그인 되어있지 않습니다.");
+      }
+    }
+  }
+
   return (
     <Container>
       <div>
@@ -164,6 +192,7 @@ const NavBar = ({ hvData }: { hvData: IHvData }) => {
       </ZoomContainer>
       <div>
         <HvExport />
+        <SvgSetting {...homeIcon} onClick={() => { }} />
         <SvgFullScreen {...fullIcon} onClick={() => {
           if (isFull) document.exitFullscreen();
           else document.body.requestFullscreen();
