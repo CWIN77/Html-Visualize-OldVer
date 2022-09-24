@@ -33,7 +33,7 @@ const HvList = ({ user }: { user: IUser | null }) => {
     if (result) {
       result.forEach((hv, i) => {
         if (result !== null) {
-          result[i].html = String(hv.html.replace(/\\/g, "").replace(/<br>/g, ""));
+          result[i].html = String(hv.html.replace(/\\/g, "").replace(/<br>/g, "")).replace(/contenteditable="true"/g, "");
           sessionStorage.setItem(String(hv.id), JSON.stringify(hv));
         }
       });
