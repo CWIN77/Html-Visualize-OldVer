@@ -9,11 +9,11 @@ const UserInform = ({ user }: { user: IUser | null }) => {
       {
         user
           ? <Profile>
-            <ProfileImg src={String(user.img)} />
+            <ProfileImg onClick={() => { logOut() }} src={String(user.img)} />
             <ProfileName onClick={() => { logOut() }}>{user.name}</ProfileName>
           </Profile>
           : <Profile>
-            <SvgGoogleIcon width={32} height={32} style={{ marginRight: 12 }} />
+            <SvgGoogleIcon onClick={() => { loginGoogle() }} width={32} height={32} style={{ marginRight: 12 }} />
             <ProfileName onClick={() => { loginGoogle() }}>구글 로그인</ProfileName>
           </Profile>
       }
@@ -22,8 +22,13 @@ const UserInform = ({ user }: { user: IUser | null }) => {
 }
 
 const Container = styled.div`
-  min-height:calc(100vh - 46px);
+  min-height:100vh;
+  min-width: auto;
   background-color: white;
+  @media screen and (max-width: 600px) {
+    min-width: 100vw;
+    min-height:auto;
+  }
 `
 const Profile = styled.div`
   width:186px;
@@ -32,7 +37,13 @@ const Profile = styled.div`
   padding: 22px;
   margin-bottom: 24px;
   margin-top: 12px;
-  cursor: pointer;
+  @media screen and (max-width: 600px) {
+    padding: 0px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width:auto;
+    padding-left: 30px;
+  }
 `
 const ProfileImg = styled.img`
   width:32px;
@@ -45,6 +56,7 @@ const ProfileName = styled.h1`
   font-size: 18px;
   display:flex;
   word-break:break-all;
+  cursor: pointer;
 `
 
 export default UserInform;

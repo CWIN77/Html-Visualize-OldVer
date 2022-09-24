@@ -191,7 +191,7 @@ const NavBar = ({ hvData }: { hvData: IHvData }) => {
         }
         <ZoomInput type={"text"} id="zoom" />
       </ZoomContainer>
-      <div>
+      <Settings>
         <HvExport />
         <SvgSetting {...homeIcon} onClick={deleteHv} />
         <SvgFullScreen {...fullIcon} onClick={() => {
@@ -199,7 +199,7 @@ const NavBar = ({ hvData }: { hvData: IHvData }) => {
           else document.body.requestFullscreen();
           setIsFull(!isFull);
         }} />
-      </div>
+      </Settings>
     </Container >
   )
 }
@@ -215,6 +215,9 @@ const Container = styled.div`
     display:flex;
     align-items: center;
   }
+  @media screen and (max-width: 750px) {
+    justify-content: center;
+  }
 `
 const ZoomContainer = styled.div`
   display:flex;
@@ -225,6 +228,11 @@ const ZoomContainer = styled.div`
   padding-left: 4px;
   span{
     margin-right: 18px;
+  }
+  *{
+    @media screen and (max-width: 750px) {
+      display:none;
+    }
   }
 `
 const ZoomInput = styled.input`
@@ -240,6 +248,13 @@ const HvNameInput = styled.input`
   margin-left: 8px;
   width:200px;
   padding: 4px;
+`
+const Settings = styled.div`
+  *{
+    @media screen and (max-width: 750px) {
+      display:none;
+    }
+  }
 `
 
 export default NavBar;

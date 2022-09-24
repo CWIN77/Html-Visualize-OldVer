@@ -25,6 +25,9 @@ const Container = styled.div`
   min-height:100vh;
   background-color: #ededed;
   display:flex;
+  @media screen and (max-width: 600px) {
+    flex-direction: column;
+  }
 `
 
 export default Home;

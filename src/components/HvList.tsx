@@ -151,6 +151,14 @@ const AppDevelop = styled.div`
     width:calc(((100vw - ${UserInformWidth}) / 2) - 42px);
     height:calc((((100vw - ${UserInformWidth}) / 2) - 42px) / 3 * 2);
     background-color: #ededed;
+    @media screen and (max-width: 800px) {
+      width:calc(((100vw - ${UserInformWidth}) / 1) - 54px);
+      height:calc((((100vw - ${UserInformWidth}) / 1) - 54px) / 3 * 2);
+    }
+    @media screen and (max-width: 600px) {
+      width:calc((100vw / 1) - 54px - 32px);
+      height:calc(((100vw / 1) - 54px) / 3 * 2);
+    }
   }
   h1{
     background-color: #fafafa;
@@ -161,6 +169,12 @@ const AppDevelop = styled.div`
     padding:10px 16px;
     display:flex;
     align-items: center;
+    @media screen and (max-width: 800px) {
+      width:calc(((100vw - ${UserInformWidth}) / 1) - 54px - 32px);
+    }
+    @media screen and (max-width: 600px) {
+      width:calc((100vw / 1) - 54px - 32px);
+    }
   }
 `
 const Develop = styled.div<{ num: string }>` // 0은 오른쪽 1은 왼쪽
@@ -182,6 +196,12 @@ const DevelopTitle = styled.h1`
   padding:10px 16px;
   display:flex;
   align-items: center;
+  @media screen and (max-width: 800px) {
+    width:calc(((100vw - ${UserInformWidth}) / 1) - 54px - 32px);
+  }
+  @media screen and (max-width: 600px) {
+    width:calc((100vw / 1) - 54px - 32px);
+  }
 `
 const HvPreviewContainer = styled.div`
   display:flex;
@@ -190,6 +210,14 @@ const HvPreviewContainer = styled.div`
   width:calc(((100vw - ${UserInformWidth}) / 2) - 42px);
   height:calc((((100vw - ${UserInformWidth}) / 2) - 42px) / 3 * 2);
   background-color: #ededed;
+  @media screen and (max-width: 800px) {
+    width:calc(((100vw - ${UserInformWidth}) / 1) - 54px);
+    height:calc((((100vw - ${UserInformWidth}) / 1) - 54px) / 3 * 2);
+  }
+  @media screen and (max-width: 600px) {
+    width:calc((100vw / 1) - 54px);
+    height:calc(((100vw / 1) - 54px) / 3 * 2);
+  }
 `
 const HvPreview = styled.div`
   position: absolute;
