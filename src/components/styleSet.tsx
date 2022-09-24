@@ -171,6 +171,7 @@ const StyleSet = ({ hvData }: { hvData: IHvData }) => {
               <Att key={k}>
                 <h1>{attName}</h1>
                 <input
+                  onClick={() => { sessionStorage.removeItem("copyHv") }}
                   onBlur={(e) => { changeAtt(e, attName) }}
                   onKeyDown={(e) => { if (e.key === "Enter") changeAtt(e, attName) }}
                   id={attName}
@@ -193,16 +194,32 @@ const StyleSet = ({ hvData }: { hvData: IHvData }) => {
                   <h1 title={key}>{name}</h1>
                   {
                     value === "value"
-                      ? <StyleTextInput onBlur={(e) => { changeStyle(e, key) }} onKeyDown={(e) => { if (e.key === "Enter") changeStyle(e, key) }} id={key} type={"text"} />
+                      ? <StyleTextInput
+                        onClick={() => { sessionStorage.removeItem("copyHv") }}
+                        onBlur={(e) => { changeStyle(e, key) }}
+                        onKeyDown={(e) => { if (e.key === "Enter") changeStyle(e, key) }}
+                        id={key}
+                        type={"text"}
+                      />
                       : value === "color"
                         ? (
                           <>
-                            <StyleColorInput type={"color"} id={key} onInput={(e) => { changeStyle(e, key) }} />
-                            <StyleColorTextInput onBlur={(e) => { changeStyle(e, key) }} onKeyDown={(e) => { if (e.key === "Enter") changeStyle(e, key) }} id={key + "colorText"} type={"text"} />
+                            <StyleColorInput
+                              type={"color"}
+                              id={key}
+                              onInput={(e) => { changeStyle(e, key) }}
+                            />
+                            <StyleColorTextInput
+                              onClick={() => { sessionStorage.removeItem("copyHv") }}
+                              onBlur={(e) => { changeStyle(e, key) }}
+                              onKeyDown={(e) => { if (e.key === "Enter") changeStyle(e, key) }}
+                              id={key + "colorText"}
+                              type={"text"}
+                            />
                           </>
                         )
                         : (
-                          <StyleSelectInput onChange={(e) => { changeStyle(e, key) }} id={key}>
+                          <StyleSelect onChange={(e) => { changeStyle(e, key) }} id={key}>
                             {
                               value.map((v, key) => {
                                 let style = v
@@ -210,7 +227,7 @@ const StyleSet = ({ hvData }: { hvData: IHvData }) => {
                                 return <option key={key} value={style}>{v}</option>
                               })
                             }
-                          </StyleSelectInput>
+                          </StyleSelect>
                         )
                   }
                 </Style>
@@ -339,7 +356,7 @@ const StyleColorTextInput = styled.input`
   width:calc(100% - 15px);
   padding: 2px;
 `
-const StyleSelectInput = styled.select`
+const StyleSelect = styled.select`
   font-size: 13px;
   font-weight: bold;
   margin-right: 8px;
