@@ -153,9 +153,9 @@ const NavBar = ({ hvData }: { hvData: IHvData }) => {
         }) as any;
         result.then(({ data }: { data: { updateHvData: IHvData } }) => {
           if (data && data.updateHvData) {
-            console.log("HV 업데이트 성공");
+            console.log("HV 삭제 완료");
           } else {
-            console.error("HV 업데이트 실패");
+            console.error("HV 삭제 실패");
           }
         });
       } else {
@@ -192,7 +192,7 @@ const NavBar = ({ hvData }: { hvData: IHvData }) => {
       </ZoomContainer>
       <div>
         <HvExport />
-        <SvgSetting {...homeIcon} onClick={() => { }} />
+        <SvgSetting {...homeIcon} onClick={deleteHv} />
         <SvgFullScreen {...fullIcon} onClick={() => {
           if (isFull) document.exitFullscreen();
           else document.body.requestFullscreen();
