@@ -70,6 +70,7 @@ const HvList = ({ user }: { user: IUser | null }) => {
 
   useEffect(() => {
     if (user) getHvDataList();
+    //
   }, [user])
 
   useEffect(() => {
