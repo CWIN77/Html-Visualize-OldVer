@@ -1,8 +1,8 @@
 import styled from 'styled-components'
-import { useStore, changeHvStorage, getSelectComp } from "../stateManager"
-import { elementStyle, styleName, compColors } from "../addableComps/compStyles"
-import { IHvData, TAbleStyle } from "../types"
-import { compAttribute } from "../addableComps/compData"
+import { useStore, changeHvStorage, getSelectComp } from "../../stateManager"
+import { elementStyle, styleName, compColors } from "../../addableComps/compStyles"
+import { IHvData, TAbleStyle } from "../../types"
+import { compAttribute } from "../../addableComps/compData"
 import { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
 

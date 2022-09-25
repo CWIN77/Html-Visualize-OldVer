@@ -1,8 +1,8 @@
 import styled from 'styled-components'
-import { compAttribute, ableInsert } from "../addableComps/compData"
-import { ReactComponent as SvgReact } from "../icons/react.svg";
-import { ReactComponent as SvgHtml } from "../icons/html.svg";
-import { ReactComponent as SvgClipBoard } from "../icons/clipBoard.svg";
+import { compAttribute, ableInsert } from "../../addableComps/compData"
+import { ReactComponent as SvgReact } from "../../icons/react.svg";
+import { ReactComponent as SvgHtml } from "../../icons/html.svg";
+import { ReactComponent as SvgClipBoard } from "../../icons/clipBoard.svg";
 import CopyToClipboard from 'react-copy-to-clipboard';
 import { useState } from 'react';
 
@@ -200,7 +200,6 @@ const HvExport = () => {
         <SvgHtml {...iconSize} />
         <h1>HTML CSS 코드 생성</h1>
       </ExportBtn>
-
       {
         hvResult &&
         <>

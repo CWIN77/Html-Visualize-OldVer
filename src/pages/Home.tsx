@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import HvList from '../components/HvList';
-import UserInform from '../components/UserInform';
+import HvList from '../components/Home/HvList';
+import UserInform from '../components/Home/UserInform';
 import { getCurrentUser } from '../firebase/auth';
 import { IUser } from '../types';
 

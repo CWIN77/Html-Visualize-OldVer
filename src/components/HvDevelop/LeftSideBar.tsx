@@ -1,61 +1,61 @@
 import styled from 'styled-components';
+import CompSet from './CompSet';
+import CompLayer from './CompLayer';
 import { useState } from 'react';
-import { IHvData } from '../types';
-import StyleSet from './StyleSet';
-import HvExport from './HvExport';
+import { IHvData } from '../../types';
 
-const RightSideBar = ({ hvData }: { hvData: IHvData }) => {
+const LeftSideBar = ({ hvData }: { hvData: IHvData }) => {
   const [sidePage, setSidePage] = useState(0);
   return (
-    <Container>
-      <PageSelectBtn id="rightSideBar">
+    <Container id="leftSideBar">
+      <PageSelectBtn>
         <h1 style={{ opacity: sidePage === 0 ? "1" : "0.6" }}
           onClick={() => {
             setSidePage(0);
-            document.getElementById("rightSideBar")?.scrollTo(0, 0);
+            document.getElementById("leftSideBar")?.scrollTo(0, 0);
           }}
-        >Style</h1>
+        >Comp</h1>
         <h1 style={{ opacity: sidePage === 1 ? "1" : "0.6" }}
           onClick={() => {
             setSidePage(1);
-            document.getElementById("rightSideBar")?.scrollTo(0, 0);
+            document.getElementById("leftSideBar")?.scrollTo(0, 0);
           }}
-        >Export</h1>
+        >Layer</h1>
       </PageSelectBtn>
-      {sidePage === 0 && <StyleSet hvData={hvData} />}
-      {sidePage === 1 && <HvExport />}
+      {sidePage === 0 && <CompSet hvData={hvData} />}
+      {sidePage === 1 && <CompLayer hvData={hvData} />}
     </Container>
   )
 }
 
 const Container = styled.div`
+  left:0px;
   position: absolute;
-  right:0px;
-  display: flex;
+  display:flex;
   flex-direction: column;
   overflow-y: auto;
-  width: 320px;
-  height: calc(100vh - 46px);
+  width:340px;
+  height:calc(100vh - 46px);
   background-color: white;
   z-index: 10;
   &::-webkit-scrollbar{
-    width: 6px;
+    width:6px;
     background-color: initial;
   }
   &::-webkit-scrollbar-thumb{
-    background-color: rgba(54, 54, 54, 0.4);
+    background-color: rgba(54,54,54,0.4);
   }
   @media screen and (max-width: 800px) {
-    display:none;
+    display: none;
   }
 `
 const PageSelectBtn = styled.span`
   display: flex;
-  position: fixed;
-  background-color: white;
-  width:calc(320px - 20px);
   padding: 3px 10px;
   border-bottom: 1.5px solid rgba(54,54,54,0.25);
+  position: fixed;
+  width:calc(340px - 20px);
+  background-color: white;
   h1{
     padding: 12px 10px;
     font-size: 13px;
@@ -64,4 +64,4 @@ const PageSelectBtn = styled.span`
   }
 `
 
-export default RightSideBar;
+export default LeftSideBar

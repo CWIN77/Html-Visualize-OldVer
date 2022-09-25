@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import styled from 'styled-components';
-import { ableInsert, compData, dbClickAble } from '../addableComps/compData';
-import { useStore, changeHvStorage, getSelectComp } from '../stateManager';
+import { ableInsert, compData, dbClickAble } from '../../addableComps/compData';
+import { useStore, changeHvStorage, getSelectComp } from '../../stateManager';
 import { useParams } from "react-router-dom";
-import { IHvData } from '../types';
+import { IHvData } from '../../types';
 
 const HvView = ({ hvData }: { hvData: IHvData }) => {
   const hvId = useParams().id || JSON.parse(sessionStorage.getItem("hvId") || JSON.stringify(null));

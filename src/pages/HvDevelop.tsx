@@ -4,12 +4,11 @@ import { useParams } from 'react-router-dom';
 import { getHvData } from "../graphql/queries";
 import { API } from 'aws-amplify';
 import { IHvData } from '../types';
-import HvResult from "../components/HvResult";
-import LeftSideBar from "../components/LeftSideBar";
-import NavBar from "../components/NavBar";
-import HvView from "../components/HvView";
+import LeftSideBar from "../components/HvDevelop/LeftSideBar";
+import HvFunctionBar from "../components/HvDevelop/HvFunctionBar";
+import HvView from "../components/HvDevelop/HvView";
 import { getCurrentUser } from '../firebase/auth';
-import RightSideBar from '../components/RightSideBar';
+import RightSideBar from '../components/HvDevelop/RightSideBar';
 
 const HvDevelop = () => {
   const hvId = useParams().id || JSON.parse(sessionStorage.getItem("hvId") || JSON.stringify(null));
@@ -40,8 +39,7 @@ const HvDevelop = () => {
   if (hvData !== null && hvData !== "loading") {
     return (
       <>
-        <HvResult />
-        <NavBar hvData={hvData} />
+        <HvFunctionBar hvData={hvData} />
         <Container>
           <LeftSideBar hvData={hvData} />
           <HvView hvData={hvData} />

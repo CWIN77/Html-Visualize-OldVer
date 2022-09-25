@@ -1,19 +1,19 @@
 import styled from 'styled-components'
-import { ReactComponent as SvgHome } from '../icons/home.svg';
-import { ReactComponent as SvgFullScreen } from '../icons/fullScreen.svg';
-import { ReactComponent as SvgRectangle } from '../icons/rectangle.svg';
-import { ReactComponent as SvgRectangleFill } from '../icons/rectangle_fill.svg';
-import { ReactComponent as SvgDesktop } from '../icons/desktop.svg';
-import { ReactComponent as SvgPhone } from '../icons/phone.svg';
-import { ReactComponent as SvgTrash } from '../icons/trash.svg';
+import { ReactComponent as SvgHome } from '../../icons/home.svg';
+import { ReactComponent as SvgFullScreen } from '../../icons/fullScreen.svg';
+import { ReactComponent as SvgRectangle } from '../../icons/rectangle.svg';
+import { ReactComponent as SvgRectangleFill } from '../../icons/rectangle_fill.svg';
+import { ReactComponent as SvgDesktop } from '../../icons/desktop.svg';
+import { ReactComponent as SvgPhone } from '../../icons/phone.svg';
+import { ReactComponent as SvgTrash } from '../../icons/trash.svg';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { IHvData } from '../types';
+import { IHvData } from '../../types';
 import { API } from 'aws-amplify';
-import { deleteHvData, updateHvData } from "../graphql/mutations";
-import { getCurrentUser } from '../firebase/auth';
+import { deleteHvData, updateHvData } from "../../graphql/mutations";
+import { getCurrentUser } from '../../firebase/auth';
 
-const NavBar = ({ hvData }: { hvData: IHvData }) => {
+const HvFunctionBar = ({ hvData }: { hvData: IHvData }) => {
   const [isFull, setIsFull] = useState(false);
   const [device, setDevice] = useState("phone"); // phone / desktop
   const [zoomLock, setZoomLock] = useState(false);
@@ -188,9 +188,8 @@ const NavBar = ({ hvData }: { hvData: IHvData }) => {
         <ZoomInput type={"text"} id="zoom" />
       </ZoomContainer>
       <Settings>
-        {/* <HvExport /> */}
-        <SvgTrash width={20} height={20} fill={"rgb(191, 191, 191)"} style={{ padding: 12, cursor: "pointer" }} onClick={deleteHv} />
-        <SvgFullScreen width={20} height={20} fill={isFull ? "rgb(255, 255, 255)" : "rgb(191, 191, 191)"} style={{ padding: 12, backgroundColor: isFull ? "#424242" : "initial", cursor: "pointer" }} onClick={() => {
+        <SvgTrash width={20} height={20} fill={"rgb(238, 238, 238)"} style={{ padding: 12, cursor: "pointer" }} onClick={deleteHv} />
+        <SvgFullScreen width={20} height={20} fill={"rgb(238, 238, 238)"} style={{ padding: 12, backgroundColor: isFull ? "#424242" : "initial", cursor: "pointer" }} onClick={() => {
           if (isFull) document.exitFullscreen();
           else document.body.requestFullscreen();
           setIsFull(!isFull);
@@ -253,4 +252,4 @@ const Settings = styled.div`
   }
 `
 
-export default NavBar;
+export default HvFunctionBar;

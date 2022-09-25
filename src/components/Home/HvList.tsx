@@ -1,12 +1,12 @@
 import styled from 'styled-components';
-import { ReactComponent as SvgPlus } from "../icons/plus.svg";
+import { ReactComponent as SvgPlus } from "../../icons/plus.svg";
 import { API } from 'aws-amplify';
-import { listHvData } from '../graphql/queries';
+import { listHvData } from '../../graphql/queries';
 import { useEffect, useState } from 'react';
-import { IHvData, IUser } from '../types';
+import { IHvData, IUser } from '../../types';
 import { Link, useNavigate } from 'react-router-dom';
-import { createHvData } from '../graphql/mutations';
-import { getCurrentUser } from '../firebase/auth';
+import { createHvData } from '../../graphql/mutations';
+import { getCurrentUser } from '../../firebase/auth';
 const UserInformWidth = "230px";
 
 const HvList = ({ user }: { user: IUser | null }) => {

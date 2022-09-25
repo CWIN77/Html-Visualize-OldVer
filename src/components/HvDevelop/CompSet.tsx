@@ -1,10 +1,10 @@
 import styled from 'styled-components';
-import { ReactComponent as SvgSearch } from "../icons/search.svg";
-import { ReactComponent as SvgPlus } from "../icons/plus.svg";
-import { compData, ableInsert } from '../addableComps/compData'
-import { changeHvStorage, getSelectComp } from "../stateManager"
+import { ReactComponent as SvgSearch } from "../../icons/search.svg";
+import { ReactComponent as SvgPlus } from "../../icons/plus.svg";
+import { compData, ableInsert } from '../../addableComps/compData'
+import { changeHvStorage, getSelectComp } from "../../stateManager"
 import { useState } from 'react'
-import { ICompData, IHvData } from "../types"
+import { ICompData, IHvData } from "../../types"
 import kmp from "kmp";
 import { useParams } from "react-router-dom";
 

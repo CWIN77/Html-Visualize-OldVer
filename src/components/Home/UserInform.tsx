@@ -1,7 +1,7 @@
 import styled from 'styled-components'
-import { ReactComponent as SvgGoogleIcon } from '../icons/googleIcon.svg';
-import { loginGoogle, logOut } from "../firebase/auth";
-import { IUser } from '../types';
+import { ReactComponent as SvgGoogleIcon } from '../../icons/googleIcon.svg';
+import { loginGoogle, logOut } from "../../firebase/auth";
+import { IUser } from '../../types';
 
 const UserInform = ({ user }: { user: IUser | null }) => {
   return (
