@@ -34,7 +34,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  width: 300px;
+  width: 320px;
   height: calc(100vh - 46px);
   background-color: white;
   z-index: 10;
@@ -53,7 +53,7 @@ const PageSelectBtn = styled.span`
   display: flex;
   position: fixed;
   background-color: white;
-  width:calc(300px - 20px);
+  width:calc(320px - 20px);
   padding: 3px 10px;
   border-bottom: 1.5px solid rgba(54,54,54,0.25);
   h1{

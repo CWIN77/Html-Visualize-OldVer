@@ -312,7 +312,7 @@ const Att = styled.div`
   align-items: center;
   h1{
     margin-left: 13px;
-    margin-right: 14px;
+    margin-right: 16px;
     font-size: 13px;
     opacity: 0.8;
   }
@@ -334,7 +334,7 @@ const Style = styled.div`
   align-items: center;
   width:50%;
   h1{
-    min-width:44px;
+    min-width:46px;
     margin-left: 14px;
     font-size: 13px;
     opacity: 0.8;
@@ -354,7 +354,7 @@ const StyleTextInput = styled.input`
   padding: 2px;
 `
 const StyleColorInput = styled.input`
-  width:18px;
+  width:20px;
   padding: 2px;
 `
 const StyleColorTextInput = styled.input`
@@ -367,13 +367,11 @@ const StyleSelect = styled.select`
   font-size: 14px;
   font-weight: bold;
   margin-right: 8px;
-  width:100%;
+  width:calc(100% - 74px);
   border: 2px solid #ededed;
-  padding: 5px 0px;
-  text-align: center;
+  padding: 5px 2px;
   option{
     font-size: 13px;
-    /* font-weight: bold; */
   }
 `
 const DeleteComp = styled.div`

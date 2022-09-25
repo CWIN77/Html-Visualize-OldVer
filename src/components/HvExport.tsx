@@ -263,7 +263,7 @@ const ResultText = styled.pre`
   margin: 16px;
   padding: 12px;
   margin-top: 0px;
-  font-size: 13px;
+  font-size: 14px;
   background-color: #3e3e3e;
   border-radius: 0px 0px 4px 4px;
   user-select: text;
