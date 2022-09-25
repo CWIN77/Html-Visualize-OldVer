@@ -5,11 +5,11 @@ import { getHvData } from "../graphql/queries";
 import { API } from 'aws-amplify';
 import { IHvData } from '../types';
 import HvResult from "../components/HvResult";
-import StyleSet from "../components/StyleSet";
 import LeftSideBar from "../components/LeftSideBar";
 import NavBar from "../components/NavBar";
 import HvView from "../components/HvView";
 import { getCurrentUser } from '../firebase/auth';
+import RightSideBar from '../components/RightSideBar';
 
 const HvDevelop = () => {
   const hvId = useParams().id || JSON.parse(sessionStorage.getItem("hvId") || JSON.stringify(null));
@@ -45,7 +45,7 @@ const HvDevelop = () => {
         <Container>
           <LeftSideBar hvData={hvData} />
           <HvView hvData={hvData} />
-          <StyleSet hvData={hvData} />
+          <RightSideBar hvData={hvData} />
         </Container>
       </>
     )

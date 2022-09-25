@@ -61,13 +61,13 @@ export const compData: ICompData[] = [
     comp: comps.p,
     tag: "p"
   },
-  {
-    id: 7,
-    name: "Component (div)",
-    descript: "div 태그의 컴포넌트 분리용 요소입니다. 추후 HTML을 Export해서 받을때 이 요소를 분리해줍니다.",
-    comp: comps.component,
-    tag: "div"
-  },
+  // {
+  //   id: 7,
+  //   name: "Component (div)",
+  //   descript: "div 태그의 컴포넌트 분리용 요소입니다. 추후 HTML을 Export해서 받을때 이 요소를 분리해줍니다.",
+  //   comp: comps.component,
+  //   tag: "div"
+  // },
   {
     id: 8,
     name: "Header text (h2)",

@@ -161,9 +161,37 @@ const StyleSet = ({ hvData }: { hvData: IHvData }) => {
     }
   }, [attList])
 
+  useEffect(() => {
+    const selectComp = getSelectComp(hvId);
+    if (selectComp && selectComp.className) {
+      const newStyleList: TAbleStyle[] = [];
+      if (selectComp.id === "view" || selectComp === document.body) {
+        Object.keys(elementStyle.view).forEach((key) => {
+          newStyleList.push({ [key]: elementStyle["view"][key] });
+        });
+      } else {
+        Object.keys(elementStyle[selectComp.tagName.toLowerCase()]).forEach((key) => {
+          newStyleList.push({ [key]: elementStyle[selectComp.tagName.toLowerCase()][key] });
+        });
+      }
+      setStyleList(newStyleList);
+
+      const newAttList: string[] = [];
+      newAttList.push("name");
+      if (compAttribute[selectComp.tagName.toLowerCase()]) {
+        compAttribute[selectComp.tagName.toLowerCase()].forEach((att) => {
+          newAttList.push(att);
+        });
+      }
+      setAttList(newAttList);
+    } else {
+      setStyleList([]);
+      setAttList([]);
+    }
+  }, [])
+
   return (
-    <Container>
-      <SetterName>Style</SetterName>
+    <>
       <AttContainer>
         {
           attList.map((attName, k: number) => {
@@ -238,7 +266,7 @@ const StyleSet = ({ hvData }: { hvData: IHvData }) => {
       </StyleContainer>
 
       {
-        getSelectComp(hvId)?.className &&
+        getSelectComp(hvId)?.className && styleList.length > 0 &&
         <Style><h2 onClick={() => { setIsShowDetail(!isShowDetail) }}>{isShowDetail ? "그 외 스타일 접기" : "그 외 스타일 펼치기"}</h2></Style>
       }
       <StyleContainer>
@@ -264,40 +292,18 @@ const StyleSet = ({ hvData }: { hvData: IHvData }) => {
           })
         }
       </StyleContainer>
-
-      <span style={{ paddingTop: 24 }} />
       {
         getSelectComp(hvId)?.className && getSelectComp(hvId).id !== "view" &&
         <DeleteComp><h1 onClick={deleteComp}>요소 삭제</h1></DeleteComp>
       }
-    </Container >
+    </>
   )
 }
 
-const Container = styled.div`
-  position: absolute;
-  right:0px;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-  width: 300px;
-  height: calc(100vh - 46px);
-  background-color: white;
-  z-index: 10;
-  &::-webkit-scrollbar{
-    width: 6px;
-    background-color: initial;
-  }
-  &::-webkit-scrollbar-thumb{
-    background-color: rgba(54, 54, 54, 0.4);
-  }
-  @media screen and (max-width: 750px) {
-    display:none;
-  }
-`
 const AttContainer = styled.div`
   display: flex;
   flex-direction: column;
+  margin-top: 46px;
 `
 const Att = styled.div`
   margin-top: 20px;
@@ -321,11 +327,6 @@ const StyleContainer = styled.div`
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-`
-const SetterName = styled.h1`
-  font-size: 13px;
-  padding: 17px 19px;
-  border-bottom: 1.5px solid rgba(54,54,54,0.25);
 `
 const Style = styled.div`
   margin-top: 28px;
@@ -380,6 +381,8 @@ const DeleteComp = styled.div`
   display:flex;
   align-items: center;
   justify-content: center;
+  padding: 28px 0px;
+  padding-top: 36px;
   h1{
     background-color: #ea1601;
     padding: 10px 16px;

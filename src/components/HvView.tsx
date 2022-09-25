@@ -93,7 +93,7 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
           const searchToChangeId = (comp: HTMLElement) => {
             if (comp.nodeType !== 3) {
               const compId = compData.find(i => i.tag === comp.tagName.toLowerCase())?.id || 0;
-              comp.className = `Hv${compId}${getRandomId()}`;
+              comp.className = `hv${compId}${getRandomId()}`;
               comp.style.boxShadow = "";
               if (cloneComp.childNodes.length > 0) {
                 comp.childNodes.forEach((cNode) => {

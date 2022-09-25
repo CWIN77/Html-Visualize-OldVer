@@ -101,6 +101,7 @@ const SearchContainer = styled.div`
   display: flex;
   align-items: center;
   width:calc(100% - 32px);
+  margin-top: 62px;
 `
 const SearchInput = styled.input`
   width:calc(100% - 28px - 46px);

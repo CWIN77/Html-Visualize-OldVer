@@ -100,6 +100,7 @@ const CompLayer = ({ hvData }: { hvData: IHvData }) => {
 
 const Container = styled.div`
   margin: 20px 12px;
+  margin-top: 62px;
 `
 const Comp = styled.span<{ isSelect: String }>`
   display:flex;

@@ -1,16 +1,22 @@
 import styled from 'styled-components'
 import { compAttribute, ableInsert } from "../addableComps/compData"
-import { useStore } from "../stateManager";
+import { ReactComponent as SvgReact } from "../icons/react.svg";
+import { ReactComponent as SvgHtml } from "../icons/html.svg";
+import { ReactComponent as SvgClipBoard } from "../icons/clipBoard.svg";
+import CopyToClipboard from 'react-copy-to-clipboard';
+import { useState } from 'react';
 
-const ExportHv = () => {
+const HvExport = () => {
+  const iconSize = { width: 32, height: 32 };
+  const [hvResult, setHvResult] = useState<String | null>(null);
   let usedStyle: { name: string, style: string }[] = [];
   let tabSize = 0;
 
-  const makeOriginCodeToCopy = (comp: HTMLElement) => {
+  const makeHtmlCodeToCopy = (comp: HTMLElement) => {
     tabSize = 0;
     usedStyle = [];
     const result = getOriginHtml(comp, []);
-    const htmlComp = result?.htmlComp.replace(/></g, ">\n<");
+    const htmlComp = result?.htmlComp.replace(/></g, ">\n<").replace(`\n`, "");
     let styleCode = "";
     result?.styleList.forEach((t) => {
       styleCode += t + "\n";
@@ -51,7 +57,9 @@ const ExportHv = () => {
       }
 
       let attribute = "";
-      attribute += ` class="${compName}"`;
+      if (Boolean(styleString)) {
+        attribute += ` class="${compName}"`;
+      }
       if (compAttribute[comp.tagName.toLowerCase()]) {
         compAttribute[comp.tagName.toLowerCase()].forEach((att) => {
           attribute += ` ${att}="${comp.getAttribute(att)}"`;
@@ -71,7 +79,7 @@ const ExportHv = () => {
           } else {
             isChildText = false;
             if (comp.getAttribute("divide") === "true") { // 내부에 컴포넌트가 따로 나뉘면 나눔
-              makeOriginCodeToCopy(comp);
+              makeHtmlCodeToCopy(comp);
               htmlComp += `\n${"  ".repeat(tabSize)}<${comp.tagName.toLowerCase()} />`
               importArray.push(comp.className);
             } else { // 
@@ -92,10 +100,6 @@ const ExportHv = () => {
       }
       return { styleList, htmlComp, importArray };
     }
-  }
-
-  const makeVueCodeToCopy = (comp: HTMLElement) => {
-    // Vue 코드
   }
 
   const makeReactCodeToCopy = (comp: HTMLElement) => {
@@ -187,21 +191,94 @@ const ExportHv = () => {
   }
 
   return (
-    <Container onClick={() => {
-      const result = makeOriginCodeToCopy(document.getElementById("view") as HTMLElement);
-      useStore.setState({ hvResult: result });
-    }}>Export</Container>
+    <Container>
+      <ExportBtn onClick={() => { setHvResult(makeReactCodeToCopy(document.getElementById("view") as HTMLElement)) }}>
+        <SvgReact {...iconSize} />
+        <h1>React 코드 생성</h1>
+      </ExportBtn>
+      <ExportBtn onClick={() => { setHvResult(makeHtmlCodeToCopy(document.getElementById("view") as HTMLElement)) }}>
+        <SvgHtml {...iconSize} />
+        <h1>HTML CSS 코드 생성</h1>
+      </ExportBtn>
+
+      {
+        hvResult &&
+        <>
+          <ResultBar>
+            <h1>Export</h1>
+            <CopyToClipboard text={String(hvResult)}>
+              <SvgClipBoard onClick={() => { window.alert("코드가 복사 되었습니다!") }} width={18} height={18} fill="#242424" style={{ padding: 4, cursor: "pointer" }} />
+            </CopyToClipboard>
+          </ResultBar>
+          <ResultText>{hvResult}</ResultText>
+        </>
+      }
+    </Container>
   )
 }
 
-const Container = styled.button`
+const Container = styled.div`
+  margin-top: 46px;
+  display:flex;
+  flex-direction: column;
+`
+const ExportBtn = styled.button`
+  display:flex;
+  align-items: center;
   background-color: #1264A3;
-  padding:7px 9px;
+  padding:10px 12px;
   color:white;
   border-radius: 4px;
   cursor: pointer;
   font-size: 13px;
-  margin-right: 12px;
+  margin: 20px;
+  margin-bottom: 0px;
+  h1{
+    color:white;
+    margin-left: 8px;
+    font-size: 14px;
+  }
+`
+const ResultBar = styled.span`
+  margin: 16px;
+  margin-bottom: 0px;
+  margin-top: 40px;
+  padding: 5px 16px;
+  background-color: #aaaaaa;
+  display:flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 4px 4px 0px 0px;
+  h1{
+    font-weight: bold;
+    font-size: 13px;
+  }
+  span{
+    display:flex;
+    align-items: center;
+  }
+`
+const ResultText = styled.pre`
+  height: 300px;
+  margin: 16px;
+  padding: 12px;
+  margin-top: 0px;
+  font-size: 13px;
+  background-color: #3e3e3e;
+  border-radius: 0px 0px 4px 4px;
+  user-select: text;
+  color:white;
+  overflow: scroll;
+  &::-webkit-scrollbar{
+    width:10px;
+    height:10px;
+  }
+  &::-webkit-scrollbar-corner{
+    background-color: initial;
+  }
+  &::-webkit-scrollbar-thumb{
+    background-color: rgba(54,54,54,0.4);
+  }
 `
 
-export default ExportHv;
+export default HvExport;

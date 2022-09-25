@@ -15,7 +15,7 @@ const HvResult = () => {
           <h1>Export</h1>
           <span>
             <CopyToClipboard text={String(hvResult)}>
-              <SvgClipBoard width={18} height={18} {...iconStyle} />
+              <SvgClipBoard onClick={() => { window.alert("코드가 복사 되었습니다!") }} width={19} height={19} {...iconStyle} />
             </CopyToClipboard>
             <SvgCross onClick={() => useStore.setState({ hvResult: "" })} width={15} height={15} {...iconStyle} />
           </span>

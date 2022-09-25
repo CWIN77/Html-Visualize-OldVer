@@ -5,9 +5,8 @@ import { ReactComponent as SvgRectangle } from '../icons/rectangle.svg';
 import { ReactComponent as SvgRectangleFill } from '../icons/rectangle_fill.svg';
 import { ReactComponent as SvgDesktop } from '../icons/desktop.svg';
 import { ReactComponent as SvgPhone } from '../icons/phone.svg';
-import { ReactComponent as SvgSetting } from '../icons/setting.svg';
+import { ReactComponent as SvgTrash } from '../icons/trash.svg';
 import { useEffect, useState } from 'react';
-import HvExport from './HvExport';
 import { Link, useNavigate } from 'react-router-dom';
 import { IHvData } from '../types';
 import { API } from 'aws-amplify';
@@ -19,9 +18,6 @@ const NavBar = ({ hvData }: { hvData: IHvData }) => {
   const [device, setDevice] = useState("phone"); // phone / desktop
   const [zoomLock, setZoomLock] = useState(false);
   const [hvTitle, setHvTitle] = useState(hvData.title);
-  const iconStyle = { width: 19, height: 19, fill: "rgb(255, 255, 255)" };
-  const fullIcon = { ...iconStyle, style: { padding: 12, backgroundColor: isFull ? "#424242" : "initial", cursor: "pointer" } };
-  const homeIcon = { ...iconStyle, style: { padding: 12, cursor: "pointer" } };
   const rectangleIcon = { onClick: () => { setZoomLock(!zoomLock) }, width: 22, height: 22, fill: zoomLock ? "white" : "rgb(200, 200, 200)", style: { padding: 6, cursor: "pointer" } };
   const deviceIcon = { width: 24, height: 24, style: { padding: 8, marginLeft: 2, cursor: "pointer" } };
   let zoom = 1;
@@ -169,7 +165,7 @@ const NavBar = ({ hvData }: { hvData: IHvData }) => {
     <Container>
       <div>
         <Link to="/">
-          <SvgHome {...homeIcon} />
+          <SvgHome width={22} height={22} fill={"rgb(191, 191, 191)"} style={{ padding: 12, cursor: "pointer" }} />
         </Link>
         <HvNameInput
           type={"text"}
@@ -192,9 +188,9 @@ const NavBar = ({ hvData }: { hvData: IHvData }) => {
         <ZoomInput type={"text"} id="zoom" />
       </ZoomContainer>
       <Settings>
-        <HvExport />
-        <SvgSetting {...homeIcon} onClick={deleteHv} />
-        <SvgFullScreen {...fullIcon} onClick={() => {
+        {/* <HvExport /> */}
+        <SvgTrash width={20} height={20} fill={"rgb(191, 191, 191)"} style={{ padding: 12, cursor: "pointer" }} onClick={deleteHv} />
+        <SvgFullScreen width={20} height={20} fill={isFull ? "rgb(255, 255, 255)" : "rgb(191, 191, 191)"} style={{ padding: 12, backgroundColor: isFull ? "#424242" : "initial", cursor: "pointer" }} onClick={() => {
           if (isFull) document.exitFullscreen();
           else document.body.requestFullscreen();
           setIsFull(!isFull);
