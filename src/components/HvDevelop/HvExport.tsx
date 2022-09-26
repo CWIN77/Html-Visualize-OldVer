@@ -8,9 +8,53 @@ import { useState } from 'react';
 
 const HvExport = () => {
   const iconSize = { width: 32, height: 32 };
-  const [hvResult, setHvResult] = useState<String | null>(null);
+  const [hvResult, setHvResult] = useState<{ html: String, type: "react" | "html" } | null>(null);
   let usedStyle: { name: string, style: string }[] = [];
   let tabSize = 0;
+
+  const indexCss = `
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: white;
+}
+* {
+  background-color: initial;
+  margin: 0px;
+  padding: 0px;
+  border: none;
+  outline: none;
+  text-decoration: none;
+  user-select: none;
+}
+input {
+  min-width: 0px;
+  min-height: 0px;
+}
+img {
+  width: 300px;
+  height: 300px;
+}
+a {
+  text-decoration: none;
+  cursor: pointer;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+a,
+textarea,
+pre,
+input,
+select {
+  font-family: 'Nanum Gothic', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #242424;
+}`
 
   const makeHtmlCodeToCopy = (comp: HTMLElement) => {
     tabSize = 0;
@@ -26,7 +70,7 @@ const HvExport = () => {
     //   imports += `import ${s.charAt(0).toUpperCase() + s.slice(1)} from "./${s.charAt(0).toUpperCase() + s.slice(1)}"\n`
     // })
 
-    const appCode = `${htmlComp}\n<style>\n${styleCode}</style>`;
+    const appCode = `${htmlComp}\n<style>\n${styleCode}</style>\n<style>${indexCss}\n</style>`;
 
     return appCode;
   }
@@ -192,11 +236,11 @@ const HvExport = () => {
 
   return (
     <Container>
-      <ExportBtn onClick={() => { setHvResult(makeReactCodeToCopy(document.getElementById("view") as HTMLElement)) }}>
+      <ExportBtn onClick={() => { setHvResult({ type: "react", html: makeReactCodeToCopy(document.getElementById("view") as HTMLElement) }) }}>
         <SvgReact {...iconSize} />
         <h1>React 코드 생성</h1>
       </ExportBtn>
-      <ExportBtn onClick={() => { setHvResult(makeHtmlCodeToCopy(document.getElementById("view") as HTMLElement)) }}>
+      <ExportBtn onClick={() => { setHvResult({ type: "html", html: makeHtmlCodeToCopy(document.getElementById("view") as HTMLElement) }) }}>
         <SvgHtml {...iconSize} />
         <h1>HTML CSS 코드 생성</h1>
       </ExportBtn>
@@ -204,12 +248,24 @@ const HvExport = () => {
         hvResult &&
         <>
           <ResultBar>
-            <h1>Export</h1>
-            <CopyToClipboard text={String(hvResult)}>
+            <h1>Main</h1>
+            <CopyToClipboard text={String(hvResult.html)}>
               <SvgClipBoard onClick={() => { window.alert("코드가 복사 되었습니다!") }} width={18} height={18} fill="#242424" style={{ padding: 4, cursor: "pointer" }} />
             </CopyToClipboard>
           </ResultBar>
-          <ResultText>{hvResult}</ResultText>
+          <ResultText>{hvResult.html}</ResultText>
+          {
+            hvResult.type === "react" &&
+            <>
+              <ResultBar>
+                <h1>Index.css</h1>
+                <CopyToClipboard text={indexCss}>
+                  <SvgClipBoard onClick={() => { window.alert("코드가 복사 되었습니다!") }} width={18} height={18} fill="#242424" style={{ padding: 4, cursor: "pointer" }} />
+                </CopyToClipboard>
+              </ResultBar>
+              <ResultText>{indexCss}</ResultText>
+            </>
+          }
         </>
       }
     </Container>
@@ -218,6 +274,7 @@ const HvExport = () => {
 
 const Container = styled.div`
   margin-top: 46px;
+  padding-bottom: 20px;
   display:flex;
   flex-direction: column;
 `
@@ -241,7 +298,7 @@ const ExportBtn = styled.button`
 const ResultBar = styled.span`
   margin: 16px;
   margin-bottom: 0px;
-  margin-top: 40px;
+  margin-top: 30px;
   padding: 5px 16px;
   background-color: #aaaaaa;
   display:flex;
@@ -258,10 +315,9 @@ const ResultBar = styled.span`
   }
 `
 const ResultText = styled.pre`
-  height: 300px;
-  margin: 16px;
+  height: 270px;
+  margin: 0px 16px;
   padding: 12px;
-  margin-top: 0px;
   font-size: 14px;
   background-color: #3e3e3e;
   border-radius: 0px 0px 4px 4px;
