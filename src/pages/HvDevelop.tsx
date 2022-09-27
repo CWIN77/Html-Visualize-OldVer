@@ -5,7 +5,7 @@ import { getHvData } from "../graphql/queries";
 import { API } from 'aws-amplify';
 import { IHvData } from '../types';
 import LeftSideBar from "../components/HvDevelop/LeftSideBar";
-import HvFunctionBar from "../components/HvDevelop/HvFunctionBar";
+import TopBar from "../components/HvDevelop/TopBar";
 import HvView from "../components/HvDevelop/HvView";
 import { getCurrentUser } from '../firebase/auth';
 import RightSideBar from '../components/HvDevelop/RightSideBar';
@@ -39,7 +39,7 @@ const HvDevelop = () => {
   if (hvData !== null && hvData !== "loading") {
     return (
       <>
-        <HvFunctionBar hvData={hvData} />
+        <TopBar hvData={hvData} />
         <Container>
           <LeftSideBar hvData={hvData} />
           <HvView hvData={hvData} />

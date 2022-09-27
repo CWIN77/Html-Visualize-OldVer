@@ -13,12 +13,12 @@ import { API } from 'aws-amplify';
 import { deleteHvData, updateHvData } from "../../graphql/mutations";
 import { getCurrentUser } from '../../firebase/auth';
 
-const HvFunctionBar = ({ hvData }: { hvData: IHvData }) => {
+const TopBar = ({ hvData }: { hvData: IHvData }) => {
   const [isFull, setIsFull] = useState(false);
   const [device, setDevice] = useState("phone"); // phone / desktop
   const [zoomLock, setZoomLock] = useState(false);
   const [hvTitle, setHvTitle] = useState(hvData.title);
-  const rectangleIcon = { onClick: () => { setZoomLock(!zoomLock) }, width: 22, height: 22, fill: zoomLock ? "white" : "rgb(200, 200, 200)", style: { padding: 6, cursor: "pointer" } };
+  const rectangleIcon = { onClick: () => { setZoomLock(!zoomLock) }, width: 24, height: 24, fill: zoomLock ? "white" : "rgb(200, 200, 200)", style: { padding: 6, cursor: "pointer" } };
   const deviceIcon = { width: 24, height: 24, style: { padding: 8, marginLeft: 2, cursor: "pointer" } };
   let zoom = 1;
   const navigate = useNavigate();
@@ -165,7 +165,7 @@ const HvFunctionBar = ({ hvData }: { hvData: IHvData }) => {
     <Container>
       <div>
         <Link to="/">
-          <SvgHome width={22} height={22} fill={"rgb(191, 191, 191)"} style={{ padding: 12, cursor: "pointer" }} />
+          <SvgHome width={24} height={24} fill={"rgb(191, 191, 191)"} style={{ padding: 12, cursor: "pointer" }} />
         </Link>
         <HvNameInput
           type={"text"}
@@ -188,8 +188,8 @@ const HvFunctionBar = ({ hvData }: { hvData: IHvData }) => {
         <ZoomInput type={"text"} id="zoom" />
       </ZoomContainer>
       <Settings>
-        <SvgTrash width={20} height={20} fill={"rgb(238, 238, 238)"} style={{ padding: 12, cursor: "pointer" }} onClick={deleteHv} />
-        <SvgFullScreen width={20} height={20} fill={"rgb(238, 238, 238)"} style={{ padding: 12, backgroundColor: isFull ? "#424242" : "initial", cursor: "pointer" }} onClick={() => {
+        <SvgTrash width={22} height={22} fill={"rgb(238, 238, 238)"} style={{ padding: 12, marginLeft: 4, cursor: "pointer" }} onClick={deleteHv} />
+        <SvgFullScreen width={22} height={24} fill={"rgb(238, 238, 238)"} style={{ padding: 12, marginLeft: 4, backgroundColor: isFull ? "#424242" : "initial", cursor: "pointer" }} onClick={() => {
           if (isFull) document.exitFullscreen();
           else document.body.requestFullscreen();
           setIsFull(!isFull);
@@ -200,8 +200,9 @@ const HvFunctionBar = ({ hvData }: { hvData: IHvData }) => {
 }
 
 const Container = styled.div`
-  width:100vw;
-  height:46px;
+  width:calc(100vw - 10px);
+  height:54px;
+  padding: 0px 5px;
   background-color: #272727;
   display:flex;
   align-items: center;
@@ -252,4 +253,4 @@ const Settings = styled.div`
   }
 `
 
-export default HvFunctionBar;
+export default TopBar;

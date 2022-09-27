@@ -257,7 +257,7 @@ const ViewContainer = styled.div`
   width:calc(100vw - 300px - 340px);
   margin-left: 340px;
   position: fixed;
-  height:calc(100vh - 46px);
+  height:calc(100vh - 54px);
   display:flex;
   align-items: center;
   justify-content: center;
@@ -280,7 +280,7 @@ const ViewContainer = styled.div`
 `
 const ViewBackground = styled.span`
   width:calc(100vw - 300px - 340px);
-  height:calc(100vh - 46px);
+  height:calc(100vh - 54px);
   z-index: 1;
 
   @media screen and (max-width: 850px) {

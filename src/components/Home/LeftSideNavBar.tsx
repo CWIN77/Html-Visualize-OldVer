@@ -3,7 +3,7 @@ import { ReactComponent as SvgGoogleIcon } from '../../icons/googleIcon.svg';
 import { loginGoogle, logOut } from "../../firebase/auth";
 import { IUser } from '../../types';
 
-const UserInform = ({ user }: { user: IUser | null }) => {
+const LeftSideNavBar = ({ user }: { user: IUser | null }) => {
   return (
     <Container>
       {
@@ -59,4 +59,4 @@ const ProfileName = styled.h1`
   cursor: pointer;
 `
 
-export default UserInform;
+export default LeftSideNavBar;

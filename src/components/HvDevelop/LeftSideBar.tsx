@@ -35,7 +35,7 @@ const Container = styled.div`
   flex-direction: column;
   overflow-y: auto;
   width:340px;
-  height:calc(100vh - 46px);
+  height:calc(100vh - 54px);
   background-color: white;
   z-index: 10;
   &::-webkit-scrollbar{
