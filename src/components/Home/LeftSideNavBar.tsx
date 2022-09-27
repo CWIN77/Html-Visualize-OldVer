@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { ReactComponent as SvgGoogleIcon } from '../../icons/googleIcon.svg';
-import { loginGoogle, logOut } from "../../firebase/auth";
+import { loginGoogle, logout } from "../../firebase/auth";
 import { IUser } from '../../types';
 
 const LeftSideNavBar = ({ user }: { user: IUser | null }) => {
@@ -9,8 +9,8 @@ const LeftSideNavBar = ({ user }: { user: IUser | null }) => {
       {
         user
           ? <Profile>
-            <ProfileImg onClick={() => { logOut() }} src={String(user.img)} />
-            <ProfileName onClick={() => { logOut() }}>{user.name}</ProfileName>
+            <ProfileImg onClick={() => { logout() }} src={String(user.img)} />
+            <ProfileName onClick={() => { logout() }}>{user.name}</ProfileName>
           </Profile>
           : <Profile>
             <SvgGoogleIcon onClick={() => { loginGoogle() }} width={32} height={32} style={{ marginRight: 12 }} />

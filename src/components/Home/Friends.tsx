@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import HvList from '../components/Home/HvList';
-import { ReactComponent as SvgApps } from "../icons/apps.svg";
-import { ReactComponent as SvgFriends } from "../icons/friends.svg";
-import { ReactComponent as SvgCommunity } from "../icons/community.svg";
-import { getCurrentUser, loginGoogle, logout } from '../firebase/auth';
-import { IUser } from '../types';
+import HvList from '../../components/Home/HvList';
+import { ReactComponent as SvgApps } from "../../icons/apps.svg";
+import { ReactComponent as SvgFriends } from "../../icons/friends.svg";
+import { ReactComponent as SvgCommunity } from "../../icons/community.svg";
+import { getCurrentUser, loginGoogle, logout } from '../../firebase/auth';
+import { IUser } from '../../types';
 import { Link } from 'react-router-dom';
 
 const Home = () => {
@@ -48,7 +48,7 @@ const Home = () => {
             </HvNav>
           </Link>
         </LeftSideNavBar>
-        <HvList user={user} />
+        현재 준비중인 기능입니다!
       </div>
     </Container>
   )

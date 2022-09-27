@@ -7,7 +7,7 @@ import { IHvData, IUser } from '../../types';
 import { Link, useNavigate } from 'react-router-dom';
 import { createHvData } from '../../graphql/mutations';
 import { getCurrentUser } from '../../firebase/auth';
-const UserInformWidth = "256px";
+const UserInformWidth = "241px";
 
 const HvList = ({ user }: { user: IUser | null }) => {
   const iconStyles = { width: 28, height: 28, fill: "#676767" };
@@ -123,7 +123,7 @@ const HvList = ({ user }: { user: IUser | null }) => {
           )
         })
       }
-    </Container >
+    </Container>
   )
 }
 

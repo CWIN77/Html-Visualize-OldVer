@@ -22,7 +22,7 @@ export const loginGoogle = (): void => {
     });
 }
 
-export const logOut = (): void => {
+export const logout = (): void => {
   if (window.confirm('로그아웃 하겠습니까?')) {
     firebase.auth().signOut().then(() => {
       localStorage.removeItem('user');
