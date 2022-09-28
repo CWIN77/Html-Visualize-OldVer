@@ -24,28 +24,33 @@ const TopBar = ({ hvData }: { hvData: IHvData }) => {
   const navigate = useNavigate();
 
   const zoomEvent = (e: WheelEvent | Event) => {
-    const zommInput = document.getElementById("zoom") as HTMLInputElement;
-    if (document.getElementById("zoomContainer")?.className.split(" ").at(-1) === "false") {
-      const viewBox = document.getElementById("viewBox") as HTMLInputElement;
-      const target = e.target as HTMLElement | HTMLInputElement;
-      if (target.id && e instanceof WheelEvent) {
-        if (e.deltaY > 0) { // 스크롤 다운
-          if (zoom > 0.05) {
-            zoom -= 0.05;
+    const body = document.body;
+    const viewBox = document.getElementById("viewBox") as HTMLInputElement;
+    if (body.offsetWidth > 850) {
+      const zommInput = document.getElementById("zoom") as HTMLInputElement;
+      if (document.getElementById("zoomContainer")?.className.split(" ").at(-1) === "false") {
+        const target = e.target as HTMLElement | HTMLInputElement;
+        if (target.id && e instanceof WheelEvent) {
+          if (e.deltaY > 0) { // 스크롤 다운
+            if (zoom > 0.05) {
+              zoom -= 0.05;
+            }
+          } else { // 스크롤 업
+            if (zoom < 3) {
+              zoom += 0.05;
+            }
           }
-        } else { // 스크롤 업
-          if (zoom < 3) {
-            zoom += 0.05;
+        } else {
+          if (target instanceof HTMLInputElement) {
+            zoom = Number(target.value) / 100;
           }
         }
-      } else {
-        if (target instanceof HTMLInputElement) {
-          zoom = Number(target.value) / 100;
-        }
+        viewBox.style.transform = `scale(${zoom}, ${zoom})`;
       }
-      viewBox.style.transform = `scale(${zoom}, ${zoom})`;
+      zommInput.value = String(Math.floor(zoom * 100));
+    } else {
+      viewBox.style.transform = `scale(0.8, 0.8)`;
     }
-    zommInput.value = String(Math.floor(zoom * 100));
   }
 
   useEffect(() => {
@@ -201,7 +206,7 @@ const TopBar = ({ hvData }: { hvData: IHvData }) => {
 
 const Container = styled.div`
   width:calc(100vw - 10px);
-  height:54px;
+  height:52px;
   padding: 0px 5px;
   background-color: #272727;
   display:flex;
@@ -210,9 +215,6 @@ const Container = styled.div`
   div{
     display:flex;
     align-items: center;
-  }
-  @media screen and (max-width: 750px) {
-    justify-content: center;
   }
 `
 const ZoomContainer = styled.div`

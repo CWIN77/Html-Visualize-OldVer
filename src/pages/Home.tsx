@@ -20,7 +20,7 @@ const Home = () => {
   return (
     <Container>
       <TopBar>
-        <HvLogo><h2>H</h2>TML<h3>V</h3>isualize</HvLogo>
+        <HvLogo><h2>H</h2><h1>TML</h1><h3>V</h3><h1>isualize</h1></HvLogo>
         {
           user
             ? <Profile onClick={() => { logout() }} src={String(user?.img)} />
@@ -65,17 +65,13 @@ const Container = styled.div`
   }
 `
 const LeftSideNavBar = styled.div`
-  height:calc(100vh - 54px - 10px);
+  height:calc(100vh - 52px - 10px);
   padding-top: 10px;
   min-width: auto;
   background-color: white;
   position: fixed;
   margin-top: 52px;
   z-index: 10;
-  @media screen and (max-width: 600px) {
-    /* min-width: 100vw;
-    min-height:auto; */
-  }
 `
 const HvNav = styled.div`
   width:185px;
@@ -96,11 +92,13 @@ const HvNavTitle = styled.h1`
     display:none;
   }
 `
-const HvLogo = styled.h1`
+const HvLogo = styled.title`
   display:flex;
-  color:white;
-  font-size: 17px;
   margin-left: 24px;
+  h1{
+    color:white;
+    font-size: 17px;
+  }
   h2{
     font-size: 17px;
     color:#FC1010;

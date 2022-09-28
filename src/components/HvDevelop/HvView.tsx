@@ -254,10 +254,10 @@ const ViewBox = styled.div`
   }
 `
 const ViewContainer = styled.div`
-  width:calc(100vw - 300px - 340px);
+  width:calc(100vw - 320px - 340px);
   margin-left: 340px;
   position: fixed;
-  height:calc(100vh - 54px);
+  height:calc(100vh - 52px);
   display:flex;
   align-items: center;
   justify-content: center;
@@ -279,8 +279,8 @@ const ViewContainer = styled.div`
   }
 `
 const ViewBackground = styled.span`
-  width:calc(100vw - 300px - 340px);
-  height:calc(100vh - 54px);
+  width:calc(100vw - 320px - 340px);
+  height:calc(100vh - 52px);
   z-index: 1;
 
   @media screen and (max-width: 850px) {

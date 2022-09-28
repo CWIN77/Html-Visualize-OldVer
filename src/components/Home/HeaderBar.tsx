@@ -201,7 +201,7 @@ const HvFunctionBar = ({ hvData }: { hvData: IHvData }) => {
 
 const Container = styled.div`
   width:100vw;
-  height:54px;
+  height:52px;
   background-color: #272727;
   display:flex;
   align-items: center;

@@ -65,7 +65,7 @@ const Container = styled.div`
   }
 `
 const LeftSideNavBar = styled.div`
-  height:calc(100vh - 54px - 10px);
+  height:calc(100vh - 52px - 10px);
   padding-top: 10px;
   min-width: auto;
   background-color: white;
