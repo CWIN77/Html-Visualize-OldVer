@@ -65,40 +65,42 @@ const Container = styled.div`
   }
 `
 const LeftSideNavBar = styled.div`
-  min-height:calc(100vh - 54px - 10px);
+  height:calc(100vh - 54px - 10px);
   padding-top: 10px;
   min-width: auto;
   background-color: white;
+  position: fixed;
+  margin-top: 52px;
+  z-index: 10;
   @media screen and (max-width: 600px) {
-    min-width: 100vw;
-    min-height:auto;
+    /* min-width: 100vw;
+    min-height:auto; */
   }
 `
 const HvNav = styled.div`
   width:185px;
   display:flex;
   align-items: center;
-  padding: 12px 28px;
+  padding: 12px 24px;
   margin-top: 8px;
   cursor: pointer;
   @media screen and (max-width: 600px) {
-    padding: 0px;
-    margin-top: 20px;
-    margin-bottom: 20px;
     width:auto;
-    padding-left: 30px;
   }
 `
 const HvNavTitle = styled.h1`
   font-size: 16px;
   margin-left: 18px;
   color:#363636;
+  @media screen and (max-width: 600px) {
+    display:none;
+  }
 `
 const HvLogo = styled.h1`
   display:flex;
   color:white;
   font-size: 17px;
-  padding:16px 28px;
+  margin-left: 24px;
   h2{
     font-size: 17px;
     color:#FC1010;
@@ -112,9 +114,12 @@ const HvLogo = styled.h1`
 const TopBar = styled.header`
   display:flex;
   background-color: #272727;
-  height: 54px;
+  height: 52px;
   align-items: center;
   justify-content: space-between;
+  position: fixed;
+  width:100%;
+  z-index: 10;
 `
 const Profile = styled.img`
   width:30px;

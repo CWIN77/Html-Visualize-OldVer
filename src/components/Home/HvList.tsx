@@ -7,7 +7,7 @@ import { IHvData, IUser } from '../../types';
 import { Link, useNavigate } from 'react-router-dom';
 import { createHvData } from '../../graphql/mutations';
 import { getCurrentUser } from '../../firebase/auth';
-const UserInformWidth = "241px";
+const userInformWidth = "233px";
 
 const HvList = ({ user }: { user: IUser | null }) => {
   const iconStyles = { width: 28, height: 28, fill: "#676767" };
@@ -134,25 +134,30 @@ const Container = styled.div`
   height:100%;
   padding-bottom: 24px;
   background-color: initial;
+  margin-top: 52px;
+  margin-left: ${userInformWidth};
+  @media screen and (max-width: 600px) {
+    margin-left: 70px;
+  }
 `
 const HvPreviewContainer = styled.div`
   display:flex;
   align-items: center;
   justify-content: center;
   background-color: #ededed;
-  width:calc(((100vw - ${UserInformWidth}) / 2) - 42px);
-  height:calc((((100vw - ${UserInformWidth}) / 2) - 42px) / 3 * 2);
+  width:calc(((100vw - ${userInformWidth}) / 2) - 42px);
+  height:calc((((100vw - ${userInformWidth}) / 2) - 42px) / 3 * 2);
   @media screen and (min-width: 1600px) {
-    width:calc(((100vw - ${UserInformWidth}) / 3) - 38px);
-    height:calc((((100vw - ${UserInformWidth}) / 3) - 38px) / 3 * 2);
+    width:calc(((100vw - ${userInformWidth}) / 3) - 38px);
+    height:calc((((100vw - ${userInformWidth}) / 3) - 38px) / 3 * 2);
   }
   @media screen and (max-width: 900px) {
-    width:calc(((100vw - ${UserInformWidth}) / 1) - 58px);
-    height:calc((((100vw - ${UserInformWidth}) / 1) - 58px) / 3 * 2);
+    width:calc(((100vw - ${userInformWidth}) / 1) - 58px);
+    height:calc((((100vw - ${userInformWidth}) / 1) - 58px) / 3 * 2);
   }
   @media screen and (max-width: 600px) {
-    width:calc((100vw / 1) - 58px);
-    height:calc(((100vw / 1) - 58px) / 3 * 2);
+    width:calc(((100vw - 70px) / 1) - 58px);
+    height:calc(((100vw - 70px / 1) - 58px) / 3 * 2);
   }
 `
 const Develop = styled.div<{ num: string }>` // 0은 오른쪽 1은 왼쪽
