@@ -24,33 +24,28 @@ const TopBar = ({ hvData }: { hvData: IHvData }) => {
   const navigate = useNavigate();
 
   const zoomEvent = (e: WheelEvent | Event) => {
-    const body = document.body;
     const viewBox = document.getElementById("viewBox") as HTMLInputElement;
-    if (body.offsetWidth > 850) {
-      const zommInput = document.getElementById("zoom") as HTMLInputElement;
-      if (document.getElementById("zoomContainer")?.className.split(" ").at(-1) === "false") {
-        const target = e.target as HTMLElement | HTMLInputElement;
-        if (target.id && e instanceof WheelEvent) {
-          if (e.deltaY > 0) { // 스크롤 다운
-            if (zoom > 0.05) {
-              zoom -= 0.05;
-            }
-          } else { // 스크롤 업
-            if (zoom < 3) {
-              zoom += 0.05;
-            }
+    const zommInput = document.getElementById("zoom") as HTMLInputElement;
+    if (document.getElementById("zoomContainer")?.className.split(" ").at(-1) === "false") {
+      const target = e.target as HTMLElement | HTMLInputElement;
+      if (target.id && e instanceof WheelEvent) {
+        if (e.deltaY > 0) { // 스크롤 다운
+          if (zoom > 0.05) {
+            zoom -= 0.05;
           }
-        } else {
-          if (target instanceof HTMLInputElement) {
-            zoom = Number(target.value) / 100;
+        } else { // 스크롤 업
+          if (zoom < 3) {
+            zoom += 0.05;
           }
         }
-        viewBox.style.transform = `scale(${zoom}, ${zoom})`;
+      } else {
+        if (target instanceof HTMLInputElement) {
+          zoom = Number(target.value) / 100;
+        }
       }
-      zommInput.value = String(Math.floor(zoom * 100));
-    } else {
-      viewBox.style.transform = `scale(0.8, 0.8)`;
+      viewBox.style.transform = `scale(${zoom}, ${zoom})`;
     }
+    zommInput.value = String(Math.floor(zoom * 100));
   }
 
   useEffect(() => {
@@ -58,36 +53,43 @@ const TopBar = ({ hvData }: { hvData: IHvData }) => {
     const viewBox = document.getElementById("viewBox");
     const zommInput = document.getElementById("zoom") as HTMLInputElement | null;
     const viewContainerElem = document.getElementById("viewContainer");
-
-    if (viewBg && viewBox && zommInput && viewContainerElem) {
-      if (device === "phone") {
-        zoom = viewBg.offsetHeight * 0.9 / 720;
-      } else if (device === "desktop") {
-        zoom = viewBg.offsetWidth * 0.9 / 1395;
-      }
-      viewBox.style.transform = `scale(${zoom}, ${zoom})`;
-      zommInput.value = String(Math.floor(zoom * 100));
-      zommInput.addEventListener("change", zoomEvent);
-      viewContainerElem.addEventListener('wheel', zoomEvent);
-    } else {
-      const zoomSetter = setInterval(() => {
-        const viewBg = document.getElementById("viewBackground") as HTMLElement;
-        const viewBox = document.getElementById("viewBox");
-        const zommInput = document.getElementById("zoom") as HTMLInputElement | null;
-        const viewContainerElem = document.getElementById("viewContainer");
-        if (viewBg && viewBox && zommInput && viewContainerElem) {
-          if (device === "phone") {
-            zoom = viewBg.offsetHeight * 0.9 / 720;
-          } else if (device === "desktop") {
-            zoom = viewBg.offsetWidth * 0.9 / 1395;
-          }
-          viewBox.style.transform = `scale(${zoom}, ${zoom})`;
-          zommInput.value = String(Math.floor(zoom * 100));
-          zommInput.addEventListener("change", zoomEvent);
-          viewContainerElem.addEventListener('wheel', zoomEvent);
-          clearInterval(zoomSetter);
+    function isMobile() {
+      return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    }
+    if (!isMobile()) {
+      if (viewBg && viewBox && zommInput && viewContainerElem) {
+        if (device === "phone") {
+          zoom = viewBg.offsetHeight * 0.9 / 720;
+        } else if (device === "desktop") {
+          zoom = viewBg.offsetWidth * 0.9 / 1395;
         }
-      }, 100)
+        viewBox.style.transform = `scale(${zoom}, ${zoom})`;
+        zommInput.value = String(Math.floor(zoom * 100));
+        zommInput.addEventListener("change", zoomEvent);
+        viewContainerElem.addEventListener('wheel', zoomEvent);
+      } else {
+        const zoomSetter = setInterval(() => {
+          const viewBg = document.getElementById("viewBackground") as HTMLElement;
+          const viewBox = document.getElementById("viewBox");
+          const zommInput = document.getElementById("zoom") as HTMLInputElement | null;
+          const viewContainerElem = document.getElementById("viewContainer");
+          if (viewBg && viewBox && zommInput && viewContainerElem) {
+            if (device === "phone") {
+              zoom = viewBg.offsetHeight * 0.9 / 720;
+            } else if (device === "desktop") {
+              zoom = viewBg.offsetWidth * 0.9 / 1395;
+            }
+            viewBox.style.transform = `scale(${zoom}, ${zoom})`;
+            zommInput.value = String(Math.floor(zoom * 100));
+            zommInput.addEventListener("change", zoomEvent);
+            viewContainerElem.addEventListener('wheel', zoomEvent);
+            clearInterval(zoomSetter);
+          }
+        }, 100)
+      }
+    } else if (viewBox && zommInput) {
+      viewBox.style.transform = `scale(0.7, 0.7)`;
+      zommInput.value = String(Math.floor(0.7 * 100));
     }
   }, [])
 

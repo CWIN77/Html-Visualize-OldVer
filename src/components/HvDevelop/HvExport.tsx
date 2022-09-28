@@ -13,6 +13,7 @@ const HvExport = () => {
   let tabSize = 0;
 
   const indexCss = `
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap');
 body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
@@ -50,10 +51,11 @@ textarea,
 pre,
 input,
 select {
-  font-family: 'Nanum Gothic', sans-serif;
+  /* font-family: 'Nanum Gothic', sans-serif; */
   font-size: 14px;
   font-weight: 400;
   color: #242424;
+  font-family: 'Inter', sans-serif;
 }`
 
   const makeHtmlCodeToCopy = (comp: HTMLElement) => {
