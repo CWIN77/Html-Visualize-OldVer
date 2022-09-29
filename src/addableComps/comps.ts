@@ -36,7 +36,7 @@ export const span = `
 `
 
 export const img = `
-  <img src="https://i.ibb.co/9sr5GPw/img1.png"
+  <img src="/catImg.jpg"
   alt="Image"
   style="
     width:250px;

@@ -53,6 +53,7 @@ const PageSelectBtn = styled.span`
   display: flex;
   position: fixed;
   background-color: white;
+  z-index: 10;
   width:calc(320px - 20px);
   padding: 3px 10px;
   border-bottom: 1.5px solid rgba(54,54,54,0.25);

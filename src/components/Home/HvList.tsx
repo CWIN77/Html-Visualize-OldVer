@@ -1,12 +1,13 @@
 import styled from 'styled-components';
 import { ReactComponent as SvgPlus } from "../../icons/plus.svg";
+import { ReactComponent as SvgGoogleIcon } from "../../icons/googleIcon.svg";
 import { API } from 'aws-amplify';
 import { listHvData } from '../../graphql/queries';
 import { useEffect, useState } from 'react';
 import { IHvData, IUser } from '../../types';
 import { Link, useNavigate } from 'react-router-dom';
 import { createHvData } from '../../graphql/mutations';
-import { getCurrentUser } from '../../firebase/auth';
+import { getCurrentUser, loginGoogle } from '../../firebase/auth';
 const userInformWidth = "233px";
 
 const HvList = ({ user }: { user: IUser | null }) => {
@@ -105,12 +106,19 @@ const HvList = ({ user }: { user: IUser | null }) => {
 
   return (
     <Container>
-      <Develop num={"1"} onClick={() => { addHv() }}>
-        <HvPreviewContainer><SvgPlus {...iconStyles} /></HvPreviewContainer>
-        <DevelopTitle>새로운 프로젝트를 시작해보세요!</DevelopTitle>
-      </Develop>
       {
-        hvList && hvList.sort(compare).map((data, key) => {
+        user
+          ? <Develop num={"1"} onClick={() => { addHv() }}>
+            <HvPreviewContainer><SvgPlus {...iconStyles} /></HvPreviewContainer>
+            <DevelopTitle>새로운 프로젝트를 시작해보세요!</DevelopTitle>
+          </Develop>
+          : <Login onClick={loginGoogle}>
+            <SvgGoogleIcon />
+            <h1>Login Google</h1>
+          </Login>
+      }
+      {
+        user && hvList && hvList.sort(compare).map((data, key) => {
           return (
             <Develop key={key} num={String(key % 2)}>
               <Link to={`/hv/${data.id}`}>
@@ -138,6 +146,32 @@ const Container = styled.div`
   margin-left: ${userInformWidth};
   @media screen and (max-width: 600px) {
     margin-left: 70px;
+  }
+`
+const Login = styled.div`
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  height:calc(100vh - 52px - 24px);
+  width: calc(100vw - ${userInformWidth});
+  @media screen and (max-width: 600px) {
+    width: calc(100vw - 70px);
+  }
+  h1{
+    font-size: 20px;
+    margin-left: 12px;
+    @media screen and (max-width: 600px) {
+      font-size: 16px;
+    }
+  }
+  svg{
+    width:36px;
+    height:36px;
+    @media screen and (max-width: 600px) {
+      width:28px;
+      height:28px;
+    }
   }
 `
 const HvPreviewContainer = styled.div`

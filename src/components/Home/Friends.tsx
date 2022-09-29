@@ -4,11 +4,12 @@ import HvList from '../../components/Home/HvList';
 import { ReactComponent as SvgApps } from "../../icons/apps.svg";
 import { ReactComponent as SvgFriends } from "../../icons/friends.svg";
 import { ReactComponent as SvgCommunity } from "../../icons/community.svg";
+import { ReactComponent as SvgProfile } from "../../icons/profile.svg";
 import { getCurrentUser, loginGoogle, logout } from '../../firebase/auth';
 import { IUser } from '../../types';
 import { Link } from 'react-router-dom';
 
-const Home = () => {
+const Friends = () => {
   const [user, setUser] = useState<IUser | null>(null);
   const iconStyle = { width: 22, height: 22, fill: "#363636" };
 
@@ -20,11 +21,11 @@ const Home = () => {
   return (
     <Container>
       <TopBar>
-        <HvLogo><h2>H</h2>TML<h3>V</h3>isualize</HvLogo>
+        <HvLogo><h2>H</h2><h1>TML</h1><h3>V</h3><h1>isualize</h1></HvLogo>
         {
           user
             ? <Profile onClick={() => { logout() }} src={String(user?.img)} />
-            : <Profile onClick={() => { loginGoogle() }} />
+            : <SvgProfile width={30} height={30} style={{ margin: "0px 24px", cursor: "pointer" }} onClick={() => { loginGoogle() }} />
         }
       </TopBar>
       <div style={{ display: "flex" }}>
@@ -71,10 +72,7 @@ const LeftSideNavBar = styled.div`
   background-color: white;
   position: fixed;
   margin-top: 52px;
-  @media screen and (max-width: 600px) {
-    /* min-width: 100vw;
-    min-height:auto; */
-  }
+  z-index: 10;
 `
 const HvNav = styled.div`
   width:185px;
@@ -95,11 +93,13 @@ const HvNavTitle = styled.h1`
     display:none;
   }
 `
-const HvLogo = styled.h1`
+const HvLogo = styled.title`
   display:flex;
-  color:white;
-  font-size: 17px;
   margin-left: 24px;
+  h1{
+    color:white;
+    font-size: 17px;
+  }
   h2{
     font-size: 17px;
     color:#FC1010;
@@ -118,6 +118,7 @@ const TopBar = styled.header`
   justify-content: space-between;
   position: fixed;
   width:100%;
+  z-index: 10;
 `
 const Profile = styled.img`
   width:30px;
@@ -128,4 +129,4 @@ const Profile = styled.img`
   background-color: #aaaaaa;
 `
 
-export default Home;
+export default Friends;

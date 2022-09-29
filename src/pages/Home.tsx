@@ -4,6 +4,7 @@ import HvList from '../components/Home/HvList';
 import { ReactComponent as SvgApps } from "../icons/apps.svg";
 import { ReactComponent as SvgFriends } from "../icons/friends.svg";
 import { ReactComponent as SvgCommunity } from "../icons/community.svg";
+import { ReactComponent as SvgProfile } from "../icons/profile.svg";
 import { getCurrentUser, loginGoogle, logout } from '../firebase/auth';
 import { IUser } from '../types';
 import { Link } from 'react-router-dom';
@@ -23,8 +24,8 @@ const Home = () => {
         <HvLogo><h2>H</h2><h1>TML</h1><h3>V</h3><h1>isualize</h1></HvLogo>
         {
           user
-            ? <Profile onClick={() => { logout() }} src={String(user?.img)} />
-            : <Profile onClick={() => { loginGoogle() }} />
+            ? <Profile onClick={logout} src={String(user?.img)} />
+            : <SvgProfile width={30} height={30} style={{ margin: "0px 24px", cursor: "pointer" }} onClick={loginGoogle} />
         }
       </TopBar>
       <div style={{ display: "flex" }}>
