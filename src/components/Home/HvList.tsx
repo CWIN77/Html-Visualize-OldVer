@@ -110,11 +110,11 @@ const HvList = ({ user }: { user: IUser | null }) => {
         user
           ? <Develop num={"1"} onClick={() => { addHv() }}>
             <HvPreviewContainer><SvgPlus {...iconStyles} /></HvPreviewContainer>
-            <DevelopTitle>새로운 프로젝트를 시작해보세요!</DevelopTitle>
+            <DevelopTitle>Make New HV!</DevelopTitle>
           </Develop>
-          : <Login onClick={loginGoogle}>
-            <SvgGoogleIcon />
-            <h1>Login Google</h1>
+          : <Login>
+            <SvgGoogleIcon onClick={loginGoogle} />
+            <h1 onClick={loginGoogle}>Login Google</h1>
           </Login>
       }
       {
@@ -152,13 +152,13 @@ const Login = styled.div`
   display:flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
   height:calc(100vh - 52px - 24px);
   width: calc(100vw - ${userInformWidth});
   @media screen and (max-width: 600px) {
     width: calc(100vw - 70px);
   }
   h1{
+    cursor: pointer;
     font-size: 20px;
     margin-left: 12px;
     @media screen and (max-width: 600px) {
@@ -166,6 +166,7 @@ const Login = styled.div`
     }
   }
   svg{
+    cursor: pointer;
     width:36px;
     height:36px;
     @media screen and (max-width: 600px) {

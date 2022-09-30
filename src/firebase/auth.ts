@@ -26,7 +26,7 @@ export const logout = (): void => {
   if (window.confirm('로그아웃 하겠습니까?')) {
     firebase.auth().signOut().then(() => {
       localStorage.removeItem('user');
-      // sessionStorage.clear();
+      sessionStorage.clear();
       alert('로그아웃 완료');
       window.location.reload();
     }).catch(() => {
