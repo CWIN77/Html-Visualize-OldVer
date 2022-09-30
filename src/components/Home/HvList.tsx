@@ -26,6 +26,7 @@ const HvList = ({ user }: { user: IUser | null }) => {
   }
   const getHvDataList = async () => {
     const user = getCurrentUser();
+    let resultHvList;
     if (user) {
       const { data } = await API.graphql({
         query: listHvData,
@@ -41,10 +42,11 @@ const HvList = ({ user }: { user: IUser | null }) => {
             sessionStorage.setItem(String(hv.id), JSON.stringify(hv));
           }
         });
-        sessionStorage.setItem("hvList", JSON.stringify(result));
-        setHvList(result);
-      } else setHvList(null);
-    } else setHvList(null);
+        resultHvList = result;
+      } else resultHvList = null;
+    } else resultHvList = null;
+    sessionStorage.setItem("hvList", JSON.stringify(resultHvList));
+    setHvList(resultHvList);
   }
   const tempHtml = `<div class=\"App\" style=\"width: 100%; height: 100%; overflow: auto; display: block; background-color: white;\" id=\"view\"></div>`;
   const addHv = async () => {
@@ -84,6 +86,7 @@ const HvList = ({ user }: { user: IUser | null }) => {
       if (preview && width) {
         const scale = width / 360 / 3.3;
         preview.style.transform = `scale(${scale},${scale})`;
+        preview.style.display = "flex";
       }
     });
     window.addEventListener("resize", () => {
@@ -220,14 +223,7 @@ const HvPreview = styled.div`
   z-index: 2;
   width:360px;
   height:720px;
-  transform: ${(hv) => {
-    const width = document.getElementById(hv.id + "cont")?.offsetWidth;
-    if (width) {
-      const scale = width / 360 / 3.3;
-      return `scale(${scale},${scale})`;
-    }
-    return null;
-  }};
+  display: none;
   &::-webkit-scrollbar{
     width:8px;
     height:8px;
