@@ -8,7 +8,7 @@ import { IHvData, IUser } from '../../types';
 import { Link, useNavigate } from 'react-router-dom';
 import { createHvData } from '../../graphql/mutations';
 import { getCurrentUser, loginGoogle } from '../../firebase/auth';
-const userInformWidth = "233px";
+const leftBarSize = "233px";
 
 const HvList = ({ user }: { user: IUser | null }) => {
   const iconStyles = { width: 28, height: 28, fill: "#676767" };
@@ -146,7 +146,7 @@ const Container = styled.div`
   padding-bottom: 24px;
   background-color: initial;
   margin-top: 52px;
-  margin-left: ${userInformWidth};
+  margin-left: ${leftBarSize};
   @media screen and (max-width: 600px) {
     margin-left: 70px;
   }
@@ -156,7 +156,7 @@ const Login = styled.div`
   align-items: center;
   justify-content: center;
   height:calc(100vh - 52px - 24px);
-  width: calc(100vw - ${userInformWidth});
+  width: calc(100vw - ${leftBarSize});
   @media screen and (max-width: 600px) {
     width: calc(100vw - 70px);
   }
@@ -183,15 +183,15 @@ const HvPreviewContainer = styled.div`
   align-items: center;
   justify-content: center;
   background-color: #ededed;
-  width:calc(((100vw - ${userInformWidth}) / 2) - 42px);
-  height:calc((((100vw - ${userInformWidth}) / 2) - 42px) / 3 * 2);
+  width:calc(((100vw - ${leftBarSize}) / 2) - 42px);
+  height:calc((((100vw - ${leftBarSize}) / 2) - 42px) / 3 * 2);
   @media screen and (min-width: 1600px) {
-    width:calc(((100vw - ${userInformWidth}) / 3) - 38px);
-    height:calc((((100vw - ${userInformWidth}) / 3) - 38px) / 3 * 2);
+    width:calc(((100vw - ${leftBarSize}) / 3) - 38px);
+    height:calc((((100vw - ${leftBarSize}) / 3) - 38px) / 3 * 2);
   }
   @media screen and (max-width: 900px) {
-    width:calc(((100vw - ${userInformWidth}) / 1) - 58px);
-    height:calc((((100vw - ${userInformWidth}) / 1) - 58px) / 3 * 2);
+    width:calc(((100vw - ${leftBarSize}) / 1) - 58px);
+    height:calc((((100vw - ${leftBarSize}) / 1) - 58px) / 3 * 2);
   }
   @media screen and (max-width: 600px) {
     width:calc(((100vw - 70px) / 1) - 58px);

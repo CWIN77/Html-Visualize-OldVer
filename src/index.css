@@ -4,7 +4,17 @@ body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: white;
+  background-color: #ededed;
+}
+
+body::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background-color: #ededed;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #c4c4c4;
 }
 
 * {

@@ -56,7 +56,7 @@ const Home = () => {
 }
 
 const Container = styled.div`
-  width:100vw;
+  width:calc(100vw - 10px);
   min-height:100vh;
   background-color: #ededed;
   display:flex;
