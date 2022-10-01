@@ -36,18 +36,18 @@ const HvList = ({ user }: { user: IUser | null }) => {
       }) as { data: { listHvData: { items: IHvData[] | null } } };
       const result = data.listHvData.items;
       if (result) {
+        const newList: IHvData[] | null = [];
         result.forEach((hv, i) => {
-          if (result[i].author === user.uid) {
-            if (result !== null) {
-              result[i].html = String(hv.html.replace(/\\/g, "").replace(/<br>/g, "")).replace(/contenteditable="true"/g, "");
-              sessionStorage.setItem(String(hv.id), JSON.stringify(hv));
-            }
+          if (hv.author === user.uid) {
+            hv.html = String(hv.html.replace(/\\/g, "").replace(/<br>/g, "")).replace(/contenteditable="true"/g, "");
+            sessionStorage.setItem(String(hv.id), JSON.stringify(hv));
+            newList.push(hv);
           } else {
             result.splice(i, 1);
             sessionStorage.removeItem(String(hv.id));
           }
         });
-        resultHvList = result;
+        resultHvList = newList;
       } else resultHvList = null;
     } else resultHvList = null;
     sessionStorage.setItem("hvList", JSON.stringify(resultHvList));
