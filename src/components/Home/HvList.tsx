@@ -30,16 +30,21 @@ const HvList = ({ user }: { user: IUser | null }) => {
     if (user) {
       const { data } = await API.graphql({
         query: listHvData,
-        variables: {
-          input: { author: { contains: user?.uid } }
-        }
+        // variables: {
+        //   input: { author: { contains: user.uid } }
+        // }
       }) as { data: { listHvData: { items: IHvData[] | null } } };
       const result = data.listHvData.items;
       if (result) {
         result.forEach((hv, i) => {
-          if (result !== null) {
-            result[i].html = String(hv.html.replace(/\\/g, "").replace(/<br>/g, "")).replace(/contenteditable="true"/g, "");
-            sessionStorage.setItem(String(hv.id), JSON.stringify(hv));
+          if (result[i].author === user.uid) {
+            if (result !== null) {
+              result[i].html = String(hv.html.replace(/\\/g, "").replace(/<br>/g, "")).replace(/contenteditable="true"/g, "");
+              sessionStorage.setItem(String(hv.id), JSON.stringify(hv));
+            }
+          } else {
+            result.splice(i, 1);
+            sessionStorage.removeItem(String(hv.id));
           }
         });
         resultHvList = result;
