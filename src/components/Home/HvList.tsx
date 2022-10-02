@@ -30,9 +30,6 @@ const HvList = ({ user }: { user: IUser | null }) => {
     if (user) {
       const { data } = await API.graphql({
         query: listHvData,
-        // variables: {
-        //   input: { author: { contains: user.uid } }
-        // }
       }) as { data: { listHvData: { items: IHvData[] | null } } };
       const result = data.listHvData.items;
       if (result) {

@@ -156,7 +156,6 @@ const TopBar = ({ hvData }: { hvData: IHvData }) => {
         }) as any;
         result.then(({ data }: { data: { deleteHvData: IHvData } }) => {
           if (data && data.deleteHvData) {
-            console.log("HV 삭제 완료");
             navigate("/");
           } else {
             console.error("HV 삭제 실패");

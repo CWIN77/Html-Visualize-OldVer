@@ -42,8 +42,7 @@ export const changeHvStorage = async (hvData: IHvData, newHvList?: String[]) => 
             }
           }) as any;
           result.then(({ data }: { data: { updateHvData: IHvData } }) => {
-            if (data && data.updateHvData) console.log("HV 업데이트 성공");
-            else console.error("HV 업데이트 실패");
+            if (!(data && data.updateHvData)) console.error("HV 업데이트 실패");
           });
           onDelay = true;
           setTimeout(() => {
