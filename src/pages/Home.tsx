@@ -7,11 +7,13 @@ import { ReactComponent as SvgCommunity } from "../icons/community.svg";
 import { ReactComponent as SvgProfile } from "../icons/profile.svg";
 import { getCurrentUser, loginGoogle, logout } from '../firebase/auth';
 import { IUser } from '../types';
-import { Link } from 'react-router-dom';
-
+import { Link, useLocation } from 'react-router-dom';
+import Friends from '../components/Home/Friends';
+import Community from '../components/Home/Community';
 const Home = () => {
   const [user, setUser] = useState<IUser | null>(null);
   const iconStyle = { width: 22, height: 22, fill: "#363636" };
+  const { pathname } = useLocation();
 
   useEffect(() => {
     const user = getCurrentUser();
@@ -49,7 +51,9 @@ const Home = () => {
             </HvNav>
           </Link>
         </LeftSideNavBar>
-        <HvList user={user} />
+        {pathname === "/" && <HvList user={user} />}
+        {pathname === "/friends" && <Friends />}
+        {pathname === "/community" && <Community />}
       </div>
     </Container>
   )
