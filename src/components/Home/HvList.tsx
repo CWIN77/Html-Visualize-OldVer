@@ -26,29 +26,22 @@ const HvList = ({ user }: { user: IUser | null }) => {
   }
   const getHvDataList = async () => {
     const user = getCurrentUser();
-    let resultHvList;
+    sessionStorage.setItem("hvList", JSON.stringify(null));
     if (user) {
       const { data } = await API.graphql({
         query: listHvData,
-      }) as { data: { listHvData: { items: IHvData[] | null } } };
+        variables: {
+          filter: { author: { eq: user.uid } }
+        }
+      }) as { data: { listHvData: { items: IHvData[] } } };
       const result = data.listHvData.items;
-      if (result) {
-        const newList: IHvData[] | null = [];
-        result.forEach((hv, i) => {
-          if (hv.author === user.uid) {
-            hv.html = String(hv.html.replace(/\\/g, "").replace(/<br>/g, "")).replace(/contenteditable="true"/g, "");
-            sessionStorage.setItem(String(hv.id), JSON.stringify(hv));
-            newList.push(hv);
-          } else {
-            result.splice(i, 1);
-            sessionStorage.removeItem(String(hv.id));
-          }
-        });
-        resultHvList = newList;
-      } else resultHvList = null;
-    } else resultHvList = null;
-    sessionStorage.setItem("hvList", JSON.stringify(resultHvList));
-    setHvList(resultHvList);
+      result.forEach((hv) => {
+        hv.html = String(hv.html.replace(/\\/g, "").replace(/<br>/g, "")).replace(/contenteditable="true"/g, "");
+        sessionStorage.setItem(String(hv.id), JSON.stringify(hv));
+      });
+      setHvList(result);
+      sessionStorage.setItem("hvList", JSON.stringify(result));
+    } else setHvList(null);
   }
   const tempHtml = `<div class=\"App\" style=\"width: 100%; height: 100%; overflow: auto; display: block; background-color: white;\" id=\"view\"></div>`;
   const addHv = async () => {
