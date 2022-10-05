@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react'
-import { changeHvStorage, getSelectComp, useStore } from '../../stateManager'
+import { changeHvStorage, getSelectComp, setSelectComp, useStore } from '../../stateManager'
 import { ReactComponent as SvgShapes } from "../../icons/shapes.svg";
 import { ReactComponent as SvgText } from "../../icons/text.svg";
 import { useParams } from "react-router-dom";
@@ -69,12 +69,7 @@ const CompLayer = ({ hvData }: { hvData: IHvData }) => {
         compList.map((comp, key) => {
           if ("tag" in comp) {
             return (
-              <Comp isSelect={String(getSelectComp(hvId) === comp.html)} key={key} onClick={() => {
-                getSelectComp(hvId).style.boxShadow = "";
-                comp.html.style.boxShadow = "inset 0px 0px 0px 2.5px #0D99FF";
-                sessionStorage.setItem(hvId + "selectComp", JSON.stringify(comp.html.className));
-                useStore.setState({ isSelectChange: true });
-              }}>
+              <Comp isSelect={String(getSelectComp(hvId) === comp.html)} key={key} onClick={() => setSelectComp(hvId, comp.html.className)}>
                 <pre>{`${"     ".repeat(Number(comp.tab))}`}</pre>
                 <SvgShapes {...iconStyle} />
                 <pre>{comp.tag} {comp.html.className}</pre>

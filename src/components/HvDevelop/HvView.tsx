@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import styled from 'styled-components';
 import { ableInsert, compData, dbClickAble } from '../../addableComps/compData';
-import { useStore, changeHvStorage, getSelectComp } from '../../stateManager';
+import { useStore, changeHvStorage, getSelectComp, setSelectComp } from '../../stateManager';
 import { useParams } from "react-router-dom";
 import { IHvData } from '../../types';
 
@@ -77,41 +77,43 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
       target.addEventListener("focusout", changeHvEvent);
     }
   }
+  const searchToChangeId = (comp: HTMLElement) => {
+    if (comp.nodeType !== 3) {
+      const compId = compData.find(i => i.tag === comp.tagName.toLowerCase())?.id || 0;
+      comp.className = `hv${compId}${getRandomId()}`;
+      comp.style.boxShadow = "";
+      if (comp.childNodes.length > 0) {
+        comp.childNodes.forEach((cNode) => {
+          searchToChangeId(cNode as HTMLElement);
+        });
+      }
+    }
+  }
   const copyEvent = (e: KeyboardEvent) => {
-    const selectComp = getSelectComp(hvId)
-    if (e.key === 'c' && e.ctrlKey && selectComp.className !== document.getElementById("view")?.className) {
-      sessionStorage.setItem("copyHv", JSON.stringify(selectComp.outerHTML));
-    } else if (e.key === 'v' && e.ctrlKey) {
-      const copyComp = JSON.parse(sessionStorage.getItem("copyHv") || JSON.stringify(null));
-      if (copyComp) {
-        const createElement: HTMLElement = document.createElement("div");
-        createElement.insertAdjacentHTML('beforeend', copyComp);
-        const newCopyComp = createElement.children[0] as HTMLElement;
-        if (ableInsert.indexOf(selectComp.tagName.toLowerCase()) > -1) window.alert("선택한 Html에는 Element를 복사할 수 없습니다.")
-        else {
-          const cloneComp = newCopyComp.cloneNode(true) as HTMLElement;
-          const searchToChangeId = (comp: HTMLElement) => {
-            if (comp.nodeType !== 3) {
-              const compId = compData.find(i => i.tag === comp.tagName.toLowerCase())?.id || 0;
-              comp.className = `hv${compId}${getRandomId()}`;
-              comp.style.boxShadow = "";
-              if (cloneComp.childNodes.length > 0) {
-                comp.childNodes.forEach((cNode) => {
-                  searchToChangeId(cNode as HTMLElement);
-                });
-              }
-            }
+    const selectComp = getSelectComp(hvId);
+    if (selectComp) {
+      if (e.key === 'c' && e.ctrlKey && selectComp.id !== "view") {
+        sessionStorage.setItem("copyHv", JSON.stringify(selectComp.outerHTML));
+      } else if (e.key === 'v' && e.ctrlKey) {
+        const copyComp: string | null = JSON.parse(sessionStorage.getItem("copyHv") || JSON.stringify(null));
+        if (copyComp) {
+          const createElement: HTMLElement = document.createElement("div");
+          createElement.insertAdjacentHTML('beforeend', copyComp);
+          const newCopyComp = createElement.children[0] as HTMLElement;
+          if (ableInsert.indexOf(selectComp.tagName.toLowerCase()) > -1) window.alert("선택한 Html에는 Element를 복사할 수 없습니다.");
+          else {
+            const cloneComp = newCopyComp.cloneNode(true) as HTMLElement;
+            searchToChangeId(cloneComp);
+            selectComp.append(cloneComp);
+            changeHvStorage(hvData);
           }
-          searchToChangeId(cloneComp);
-          selectComp.append(cloneComp);
-          changeHvStorage(hvData);
         }
       }
     }
   }
   const deleteEvent = (e: KeyboardEvent) => {
     const selectComp = getSelectComp(hvId);
-    if (dbClickComp === document.body && e.key === "Delete" && selectComp.className && selectComp.id !== "view") {
+    if (dbClickComp === document.body && e.key === "Delete" && selectComp && selectComp.id !== "view") {
       selectComp.remove();
       sessionStorage.removeItem(hvId + "selectComp");
       useStore.setState({ isSelectChange: true });
@@ -132,21 +134,15 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
   }
   const viewClickEvent = (e: MouseEvent) => {
     const target = e.target as HTMLElement;
-    const selectComp = getSelectComp(hvId);
-
     if (target !== dbClickComp) {
       dbClickComp.contentEditable = "false";
       dbClickComp = document.body;
-      selectComp.style.boxShadow = "";
-
-      target.style.boxShadow = "inset 0px 0px 0px 2.5px #0D99FF";
-      sessionStorage.setItem(hvId + "selectComp", JSON.stringify(target.className));
-      useStore.setState({ isSelectChange: true });
+      setSelectComp(hvId, target.className);
     }
   }
   const viewBgClickEvent = (e: MouseEvent) => {
     const selectComp = getSelectComp(hvId);
-    if (e.target !== dbClickComp) {
+    if (e.target !== dbClickComp && selectComp) {
       dbClickComp.contentEditable = "false";
       dbClickComp = document.body;
       mouseoverComp.style.boxShadow = "";

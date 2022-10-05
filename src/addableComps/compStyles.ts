@@ -210,6 +210,34 @@ export const styleName: { [key: string]: string } = {
   "font-family": "F-Fa"
 }
 
+const displaySetting = {
+  "display": [
+    "flex",
+    "inline",
+    "block",
+    "inline-block",
+  ],
+  "flex-direction": [
+    "row",
+    "row-reverse",
+    "column",
+    "column-reverse",
+  ],
+  "align-items": [
+    "center",
+    "flex-start",
+    "flex-end",
+  ],
+  "justify-content": [
+    "center",
+    "flex-start",
+    "flex-end",
+    "space-between",
+    "space-around",
+    "space-evenly",
+  ],
+}
+
 const defaultStyle: TAbleStyle = {
   "width": "value",
   "height": "value",
@@ -245,31 +273,7 @@ const defaultStyle: TAbleStyle = {
 
 const boxStyle: TAbleStyle = {
   ...defaultStyle,
-  "display": [
-    "flex",
-    "inline",
-    "block",
-    "inline-block",
-  ],
-  "flex-direction": [
-    "row",
-    "row-reverse",
-    "column",
-    "column-reverse",
-  ],
-  "align-items": [
-    "center",
-    "flex-start",
-    "flex-end",
-  ],
-  "justify-content": [
-    "center",
-    "flex-start",
-    "flex-end",
-    "space-between",
-    "space-around",
-    "space-evenly",
-  ]
+  ...displaySetting,
 }
 
 const textStyle: TAbleStyle = {
@@ -288,31 +292,7 @@ const textStyle: TAbleStyle = {
     "italic",
     "oblique"
   ],
-  "display": [
-    "flex",
-    "inline",
-    "block",
-    "inline-block",
-  ],
-  "flex-direction": [
-    "row",
-    "row-reverse",
-    "column",
-    "column-reverse",
-  ],
-  "align-items": [
-    "center",
-    "flex-start",
-    "flex-end",
-  ],
-  "justify-content": [
-    "center",
-    "flex-start",
-    "flex-end",
-    "space-between",
-    "space-around",
-    "space-evenly",
-  ],
+
   "text-decoration": "detail",
   "font-family": fontFamily
 }
@@ -330,30 +310,7 @@ const viewStyle: TAbleStyle = {
   "max-height": "detail",
   "padding": "value",
   "background-color": "color",
-  "display": [
-    "flex",
-    "block",
-    "inline-block",
-  ],
-  "flex-direction": [
-    "row",
-    "row-reverse",
-    "column",
-    "column-reverse",
-  ],
-  "align-items": [
-    "center",
-    "flex-start",
-    "flex-end",
-  ],
-  "justify-content": [
-    "center",
-    "flex-start",
-    "flex-end",
-    "space-between",
-    "space-around",
-    "space-evenly",
-  ]
+  ...displaySetting,
 }
 
 const listStyle: TAbleStyle = {

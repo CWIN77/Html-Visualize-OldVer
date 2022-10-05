@@ -8,9 +8,7 @@ const isSelectChange: boolean = false;
 const hvResult: String = "";
 const isChangeHv: boolean = true;
 
-export const useStore = create(() => ({
-  isSelectChange, hvResult, isChangeHv
-}))
+export const useStore = create(() => ({ isSelectChange, hvResult, isChangeHv }));
 
 let onDelay = false;
 export const changeHvStorage = async (hvData: IHvData, newHvList?: String[]) => {
@@ -54,8 +52,17 @@ export const changeHvStorage = async (hvData: IHvData, newHvList?: String[]) => 
   }
 }
 
-export const getSelectComp = (hvId: string) => {
+export const getSelectComp = (hvId: string): HTMLElement | null => {
   const storageCompName: string | null = JSON.parse(sessionStorage.getItem(hvId + "selectComp") || JSON.stringify(null));
-  const selectComp = storageCompName ? document.querySelector("." + storageCompName) as HTMLElement : document.body;
+  const selectComp: HTMLElement | null = storageCompName ? document.querySelector("." + storageCompName) : null;
   return selectComp;
+}
+
+export const setSelectComp = (hvId: string, compClassName: string) => {
+  const selectComp = getSelectComp(hvId);
+  if (selectComp) selectComp.style.boxShadow = "";
+  sessionStorage.setItem(hvId + "selectComp", JSON.stringify(compClassName));
+  const compElem: HTMLElement | null = document.querySelector("." + compClassName);
+  if (compElem) compElem.style.boxShadow = "inset 0px 0px 0px 2.5px #0D99FF";
+  useStore.setState({ isSelectChange: true });
 }

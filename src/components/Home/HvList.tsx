@@ -62,9 +62,7 @@ const HvList = ({ user }: { user: IUser | null }) => {
         const data = result.data.createHvData;
         if (data) {
           getHvDataList();
-          if (window.confirm("생성 완료!\n새 프로젝트로 이동 하시겠습니까?")) {
-            navigate(`/hv/${data.id}`);
-          }
+          navigate(`/hv/${data.id}`);
         } else alert("오류! 프로젝트 생성 실패!");
       } else alert("로그인이 되어있지 않습니다.");
     }

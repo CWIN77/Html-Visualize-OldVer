@@ -35,25 +35,22 @@ const CompSet = ({ hvData }: { hvData: IHvData }) => {
         }
       })
       setCompList(newCompList);
-    } else {
-      setCompList(compData);
-    }
+    } else setCompList(compData);
   }
 
-  const addComp = (data: ICompData) => {
+  const addComp = (data: ICompData): any => {
     const createElement: HTMLElement = document.createElement("div");
     createElement.insertAdjacentHTML('beforeend', data.comp);
     const newComp = createElement.children[0] as HTMLElement;
-    let compName = `hv${data.id}${getRandomId()}`;
-    while (nameList.indexOf(compName) > -1) {
-      compName = `hv${data.id}${getRandomId()}`;
+    newComp.className = `hv${data.id}${getRandomId()}`;
+    if (nameList.indexOf(newComp.className) > -1) {
+      return addComp(data);
     }
-    newComp.className = compName;
-    setNameList([...nameList, compName]);
+    setNameList([...nameList, newComp.className]);
     const selectComp = getSelectComp(hvId);
-    if (selectComp !== document.body) {
+    if (selectComp) {
       if (ableInsert.indexOf(selectComp.tagName.toLowerCase()) > -1) {
-        window.alert("선택한 Html에는 Element를 추가할 수 없습니다.")
+        window.alert("선택한 Html에는 Element를 추가할 수 없습니다.");
       } else {
         selectComp.append(newComp);
         changeHvStorage(hvData);
@@ -64,7 +61,7 @@ const CompSet = ({ hvData }: { hvData: IHvData }) => {
     }
   }
 
-  function compare(a: ICompData, b: ICompData) {
+  const sortFunc = (a: ICompData, b: ICompData) => {
     if (a.name < b.name) return -1;
     if (a.name > b.name) return 1;
     return 0;
@@ -79,7 +76,7 @@ const CompSet = ({ hvData }: { hvData: IHvData }) => {
         </SearchBtn>
       </SearchContainer>
       {
-        compList.sort(compare).map((data, key) => (
+        compList.sort(sortFunc).map((data, key) => (
           <Comp key={key}>
             <CompTitle title={data.descript}>{data.name}</CompTitle>
             <CompDescript>{data.descript}</CompDescript>

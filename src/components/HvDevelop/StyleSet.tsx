@@ -15,7 +15,7 @@ const StyleSet = ({ hvData }: { hvData: IHvData }) => {
 
   const deleteComp = () => {
     const selectComp = getSelectComp(hvId);
-    if (selectComp.className && selectComp.id !== "view") {
+    if (selectComp && selectComp.id !== "view") {
       selectComp.remove();
       sessionStorage.removeItem(hvId + "selectComp");
       useStore.setState({ isSelectChange: true });
@@ -163,7 +163,7 @@ const StyleSet = ({ hvData }: { hvData: IHvData }) => {
 
   useEffect(() => {
     const selectComp = getSelectComp(hvId);
-    if (selectComp && selectComp.className) {
+    if (selectComp) {
       const newStyleList: TAbleStyle[] = [];
       if (selectComp.id === "view" || selectComp === document.body) {
         Object.keys(elementStyle.view).forEach((key) => {
@@ -266,7 +266,7 @@ const StyleSet = ({ hvData }: { hvData: IHvData }) => {
       </StyleContainer>
 
       {
-        getSelectComp(hvId)?.className && styleList.length > 0 &&
+        getSelectComp(hvId) && styleList.length > 0 &&
         <Style><h2 onClick={() => { setIsShowDetail(!isShowDetail) }}>{isShowDetail ? "그 외 스타일 접기" : "그 외 스타일 펼치기"}</h2></Style>
       }
       <StyleContainer>
@@ -293,7 +293,7 @@ const StyleSet = ({ hvData }: { hvData: IHvData }) => {
         }
       </StyleContainer>
       {
-        getSelectComp(hvId)?.className && getSelectComp(hvId).id !== "view" &&
+        getSelectComp(hvId) && getSelectComp(hvId)?.id !== "view" &&
         <DeleteComp><h1 onClick={deleteComp}>요소 삭제</h1></DeleteComp>
       }
     </>
