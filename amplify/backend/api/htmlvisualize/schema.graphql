@@ -9,17 +9,19 @@ type HvData @model {
   title:String!
 }
 
+type User @model {
+  id:ID!
+  name:String!
+  img:String!
+  joinId:String!
+  friends:[String]!
+}
+
 type ShareComp @model {
   id:ID!
   html:String!
   author:String!
   name:String!
   descript:String!
-}
-
-type User @model {
-  id:ID!
-  name:String!
-  img:String!
-  joinId:String!
+  like:String!
 }

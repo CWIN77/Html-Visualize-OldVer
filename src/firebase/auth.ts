@@ -29,7 +29,8 @@ export const loginGoogle = (): void => {
                 img: userData.img,
                 name: userData.name,
                 id: userData.id,
-                joinId: userData.joinId
+                joinId: userData.joinId,
+                friends: []
               }
             }
           });

@@ -53,6 +53,7 @@ export const createUser = /* GraphQL */ `
       name
       img
       joinId
+      friends
     }
   }
 `;
@@ -66,6 +67,7 @@ export const updateUser = /* GraphQL */ `
       name
       img
       joinId
+      friends
     }
   }
 `;
@@ -79,6 +81,7 @@ export const deleteUser = /* GraphQL */ `
       name
       img
       joinId
+      friends
     }
   }
 `;

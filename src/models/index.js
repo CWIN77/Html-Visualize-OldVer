@@ -4,10 +4,10 @@ import { schema } from './schema';
 
 
 
-const { HvData, ShareComp, User } = initSchema(schema);
+const { HvData, User, ShareComp } = initSchema(schema);
 
 export {
   HvData,
-  ShareComp,
-  User
+  User,
+  ShareComp
 };

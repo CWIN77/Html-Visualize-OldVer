@@ -44,6 +44,7 @@ export const onCreateUser = /* GraphQL */ `
       name
       img
       joinId
+      friends
       createdAt
       updatedAt
     }
@@ -56,6 +57,7 @@ export const onUpdateUser = /* GraphQL */ `
       name
       img
       joinId
+      friends
       createdAt
       updatedAt
     }
@@ -68,6 +70,7 @@ export const onDeleteUser = /* GraphQL */ `
       name
       img
       joinId
+      friends
       createdAt
       updatedAt
     }

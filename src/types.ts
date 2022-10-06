@@ -32,6 +32,7 @@ export interface IShareComp {
   author: String;
   name: String;
   descript: String;
+  like: String;
   createdAt: String;
   updatedAt: String;
 }

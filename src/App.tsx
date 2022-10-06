@@ -25,7 +25,8 @@ const App = () => {
               img: user.img,
               name: user.name,
               id: user.id,
-              joinId: user.joinId
+              joinId: user.joinId,
+              friends: []
             }
           }
         });

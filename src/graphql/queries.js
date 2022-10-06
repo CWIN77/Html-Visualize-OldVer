@@ -39,6 +39,7 @@ export const getUser = /* GraphQL */ `
       name
       img
       joinId
+      friends
     }
   }
 `;
@@ -54,6 +55,7 @@ export const listUser = /* GraphQL */ `
         name
         img
         joinId
+        friends
       }
       nextToken
     }
