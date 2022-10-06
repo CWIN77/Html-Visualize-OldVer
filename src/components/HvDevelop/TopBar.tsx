@@ -120,7 +120,7 @@ const TopBar = ({ hvData }: { hvData: IHvData }) => {
 
   const changeHvTitle = () => {
     const user = getCurrentUser();
-    if (user?.uid === hvData.author) {
+    if (user && user.id === hvData.author) {
       const result = API.graphql({
         query: updateHvData,
         variables: {
@@ -145,7 +145,7 @@ const TopBar = ({ hvData }: { hvData: IHvData }) => {
   const deleteHv = () => {
     if (window.confirm("프로젝트를 제거 하겠습니까?\n한번 제거한 프로젝트는 되돌리지 못합니다.")) {
       const user = getCurrentUser();
-      if (user?.uid === hvData.author) {
+      if (user && user.id === hvData.author) {
         const result = API.graphql({
           query: deleteHvData,
           variables: {

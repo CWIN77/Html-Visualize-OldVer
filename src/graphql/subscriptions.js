@@ -43,6 +43,7 @@ export const onCreateUser = /* GraphQL */ `
       id
       name
       img
+      joinId
       createdAt
       updatedAt
     }
@@ -54,6 +55,7 @@ export const onUpdateUser = /* GraphQL */ `
       id
       name
       img
+      joinId
       createdAt
       updatedAt
     }
@@ -62,6 +64,40 @@ export const onUpdateUser = /* GraphQL */ `
 export const onDeleteUser = /* GraphQL */ `
   subscription OnDeleteUser {
     onDeleteUser {
+      id
+      name
+      img
+      joinId
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateShareComp = /* GraphQL */ `
+  subscription OnCreateShareComp {
+    onCreateShareComp {
+      id
+      name
+      img
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateShareComp = /* GraphQL */ `
+  subscription OnUpdateShareComp {
+    onUpdateShareComp {
+      id
+      name
+      img
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteShareComp = /* GraphQL */ `
+  subscription OnDeleteShareComp {
+    onDeleteShareComp {
       id
       name
       img

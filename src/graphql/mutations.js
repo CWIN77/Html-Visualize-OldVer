@@ -52,8 +52,7 @@ export const createUser = /* GraphQL */ `
       id
       name
       img
-      createdAt
-      updatedAt
+      joinId
     }
   }
 `;
@@ -66,8 +65,7 @@ export const updateUser = /* GraphQL */ `
       id
       name
       img
-      createdAt
-      updatedAt
+      joinId
     }
   }
 `;
@@ -80,6 +78,53 @@ export const deleteUser = /* GraphQL */ `
       id
       name
       img
+      joinId
+    }
+  }
+`;
+export const createShareComp = /* GraphQL */ `
+  mutation CreateShareComp(
+    $input: CreateShareCompInput!
+    $condition: ModelShareCompConditionInput
+  ) {
+    createShareComp(input: $input, condition: $condition) {
+      id
+      html
+      author
+      name
+      descript
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateShareComp = /* GraphQL */ `
+  mutation UpdateShareComp(
+    $input: UpdateShareCompInput!
+    $condition: ModelShareCompConditionInput
+  ) {
+    updateShareComp(input: $input, condition: $condition) {
+      id
+      html
+      author
+      name
+      descript
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteShareComp = /* GraphQL */ `
+  mutation DeleteShareComp(
+    $input: DeleteShareCompInput!
+    $condition: ModelShareCompConditionInput
+  ) {
+    deleteShareComp(input: $input, condition: $condition) {
+      id
+      html
+      author
+      name
+      descript
       createdAt
       updatedAt
     }

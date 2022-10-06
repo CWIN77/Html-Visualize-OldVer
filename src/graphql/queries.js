@@ -38,22 +38,53 @@ export const getUser = /* GraphQL */ `
       id
       name
       img
+      joinId
+    }
+  }
+`;
+export const listUser = /* GraphQL */ `
+  query ListUser(
+    $filter: ModelUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listUser(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        img
+        joinId
+      }
+      nextToken
+    }
+  }
+`;
+export const getShareComp = /* GraphQL */ `
+  query GetShareComp($id: ID!) {
+    getShareComp(id: $id) {
+      id
+      html
+      author
+      name
+      descript
       createdAt
       updatedAt
     }
   }
 `;
-export const listUsers = /* GraphQL */ `
-  query ListUsers(
-    $filter: ModelUserFilterInput
+export const listShareComp = /* GraphQL */ `
+  query ListShareComp(
+    $filter: ModelShareCompFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listShareComp(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        html
+        author
         name
-        img
+        descript
         createdAt
         updatedAt
       }

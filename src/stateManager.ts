@@ -29,7 +29,7 @@ export const changeHvStorage = async (hvData: IHvData, newHvList?: String[]) => 
       }
       useStore.setState({ isChangeHv: true });
       if (!onDelay) {
-        if (user.uid === hvData.author) {
+        if (user.id === hvData.author) {
           const result = API.graphql({
             query: updateHvData,
             variables: {

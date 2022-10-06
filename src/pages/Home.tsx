@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import HvDevList from '../components/Home/HvDevList';
-import HvCompList from '../components/Home/HvCompList';
+import HvDataList from '../components/Home/HvDataList';
+import ShareCompList from '../components/Home/ShareCompList';
 import { ReactComponent as SvgApps } from "../icons/apps.svg";
 import { ReactComponent as SvgFriends } from "../icons/friends.svg";
 import { ReactComponent as SvgCommunity } from "../icons/community.svg";
@@ -10,7 +10,7 @@ import { getCurrentUser, loginGoogle, logout } from '../firebase/auth';
 import { IUser } from '../types';
 import { Link, useLocation } from 'react-router-dom';
 import Friends from '../components/Home/Friends';
-import Community from '../components/Home/Community';
+
 const Home = () => {
   const [user, setUser] = useState<IUser | null>(null);
   const iconStyle = { width: 22, height: 22, fill: "#363636" };
@@ -27,7 +27,7 @@ const Home = () => {
         <HvLogo><h2>H</h2><h1>TML</h1><h3>V</h3><h1>isualize</h1></HvLogo>
         {
           user
-            ? <Profile onClick={logout} src={String(user?.img)} />
+            ? <Profile onClick={logout} src={String(user.img)} />
             : <SvgProfile width={30} height={30} style={{ margin: "0px 24px", cursor: "pointer" }} onClick={loginGoogle} />
         }
       </TopBar>
@@ -52,9 +52,9 @@ const Home = () => {
             </HvNav>
           </Link>
         </LeftSideNavBar>
-        {pathname === "/" && <HvDevList user={user} />}
+        {pathname === "/" && <HvDataList user={user} />}
         {pathname === "/friends" && <Friends />}
-        {pathname === "/community" && <HvCompList user={user} />}
+        {pathname === "/community" && <ShareCompList user={user} />}
       </div>
     </Container>
   )

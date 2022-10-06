@@ -1,5 +1,8 @@
 import { IUser } from '../types';
 import firebase from './config'
+import { API } from "aws-amplify";
+import { createUser, updateUser } from '../graphql/mutations';
+import { getUser } from '../graphql/queries';
 
 export const loginGoogle = (): void => {
   firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
@@ -8,12 +11,41 @@ export const loginGoogle = (): void => {
       return firebase.auth().signInWithPopup(provider);
     }).catch((error) => {
       alert('로그인 실패\n' + error.message)
-    }).then(({ user }: any) => {
+    }).then(async ({ user }: any) => {
       const { displayName, photoURL, uid } = user;
       if (displayName && photoURL) {
-        const joinId = displayName + uid.substr(0, 8);
-        const userData: IUser = { img: photoURL, name: displayName, uid, joinId };
+        const joinId = displayName + uid.substr(0, 6);
+        const userData: IUser = { img: photoURL, name: displayName, id: uid, joinId };
         localStorage.setItem("user", JSON.stringify(userData));
+        const isUserInDb = await API.graphql({
+          query: getUser,
+          variables: { id: userData.id }
+        }) as { data: { getUser: IUser | null } };
+        if (!isUserInDb.data.getUser) {
+          await API.graphql({
+            query: createUser,
+            variables: {
+              input: {
+                img: userData.img,
+                name: userData.name,
+                id: userData.id,
+                joinId: userData.joinId
+              }
+            }
+          });
+        } else {
+          await API.graphql({
+            query: updateUser,
+            variables: {
+              input: {
+                img: userData.img,
+                name: userData.name,
+                id: userData.id,
+                joinId: userData.joinId
+              }
+            }
+          });
+        }
         alert('로그인 완료');
       }
       window.location.reload();
@@ -40,8 +72,8 @@ export const getCurrentUser = (): IUser | null => {
   if (currentUser) {
     const { displayName, photoURL, uid } = currentUser;
     if (displayName && photoURL) {
-      const joinId = displayName + uid.substr(0, 8);
-      const userData: IUser = { img: photoURL, name: displayName, uid, joinId };
+      const joinId = displayName + uid.substr(0, 6);
+      const userData: IUser = { img: photoURL, name: displayName, id: uid, joinId };
       localStorage.setItem("user", JSON.stringify(userData));
       return userData;
     }
@@ -51,8 +83,8 @@ export const getCurrentUser = (): IUser | null => {
     if (user) {
       const { displayName, photoURL, uid } = user;
       if (displayName && photoURL) {
-        const joinId = displayName + uid.substr(0, 8);
-        const userData: IUser = { img: photoURL, name: displayName, uid, joinId };
+        const joinId = displayName + uid.substr(0, 6);
+        const userData: IUser = { img: photoURL, name: displayName, id: uid, joinId };
         localStorage.setItem("user", JSON.stringify(userData));
         return userData;
       }

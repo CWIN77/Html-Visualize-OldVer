@@ -24,7 +24,7 @@ const HvDevelop = () => {
         }
       }) as { data: { getHvData: IHvData | null } };
       const result: IHvData | null = data.getHvData;
-      if (result && result.author === user.uid) {
+      if (result && result.author === user.id) {
         if (result !== null) result.html = String(result.html.replace(/\\/g, "").replace(/<br>/g, "")).replace(/contenteditable="true"/g, "");
         setHvData(result);
       } else setHvData(null);

@@ -22,6 +22,16 @@ export interface IHvData {
 export interface IUser {
   img: String;
   name: String;
-  uid: String;
+  id: String;
   joinId: String;
+}
+
+export interface IShareComp {
+  id: String;
+  html: String;
+  author: String;
+  name: String;
+  descript: String;
+  createdAt: String;
+  updatedAt: String;
 }

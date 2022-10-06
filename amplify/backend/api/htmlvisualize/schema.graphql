@@ -8,3 +8,18 @@ type HvData @model {
   author:String!
   title:String!
 }
+
+type ShareComp @model {
+  id:ID!
+  html:String!
+  author:String!
+  name:String!
+  descript:String!
+}
+
+type User @model {
+  id:ID!
+  name:String!
+  img:String!
+  joinId:String!
+}

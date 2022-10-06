@@ -10,10 +10,11 @@ import { createHvData } from '../../graphql/mutations';
 import { getCurrentUser, loginGoogle } from '../../firebase/auth';
 const leftBarSize = "233px";
 
-const HvDevList = ({ user }: { user: IUser | null }) => {
+const HvDataList = ({ user }: { user: IUser | null }) => {
   const iconStyles = { width: 28, height: 28, fill: "#676767" };
   const [hvList, setHvList] = useState<IHvData[] | null>(JSON.parse(sessionStorage.getItem("hvList") || JSON.stringify(null)));
   const navigate = useNavigate();
+  const [scale, setScale] = useState<number | null>(Number(JSON.parse(sessionStorage.getItem("listScale") || JSON.stringify(null))));
 
   const getRandomId = () => {
     const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
@@ -31,7 +32,7 @@ const HvDevList = ({ user }: { user: IUser | null }) => {
       const { data } = await API.graphql({
         query: listHvData,
         variables: {
-          filter: { author: { eq: user.uid } }
+          filter: { author: { eq: user.id } }
         }
       }) as { data: { listHvData: { items: IHvData[] } } };
       const result = data.listHvData.items;
@@ -55,10 +56,10 @@ const HvDevList = ({ user }: { user: IUser | null }) => {
               id: getRandomId(),
               html: tempHtml,
               title: "New Hv Project",
-              author: user.uid
+              author: user.id
             }
           }
-        }) as { data: { createHvData: IHvData } };
+        }) as { data: { createHvData: IHvData | null } };
         const data = result.data.createHvData;
         if (data) {
           getHvDataList();
@@ -73,13 +74,18 @@ const HvDevList = ({ user }: { user: IUser | null }) => {
   }, [user])
 
   useEffect(() => {
+    if (!scale) {
+      const scaleWidth = document.getElementById("dev1")?.offsetWidth;
+      setScale(scaleWidth ? scaleWidth / 360 / 3.3 : null);
+      if (scaleWidth) sessionStorage.setItem("listScale", JSON.stringify(scaleWidth / 360 / 3.3));
+    }
     hvList?.forEach((hv) => {
       const width = document.getElementById(hv.id + "cont")?.offsetWidth;
       const preview = document.getElementById(String(hv.id));
       if (preview && width) {
         const scale = width / 360 / 3.3;
-        preview.style.transform = `scale(${scale},${scale})`;
-        preview.style.display = "flex";
+        preview.style.transform = `scale(${scale})`;
+        sessionStorage.setItem("listScale", JSON.stringify(scale));
       }
     });
     window.addEventListener("resize", () => {
@@ -88,7 +94,8 @@ const HvDevList = ({ user }: { user: IUser | null }) => {
         const preview = document.getElementById(String(hv.id));
         if (preview && width) {
           const scale = width / 360 / 3.3;
-          preview.style.transform = `scale(${scale},${scale})`;
+          preview.style.transform = `scale(${scale})`;
+          sessionStorage.setItem("listScale", JSON.stringify(scale));
         }
       });
     });
@@ -104,8 +111,8 @@ const HvDevList = ({ user }: { user: IUser | null }) => {
     <Container>
       {
         user
-          ? <Develop num={"1"} onClick={() => { addHv() }}>
-            <HvPreviewContainer><SvgPlus {...iconStyles} /></HvPreviewContainer>
+          ? <Develop num={"1"} onClick={() => { addHv() }} >
+            <HvPreviewContainer id="dev1"><SvgPlus {...iconStyles} /></HvPreviewContainer>
             <DevelopTitle>Make New HV!</DevelopTitle>
           </Develop>
           : <Login>
@@ -119,7 +126,7 @@ const HvDevList = ({ user }: { user: IUser | null }) => {
             <Develop key={key} num={String(key % 2)}>
               <Link to={`/hv/${data.id}`}>
                 <HvPreviewContainer id={data.id + "cont"}>
-                  <HvPreview id={String(data.id)} dangerouslySetInnerHTML={{ __html: String(data.html) }} />
+                  <HvPreview style={{ transform: `scale(${scale})` }} id={String(data.id)} dangerouslySetInnerHTML={{ __html: String(data.html) }} />
                 </HvPreviewContainer>
                 <DevelopTitle>{data.title}</DevelopTitle>
               </Link>
@@ -216,7 +223,6 @@ const HvPreview = styled.div`
   z-index: 2;
   width:360px;
   height:720px;
-  display: none;
   &::-webkit-scrollbar{
     width:8px;
     height:8px;
@@ -237,4 +243,4 @@ const HvPreview = styled.div`
   }
 `
 
-export default HvDevList;
+export default HvDataList;
