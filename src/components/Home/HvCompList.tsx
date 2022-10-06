@@ -10,7 +10,7 @@ import { createHvData } from '../../graphql/mutations';
 import { getCurrentUser, loginGoogle } from '../../firebase/auth';
 const leftBarSize = "233px";
 
-const HvList = ({ user }: { user: IUser | null }) => {
+const HvDevList = ({ user }: { user: IUser | null }) => {
   const iconStyles = { width: 28, height: 28, fill: "#676767" };
   const [hvList, setHvList] = useState<IHvData[] | null>(JSON.parse(sessionStorage.getItem("hvList") || JSON.stringify(null)));
   const navigate = useNavigate();
@@ -237,4 +237,4 @@ const HvPreview = styled.div`
   }
 `
 
-export default HvList;
+export default HvDevList;

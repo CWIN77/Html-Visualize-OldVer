@@ -210,6 +210,11 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
     viewElem.addEventListener("click", viewClickEvent);
     viewBgElem.addEventListener("click", viewBgClickEvent);
     viewBgElem.addEventListener("mouseover", viewBgMouseoverEvent);
+    viewElem.addEventListener('contextmenu', function (e) {
+      e.preventDefault();
+      alert('success!');
+      return false;
+    }, false);
   }, [hvData])
 
   return (

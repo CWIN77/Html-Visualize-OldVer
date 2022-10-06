@@ -13,7 +13,7 @@ export const useStore = create(() => ({ isSelectChange, hvResult, isChangeHv }))
 let onDelay = false;
 export const changeHvStorage = async (hvData: IHvData, newHvList?: String[]) => {
   const user = getCurrentUser();
-  if (document.getElementById("view")?.outerHTML !== undefined) {
+  if (document.getElementById("view")?.outerHTML !== undefined && user) {
     const sHistory: string[] = JSON.parse(sessionStorage.getItem(hvData.id + "hstry") || JSON.stringify([]));
     const html = newHvList ? newHvList[newHvList.length - 1] : (document.getElementById("view")?.outerHTML as string)
       .replace("box-shadow: rgb(13, 153, 255) 0px 0px 0px 2.5px inset;", "")
@@ -29,7 +29,7 @@ export const changeHvStorage = async (hvData: IHvData, newHvList?: String[]) => 
       }
       useStore.setState({ isChangeHv: true });
       if (!onDelay) {
-        if (user?.uid === hvData.author) {
+        if (user.uid === hvData.author) {
           const result = API.graphql({
             query: updateHvData,
             variables: {

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import HvList from '../components/Home/HvList';
+import HvDevList from '../components/Home/HvDevList';
+import HvCompList from '../components/Home/HvCompList';
 import { ReactComponent as SvgApps } from "../icons/apps.svg";
 import { ReactComponent as SvgFriends } from "../icons/friends.svg";
 import { ReactComponent as SvgCommunity } from "../icons/community.svg";
@@ -51,9 +52,9 @@ const Home = () => {
             </HvNav>
           </Link>
         </LeftSideNavBar>
-        {pathname === "/" && <HvList user={user} />}
+        {pathname === "/" && <HvDevList user={user} />}
         {pathname === "/friends" && <Friends />}
-        {pathname === "/community" && <Community />}
+        {pathname === "/community" && <HvCompList user={user} />}
       </div>
     </Container>
   )
