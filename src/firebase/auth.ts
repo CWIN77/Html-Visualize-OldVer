@@ -21,7 +21,6 @@ export const loginGoogle = (): void => {
           query: getUser,
           variables: { id: userData.id }
         }) as { data: { getUser: IUser | null } };
-        // let makeUserResult;
         if (!isUserInDb.data.getUser) {
           await API.graphql({
             query: createUser,
@@ -48,7 +47,6 @@ export const loginGoogle = (): void => {
             }
           });
         }
-        // console.log(makeUserResult);
         alert('로그인 완료');
       }
       window.location.reload();
