@@ -15,7 +15,6 @@ export interface IHvData {
   html: String;
   author: String;
   title: String;
-  createdAt: String;
   updatedAt: String;
 }
 

@@ -13,11 +13,11 @@ const App = () => {
   const checkUserInData = async () => {
     const user = getCurrentUser();
     if (user) {
-      const isUserInDb = await API.graphql({
+      const result = await API.graphql({
         query: getUser,
         variables: { id: user.id }
-      }) as { data: { getUser: IUser | null } };
-      if (!isUserInDb.data.getUser) {
+      }) as { data: { getUser: IUser } }
+      if (!result.data.getUser) {
         await API.graphql({
           query: createUser,
           variables: {

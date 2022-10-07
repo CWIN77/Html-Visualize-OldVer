@@ -8,7 +8,6 @@ export const onCreateHvData = /* GraphQL */ `
       html
       author
       title
-      createdAt
       updatedAt
     }
   }
@@ -20,7 +19,6 @@ export const onUpdateHvData = /* GraphQL */ `
       html
       author
       title
-      createdAt
       updatedAt
     }
   }
@@ -32,7 +30,6 @@ export const onDeleteHvData = /* GraphQL */ `
       html
       author
       title
-      createdAt
       updatedAt
     }
   }
@@ -44,7 +41,6 @@ export const onCreateUser = /* GraphQL */ `
       name
       img
       joinId
-      friends
       createdAt
       updatedAt
     }
@@ -57,7 +53,6 @@ export const onUpdateUser = /* GraphQL */ `
       name
       img
       joinId
-      friends
       createdAt
       updatedAt
     }
@@ -70,7 +65,6 @@ export const onDeleteUser = /* GraphQL */ `
       name
       img
       joinId
-      friends
       createdAt
       updatedAt
     }
