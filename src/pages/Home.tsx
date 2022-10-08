@@ -22,7 +22,7 @@ const Home = () => {
   }, [])
 
   return (
-    <Container>
+    <>
       <TopBar>
         <HvLogo><h2>H</h2><h1>TML</h1><h3>V</h3><h1>isualize</h1></HvLogo>
         {
@@ -31,7 +31,7 @@ const Home = () => {
             : <SvgProfile width={30} height={30} style={{ margin: "0px 24px", cursor: "pointer" }} onClick={loginGoogle} />
         }
       </TopBar>
-      <div style={{ display: "flex" }}>
+      <main style={{ display: "flex" }}>
         <LeftSideNavBar>
           <Link to={"/"}>
             <HvNav>
@@ -55,22 +55,12 @@ const Home = () => {
         {pathname === "/" && <HvDataList user={user} />}
         {pathname === "/friends" && <Friends />}
         {pathname === "/community" && <ShareCompList user={user} />}
-      </div>
-    </Container>
+      </main>
+    </>
   )
 }
 
-const Container = styled.div`
-  width:calc(100vw - 10px);
-  min-height:100vh;
-  background-color: #ededed;
-  display:flex;
-  flex-direction: column;
-  @media screen and (max-width: 600px) {
-    flex-direction: column;
-  }
-`
-const LeftSideNavBar = styled.div`
+const LeftSideNavBar = styled.aside`
   height:calc(100vh - 52px - 10px);
   padding-top: 10px;
   min-width: auto;
@@ -123,7 +113,7 @@ const TopBar = styled.header`
   justify-content: space-between;
   position: fixed;
   width:100%;
-  z-index: 10;
+  z-index: 999;
 `
 const Profile = styled.img`
   width:30px;

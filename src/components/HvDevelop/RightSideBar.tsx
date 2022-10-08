@@ -28,7 +28,7 @@ const RightSideBar = ({ hvData }: { hvData: IHvData }) => {
   )
 }
 
-const Container = styled.div`
+const Container = styled.aside`
   position: absolute;
   right:0px;
   display: flex;
@@ -37,7 +37,6 @@ const Container = styled.div`
   width: 320px;
   height: calc(100vh - 52px);
   background-color: white;
-  z-index: 10;
   &::-webkit-scrollbar{
     width: 6px;
     background-color: initial;
@@ -53,7 +52,6 @@ const PageSelectBtn = styled.span`
   display: flex;
   position: fixed;
   background-color: white;
-  z-index: 10;
   width:calc(320px - 20px);
   padding: 3px 10px;
   border-bottom: 1.5px solid rgba(54,54,54,0.25);

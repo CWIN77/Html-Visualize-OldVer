@@ -53,10 +53,7 @@ const TopBar = ({ hvData }: { hvData: IHvData }) => {
     const viewBox = document.getElementById("viewBox");
     const zommInput = document.getElementById("zoom") as HTMLInputElement | null;
     const viewContainerElem = document.getElementById("viewContainer");
-    function isMobile() {
-      return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    }
-    if (!isMobile()) {
+    if (!(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))) {
       if (viewBg && viewBox && zommInput && viewContainerElem) {
         if (device === "phone") {
           zoom = viewBg.offsetHeight * 0.9 / 720;
@@ -169,7 +166,7 @@ const TopBar = ({ hvData }: { hvData: IHvData }) => {
 
   return (
     <Container>
-      <div>
+      <section>
         <Link to="/">
           <SvgHome width={24} height={24} fill={"rgb(191, 191, 191)"} style={{ padding: 12, cursor: "pointer" }} />
         </Link>
@@ -180,7 +177,7 @@ const TopBar = ({ hvData }: { hvData: IHvData }) => {
           onKeyDown={(e) => { if (e.key === "Enter") changeHvTitle() }}
           onChange={(e) => { setHvTitle(e.target.value) }}
         />
-      </div>
+      </section>
       <ZoomContainer id="zoomContainer" className={String(zoomLock)}>
         <span>
           <SvgDesktop fill={device === "desktop" ? "white" : "rgb(200, 200, 200)"} {...deviceIcon} onClick={() => { changeDevice("desktop") }} />
@@ -205,7 +202,7 @@ const TopBar = ({ hvData }: { hvData: IHvData }) => {
   )
 }
 
-const Container = styled.div`
+const Container = styled.header`
   width:calc(100vw - 10px);
   height:52px;
   padding: 0px 5px;
@@ -213,12 +210,12 @@ const Container = styled.div`
   display:flex;
   align-items: center;
   justify-content: space-between;
-  div{
+  section{
     display:flex;
     align-items: center;
   }
 `
-const ZoomContainer = styled.div`
+const ZoomContainer = styled.section`
   display:flex;
   align-items: center;
   justify-content: center;
@@ -248,7 +245,7 @@ const HvNameInput = styled.input`
   width:200px;
   padding: 4px;
 `
-const Settings = styled.div`
+const Settings = styled.section`
   *{
     @media screen and (max-width: 750px) {
       display:none;

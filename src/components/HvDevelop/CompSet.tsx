@@ -93,7 +93,7 @@ const CompSet = ({ hvData }: { hvData: IHvData }) => {
   )
 }
 
-const SearchContainer = styled.div`
+const SearchContainer = styled.section`
   margin: 20px 16px;
   display: flex;
   align-items: center;
@@ -120,7 +120,7 @@ const SearchBtn = styled.button`
   border-radius: 0px 4px 4px 0px;
   cursor: pointer;
 `
-const Comp = styled.div`
+const Comp = styled.section`
   width:calc(100% - 24px - 32px - 4px);
   border: 2px solid rgba(54,54,54,0.4);
   padding : 12px;

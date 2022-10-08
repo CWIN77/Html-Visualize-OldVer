@@ -9,18 +9,18 @@ const LeftSideBar = ({ hvData }: { hvData: IHvData }) => {
   return (
     <Container id="leftSideBar">
       <PageSelectBtn>
-        <h1 style={{ opacity: sidePage === 0 ? "1" : "0.6" }}
+        <li style={{ opacity: sidePage === 0 ? "1" : "0.6" }}
           onClick={() => {
             setSidePage(0);
             document.getElementById("leftSideBar")?.scrollTo(0, 0);
           }}
-        >Comp</h1>
-        <h1 style={{ opacity: sidePage === 1 ? "1" : "0.6" }}
+        >Comp</li>
+        <li style={{ opacity: sidePage === 1 ? "1" : "0.6" }}
           onClick={() => {
             setSidePage(1);
             document.getElementById("leftSideBar")?.scrollTo(0, 0);
           }}
-        >Layer</h1>
+        >Layer</li>
       </PageSelectBtn>
       {sidePage === 0 && <CompSet hvData={hvData} />}
       {sidePage === 1 && <CompLayer hvData={hvData} />}
@@ -28,7 +28,7 @@ const LeftSideBar = ({ hvData }: { hvData: IHvData }) => {
   )
 }
 
-const Container = styled.div`
+const Container = styled.aside`
   left:0px;
   position: absolute;
   display:flex;
@@ -37,7 +37,6 @@ const Container = styled.div`
   width:340px;
   height:calc(100vh - 52px);
   background-color: white;
-  z-index: 10;
   &::-webkit-scrollbar{
     width:6px;
     background-color: initial;
@@ -49,14 +48,14 @@ const Container = styled.div`
     display: none;
   }
 `
-const PageSelectBtn = styled.span`
+const PageSelectBtn = styled.ul`
   display: flex;
   padding: 3px 10px;
   border-bottom: 1.5px solid rgba(54,54,54,0.25);
   position: fixed;
   width:calc(340px - 20px);
   background-color: white;
-  h1{
+  li{
     padding: 12px 10px;
     font-size: 13px;
     cursor: pointer;

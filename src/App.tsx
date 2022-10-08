@@ -39,18 +39,16 @@ const App = () => {
   }, [])
 
   return (
-    <Container>
-      <Routes>
-        <Route path="*" element={<Home />} />
-        <Route path="/hv/:id" element={<HvDevelop />} />
-      </Routes>
-    </Container>
+    <Routes>
+      <Route path="*" element={<Home />} />
+      <Route path="/hv/:id" element={<HvDevelop />} />
+    </Routes>
   )
 }
 
 const Container = styled.div`
-  width:100%;
-  min-height:100%;
+  width:100vw;
+  min-height:100vh;
 `
 
 export default App

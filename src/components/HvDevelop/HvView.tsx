@@ -218,15 +218,26 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
   }, [hvData])
 
   return (
-    <ViewContainer id="viewContainer">
-      <ViewBox id="viewBox">
-        <div className="App" style={{ width: "100%", height: "100%", overflow: "auto", display: "block", backgroundColor: "white" }} id='view' />
-      </ViewBox>
-      <ViewBackground id="viewBackground" />
-    </ViewContainer>
+    <>
+      <ViewContainer id="viewContainer">
+        <ViewBox id="viewBox">
+          <div className="App" style={{ width: "100%", height: "100%", overflow: "auto", display: "block", backgroundColor: "white" }} id='view' />
+        </ViewBox>
+        <ViewBackground id="viewBackground" />
+      </ViewContainer>
+      {/* <RightClickMenu>
+        sss
+      </RightClickMenu> */}
+    </>
   )
 }
 
+const RightClickMenu = styled.article`
+  width:100px;
+  height:100px;
+  background-color: red;
+  z-index: 10;
+`
 const ViewBox = styled.div`
   width:360px;
   height:720px;
@@ -254,7 +265,7 @@ const ViewBox = styled.div`
     }
   }
 `
-const ViewContainer = styled.div`
+const ViewContainer = styled.article`
   width:calc(100vw - 320px - 340px);
   margin-left: 340px;
   position: fixed;
@@ -282,8 +293,6 @@ const ViewContainer = styled.div`
 const ViewBackground = styled.span`
   width:calc(100vw - 320px - 340px);
   height:calc(100vh - 52px);
-  z-index: 1;
-
   @media screen and (max-width: 850px) {
     width: 100vw;
   }

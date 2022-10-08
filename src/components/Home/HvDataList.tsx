@@ -138,7 +138,7 @@ const HvDataList = ({ user }: { user: IUser | null }) => {
   )
 }
 
-const Container = styled.div`
+const Container = styled.main`
   display:flex;
   flex-wrap:wrap;
   width:100%;
@@ -198,7 +198,7 @@ const HvPreviewContainer = styled.div`
     height:calc(((100vw - 70px / 1) - 58px) / 3 * 2);
   }
 `
-const Develop = styled.div<{ num: string }>` // 0은 오른쪽 1은 왼쪽
+const Develop = styled.section<{ num: string }>` // 0은 오른쪽 1은 왼쪽
   margin: 28px;
   margin-right: 0px;
   margin-bottom: 6px;

@@ -65,9 +65,9 @@ const HvDevelop = () => {
   }
 }
 
-const Container = styled.div`
+const Container = styled.main`
   width:100%;
-  min-height:100%;
+  min-height:calc(100vh - 52px);
   display:flex;
 `
 const Loading = styled.h1`
