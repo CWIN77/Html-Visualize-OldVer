@@ -14,6 +14,7 @@ const ShareCompList = ({ user }: { user: IUser | null }) => {
   const iconStyles = { width: 28, height: 28, fill: "#676767" };
   const [hvList, setHvList] = useState<IHvData[] | null>(JSON.parse(sessionStorage.getItem("hvList") || JSON.stringify(null)));
   const navigate = useNavigate();
+  const [zoom, setZoom] = useState(0);
 
   const getRandomId = () => {
     const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
@@ -67,31 +68,24 @@ const ShareCompList = ({ user }: { user: IUser | null }) => {
       } else alert("로그인이 되어있지 않습니다.");
     }
   }
+  const changeHvListZoom = () => {
+    hvList?.forEach((hv) => {
+      const width = document.getElementById(hv.id + "cont")?.offsetWidth;
+      const preview = document.getElementById(String(hv.id));
+      if (preview && width) {
+        const scale = width / 360 / 3.3;
+        preview.style.transform = `scale(${scale})`;
+      }
+    });
+  }
 
   useEffect(() => {
     getHvDataList();
   }, [user])
 
   useEffect(() => {
-    hvList?.forEach((hv) => {
-      const width = document.getElementById(hv.id + "cont")?.offsetWidth;
-      const preview = document.getElementById(String(hv.id));
-      if (preview && width) {
-        const scale = width / 360 / 3.3;
-        preview.style.transform = `scale(${scale},${scale})`;
-        preview.style.display = "flex";
-      }
-    });
-    window.addEventListener("resize", () => {
-      hvList?.forEach((hv) => {
-        const width = document.getElementById(hv.id + "cont")?.offsetWidth;
-        const preview = document.getElementById(String(hv.id));
-        if (preview && width) {
-          const scale = width / 360 / 3.3;
-          preview.style.transform = `scale(${scale},${scale})`;
-        }
-      });
-    });
+    changeHvListZoom();
+    window.addEventListener("resize", changeHvListZoom);
   }, [hvList])
 
   function compare(a: IHvData, b: IHvData) {
@@ -216,7 +210,7 @@ const HvPreview = styled.div`
   z-index: 2;
   width:360px;
   height:720px;
-  display: none;
+  transform: scale(0.2);
   &::-webkit-scrollbar{
     width:8px;
     height:8px;
