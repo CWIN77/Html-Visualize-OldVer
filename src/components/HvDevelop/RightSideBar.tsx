@@ -48,7 +48,7 @@ const Container = styled.aside`
     display:none;
   }
 `
-const PageSelectBtn = styled.span`
+const PageSelectBtn = styled.section`
   display: flex;
   position: fixed;
   background-color: white;

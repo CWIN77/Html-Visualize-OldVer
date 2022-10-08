@@ -9,18 +9,18 @@ const LeftSideBar = ({ hvData }: { hvData: IHvData }) => {
   return (
     <Container id="leftSideBar">
       <PageSelectBtn>
-        <li style={{ opacity: sidePage === 0 ? "1" : "0.6" }}
+        <h1 style={{ opacity: sidePage === 0 ? "1" : "0.6" }}
           onClick={() => {
             setSidePage(0);
             document.getElementById("leftSideBar")?.scrollTo(0, 0);
           }}
-        >Comp</li>
-        <li style={{ opacity: sidePage === 1 ? "1" : "0.6" }}
+        >Comp</h1>
+        <h1 style={{ opacity: sidePage === 1 ? "1" : "0.6" }}
           onClick={() => {
             setSidePage(1);
             document.getElementById("leftSideBar")?.scrollTo(0, 0);
           }}
-        >Layer</li>
+        >Layer</h1>
       </PageSelectBtn>
       {sidePage === 0 && <CompSet hvData={hvData} />}
       {sidePage === 1 && <CompLayer hvData={hvData} />}
@@ -48,14 +48,14 @@ const Container = styled.aside`
     display: none;
   }
 `
-const PageSelectBtn = styled.ul`
+const PageSelectBtn = styled.section`
   display: flex;
   padding: 3px 10px;
   border-bottom: 1.5px solid rgba(54,54,54,0.25);
   position: fixed;
   width:calc(340px - 20px);
   background-color: white;
-  li{
+  h1{
     padding: 12px 10px;
     font-size: 13px;
     cursor: pointer;
