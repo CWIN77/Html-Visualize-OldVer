@@ -170,10 +170,6 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
   }
 
   useEffect(() => {
-    // window.onbeforeunload = () => {
-    //   return false;
-    // };
-
     const compHistory: string[] = JSON.parse(sessionStorage.getItem(hvId + "hstry") || JSON.stringify([]));
     if (compHistory.length > 0) {
       const viewElem = document.getElementById('view') as HTMLElement;
