@@ -54,6 +54,7 @@ const PageSelectBtn = styled.section`
   background-color: white;
   width:calc(320px - 20px);
   padding: 3px 10px;
+  z-index: 1;
   border-bottom: 1.5px solid rgba(54,54,54,0.25);
   h1{
     padding: 12px 10px;

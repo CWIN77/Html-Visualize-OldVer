@@ -294,7 +294,10 @@ const StyleSet = ({ hvData }: { hvData: IHvData }) => {
       </StyleContainer>
       {
         getSelectComp(hvId) && getSelectComp(hvId)?.id !== "view" &&
-        <DeleteComp><h1 onClick={deleteComp}>요소 삭제</h1></DeleteComp>
+        <>
+          <DeleteComp><h1 onClick={deleteComp}>요소 삭제</h1></DeleteComp>
+
+        </>
       }
     </>
   )
@@ -386,6 +389,7 @@ const DeleteComp = styled.div`
     padding: 10px 16px;
     border-radius: 4px;
     color:white;
+    cursor: pointer;
   }
 `
 

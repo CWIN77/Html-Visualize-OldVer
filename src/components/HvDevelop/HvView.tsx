@@ -8,6 +8,7 @@ import { IHvData } from '../../types';
 const HvView = ({ hvData }: { hvData: IHvData }) => {
   const hvId = useParams().id || JSON.parse(sessionStorage.getItem("hvId") || JSON.stringify(null));
 
+  const mousePos = { x: 0, y: 0 };
   let mouseoverComp = document.body;
   let dbClickComp = document.body;
 
@@ -123,11 +124,10 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
   const viewMouseoverEvent = (e: MouseEvent) => {
     const target = e.target as HTMLElement;
     const selectComp = getSelectComp(hvId);
-
-    if (target !== selectComp && dbClickComp === document.body) {
-      if (mouseoverComp && mouseoverComp !== selectComp) {
-        mouseoverComp.style.boxShadow = "";
-      }
+    if (target === selectComp) {
+      mouseoverComp.style.boxShadow = "";
+    } else if (target !== selectComp && dbClickComp === document.body) {
+      if (mouseoverComp !== selectComp) mouseoverComp.style.boxShadow = "";
       target.style.boxShadow = "inset 0px 0px 0px 2.5px #8bccfb";
       mouseoverComp = target;
     }
@@ -137,6 +137,7 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
     if (target !== dbClickComp) {
       dbClickComp.contentEditable = "false";
       dbClickComp = document.body;
+      mouseoverComp.style.boxShadow = "";
       setSelectComp(hvId, target.className);
     }
   }
@@ -187,53 +188,34 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
     const isSetEvent: boolean | null = JSON.parse(sessionStorage.getItem("isSetEvent") || JSON.stringify(null));
     if (!isSetEvent) {
       const bodyElem = document.body;
-
       bodyElem.addEventListener('keyup', undoEvent);
       bodyElem.addEventListener('keyup', redoEvent);
       bodyElem.addEventListener("keyup", copyEvent);
       bodyElem.addEventListener('keyup', deleteEvent);
       bodyElem.addEventListener('keydown', saveEvent);
       bodyElem.addEventListener('click', stopAnchorEvent);
-
       sessionStorage.setItem("isSetEvent", JSON.stringify(true));
     }
 
     const viewElem = document.getElementById('view') as HTMLElement;
     const viewBgElem = document.getElementById('viewBackground') as HTMLElement;
-
     viewElem.addEventListener("dblclick", textEditEvent);
     viewElem.addEventListener("mouseover", viewMouseoverEvent);
     viewElem.addEventListener("click", viewClickEvent);
     viewBgElem.addEventListener("click", viewBgClickEvent);
     viewBgElem.addEventListener("mouseover", viewBgMouseoverEvent);
-    // viewElem.addEventListener('contextmenu', function (e) {
-    //   e.preventDefault();
-    //   alert('success!');
-    //   return false;
-    // }, false);
   }, [hvData])
 
   return (
-    <>
-      <ViewContainer id="viewContainer">
-        <ViewBox id="viewBox">
-          <div className="App" style={{ width: "100%", height: "100%", overflow: "auto", display: "block", backgroundColor: "white" }} id='view' />
-        </ViewBox>
-        <ViewBackground id="viewBackground" />
-      </ViewContainer>
-      {/* <RightClickMenu>
-        sss
-      </RightClickMenu> */}
-    </>
+    <ViewContainer id="viewContainer">
+      <ViewBox id="viewBox">
+        <div className="App" style={{ width: "100%", height: "100%", overflow: "auto", display: "block", backgroundColor: "white" }} id='view' />
+      </ViewBox>
+      <ViewBackground id="viewBackground" />
+    </ViewContainer>
   )
 }
 
-const RightClickMenu = styled.article`
-  width:100px;
-  height:100px;
-  background-color: red;
-  z-index: 10;
-`
 const ViewBox = styled.div`
   width:360px;
   height:720px;
