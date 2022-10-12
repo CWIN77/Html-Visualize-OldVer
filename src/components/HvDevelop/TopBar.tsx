@@ -214,7 +214,7 @@ const Container = styled.header`
     display:flex;
     align-items: center;
   }
-`
+`//
 const ZoomContainer = styled.section`
   display:flex;
   align-items: center;
