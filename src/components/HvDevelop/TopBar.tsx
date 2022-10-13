@@ -6,6 +6,7 @@ import { ReactComponent as SvgRectangleFill } from '../../icons/rectangle_fill.s
 import { ReactComponent as SvgDesktop } from '../../icons/desktop.svg';
 import { ReactComponent as SvgPhone } from '../../icons/phone.svg';
 import { ReactComponent as SvgTrash } from '../../icons/trash.svg';
+import { ReactComponent as SvgWifiOff } from "../../icons/wifiOff.svg";
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { IHvData } from '../../types';
@@ -22,6 +23,7 @@ const TopBar = ({ hvData }: { hvData: IHvData }) => {
   const deviceIcon = { width: 24, height: 24, style: { padding: 8, marginLeft: 2, cursor: "pointer" } };
   let zoom = 1;
   const navigate = useNavigate();
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
 
   const zoomEvent = (e: WheelEvent | Event) => {
     const viewBox = document.getElementById("viewBox") as HTMLInputElement;
@@ -49,6 +51,9 @@ const TopBar = ({ hvData }: { hvData: IHvData }) => {
   }
 
   useEffect(() => {
+    window.addEventListener('online', () => { setIsOnline(true) });
+    window.addEventListener('offline', () => { setIsOnline(false) });
+
     const viewBg = document.getElementById("viewBackground") as HTMLElement;
     const viewBox = document.getElementById("viewBox");
     const zommInput = document.getElementById("zoom") as HTMLInputElement | null;
@@ -116,22 +121,16 @@ const TopBar = ({ hvData }: { hvData: IHvData }) => {
   }
 
   const changeHvTitle = () => {
+    if (!navigator.onLine) return;
     const user = getCurrentUser();
     if (user && user.id === hvData.author) {
-      const result = API.graphql({
+      API.graphql({
         query: updateHvData,
         variables: {
           input: {
             id: hvData.id,
             title: hvTitle
           }
-        }
-      }) as any;
-      result.then(({ data }: { data: { updateHvData: IHvData } }) => {
-        if (data && data.updateHvData) {
-          console.log("HV 업데이트 성공");
-        } else {
-          console.error("HV 업데이트 실패");
         }
       });
     } else {
@@ -142,6 +141,10 @@ const TopBar = ({ hvData }: { hvData: IHvData }) => {
   const deleteHv = () => {
     if (window.confirm("프로젝트를 제거 하겠습니까?\n한번 제거한 프로젝트는 되돌리지 못합니다.")) {
       const user = getCurrentUser();
+      if (!navigator.onLine) {
+        alert("오프라인 상태입니다.");
+        return;
+      };
       if (user && user.id === hvData.author) {
         const result = API.graphql({
           query: deleteHvData,
@@ -191,6 +194,13 @@ const TopBar = ({ hvData }: { hvData: IHvData }) => {
         <ZoomInput type={"text"} id="zoom" />
       </ZoomContainer>
       <Settings>
+        {
+          !isOnline &&
+          <Offline>
+            <SvgWifiOff fill="white" width={22} height={22} style={{ margin: "0px 12px", cursor: "pointer" }} />
+            <h1>오프라인</h1>
+          </Offline>
+        }
         <SvgTrash width={22} height={22} fill={"rgb(238, 238, 238)"} style={{ padding: 12, marginLeft: 4, cursor: "pointer" }} onClick={deleteHv} />
         <SvgFullScreen width={22} height={24} fill={"rgb(238, 238, 238)"} style={{ padding: 12, marginLeft: 4, backgroundColor: isFull ? "#424242" : "initial", cursor: "pointer" }} onClick={() => {
           if (isFull) document.exitFullscreen();
@@ -202,6 +212,15 @@ const TopBar = ({ hvData }: { hvData: IHvData }) => {
   )
 }
 
+const Offline = styled.span`
+  display:flex;
+  align-items: center;
+  margin: 0px 24px;
+  h1{
+    color:white;
+    font-size: 14px;
+  }
+`
 const Container = styled.header`
   width:calc(100vw - 10px);
   height:52px;

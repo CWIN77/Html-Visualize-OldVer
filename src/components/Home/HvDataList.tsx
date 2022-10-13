@@ -47,6 +47,10 @@ const HvDataList = ({ user }: { user: IUser | null }) => {
   const tempHtml = `<div class=\"App\" style=\"width: 100%; height: 100%; overflow: auto; display: block; background-color: white;\" id=\"view\"></div>`;
   const addHv = async () => {
     if (window.confirm("새 프로젝트를 생성 하시겠습니까?")) {
+      if (!navigator.onLine) {
+        alert("오프라인 상태입니다.");
+        return;
+      };
       const user = getCurrentUser();
       if (user) {
         const result = await API.graphql({

@@ -5,6 +5,10 @@ import { createUser, updateUser } from '../graphql/mutations';
 import { getUser } from '../graphql/queries';
 
 export const loginGoogle = (): void => {
+  if (!navigator.onLine) {
+    alert("오프라인 상태입니다.");
+    return;
+  };
   firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
     .then(() => {
       const provider = new firebase.auth.GoogleAuthProvider();
@@ -57,6 +61,10 @@ export const loginGoogle = (): void => {
 
 export const logout = (): void => {
   if (window.confirm('로그아웃 하겠습니까?')) {
+    if (!navigator.onLine) {
+      alert("오프라인 상태입니다.");
+      return;
+    };
     firebase.auth().signOut().then(() => {
       localStorage.removeItem('user');
       sessionStorage.clear();

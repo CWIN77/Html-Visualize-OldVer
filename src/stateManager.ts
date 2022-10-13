@@ -12,6 +12,7 @@ export const useStore = create(() => ({ isSelectChange, hvResult, isChangeHv }))
 
 let onDelay = false;
 export const changeHvStorage = async (hvData: IHvData, newHvList?: String[]) => {
+  if (!navigator.onLine) return;
   const user = getCurrentUser();
   if (document.getElementById("view")?.outerHTML !== undefined && user) {
     const sHistory: string[] = JSON.parse(sessionStorage.getItem(hvData.id + "hstry") || JSON.stringify([]));

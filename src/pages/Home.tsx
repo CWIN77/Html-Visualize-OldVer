@@ -6,6 +6,7 @@ import { ReactComponent as SvgApps } from "../icons/apps.svg";
 import { ReactComponent as SvgFriends } from "../icons/friends.svg";
 import { ReactComponent as SvgCommunity } from "../icons/community.svg";
 import { ReactComponent as SvgProfile } from "../icons/profile.svg";
+import { ReactComponent as SvgWifiOff } from "../icons/wifiOff.svg";
 import { getCurrentUser, loginGoogle, logout } from '../firebase/auth';
 import { IUser } from '../types';
 import { Link, useLocation } from 'react-router-dom';
@@ -15,10 +16,13 @@ const Home = () => {
   const [user, setUser] = useState<IUser | null>(null);
   const iconStyle = { width: 22, height: 22, fill: "#363636" };
   const { pathname } = useLocation();
-
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
   useEffect(() => {
     const user = getCurrentUser();
     setUser(user);
+
+    window.addEventListener('online', () => { setIsOnline(true) });
+    window.addEventListener('offline', () => { setIsOnline(false) });
   }, [])
 
   return (
@@ -26,9 +30,14 @@ const Home = () => {
       <TopBar>
         <HvLogo><h2>H</h2><h1>TML</h1><h3>V</h3><h1>isualize</h1></HvLogo>
         {
-          user
-            ? <Profile onClick={logout} src={String(user.img)} />
-            : <SvgProfile width={30} height={30} style={{ margin: "0px 24px", cursor: "pointer" }} onClick={loginGoogle} />
+          !isOnline
+            ? <Offline>
+              <SvgWifiOff fill="white" width={24} height={24} style={{ margin: "0px 12px", cursor: "pointer" }} />
+              <h1>오프라인</h1>
+            </Offline>
+            : user
+              ? <Profile onClick={logout} src={String(user.img)} />
+              : <SvgProfile width={30} height={30} style={{ margin: "0px 24px", cursor: "pointer" }} onClick={loginGoogle} />
         }
       </TopBar>
       <main style={{ display: "flex" }}>
@@ -59,7 +68,15 @@ const Home = () => {
     </>
   )
 }
-
+const Offline = styled.span`
+  display:flex;
+  align-items: center;
+  margin: 0px 24px;
+  h1{
+    color:white;
+    font-size: 16px;
+  }
+`
 const LeftSideNavBar = styled.aside`
   height:calc(100vh - 52px - 10px);
   padding-top: 10px;
