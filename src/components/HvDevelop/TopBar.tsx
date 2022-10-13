@@ -31,11 +31,11 @@ const TopBar = ({ hvData }: { hvData: IHvData }) => {
     if (document.getElementById("zoomContainer")?.className.split(" ").at(-1) === "false") {
       const target = e.target as HTMLElement | HTMLInputElement;
       if (target.id && e instanceof WheelEvent) {
-        if (e.deltaY > 0) { // 스크롤 다운
+        if (e.deltaY > 0) {
           if (zoom > 0.05) {
             zoom -= 0.05;
           }
-        } else { // 스크롤 업
+        } else {
           if (zoom < 3) {
             zoom += 0.05;
           }

@@ -67,10 +67,6 @@ select {
     result?.styleList.forEach((t) => {
       styleCode += t + "\n";
     });
-    // let imports = "";
-    // result?.importArray.forEach((s) => {
-    //   imports += `import ${s.charAt(0).toUpperCase() + s.slice(1)} from "./${s.charAt(0).toUpperCase() + s.slice(1)}"\n`
-    // })
 
     const appCode = `${htmlComp}\n<style>\n${styleCode}</style>\n<style>${indexCss}\n</style>`;
 
@@ -128,9 +124,9 @@ select {
               makeHtmlCodeToCopy(comp);
               htmlComp += `\n${"  ".repeat(tabSize)}<${comp.tagName.toLowerCase()} />`
               importArray.push(comp.className);
-            } else { // 
+            } else {
               const value = getOriginHtml(comp, importArray); // 내부 컴포넌트 결과를 가져옴
-              if (value) { // 결과가 있으면 추가
+              if (value) {
                 styleList.push(...value.styleList);
                 htmlComp += value.htmlComp;
                 tabSize--;
@@ -216,9 +212,9 @@ select {
               makeReactCodeToCopy(comp);
               htmlComp += `\n    ${"  ".repeat(tabSize)}<${comp.className.charAt(0).toUpperCase() + comp.className.slice(1)} />`
               importArray.push(comp.className);
-            } else { // 
-              const value = getReactHtml(comp, importArray); // 내부 컴포넌트 결과를 가져옴
-              if (value) { // 결과가 있으면 추가
+            } else {
+              const value = getReactHtml(comp, importArray);
+              if (value) {
                 styleList.push(...value.styleList);
                 htmlComp += value.htmlComp;
                 tabSize--;
