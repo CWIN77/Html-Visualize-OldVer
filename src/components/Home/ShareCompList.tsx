@@ -14,7 +14,6 @@ const ShareCompList = ({ user }: { user: IUser | null }) => {
   const iconStyles = { width: 28, height: 28, fill: "#676767" };
   const [hvList, setHvList] = useState<IHvData[] | null>(JSON.parse(sessionStorage.getItem("hvList") || JSON.stringify(null)));
   const navigate = useNavigate();
-  const [zoom, setZoom] = useState(0);
 
   const getRandomId = () => {
     const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz';
