@@ -21,103 +21,90 @@ const TopBar = ({ hvData }: { hvData: IHvData }) => {
   const [hvTitle, setHvTitle] = useState(hvData.title);
   const rectangleIcon = { onClick: () => { setZoomLock(!zoomLock) }, width: 24, height: 24, fill: zoomLock ? "white" : "rgb(200, 200, 200)", style: { padding: 6, cursor: "pointer" } };
   const deviceIcon = { width: 24, height: 24, style: { padding: 8, marginLeft: 2, cursor: "pointer" } };
-  let zoom = 1;
   const navigate = useNavigate();
   const [isOnline, setIsOnline] = useState(navigator.onLine);
 
   const zoomEvent = (e: WheelEvent | Event) => {
     const viewBox = document.getElementById("viewBox") as HTMLInputElement;
     const zommInput = document.getElementById("zoom") as HTMLInputElement;
+    let zoom = Number(viewBox.style.transform.slice(6, 12));
     if (document.getElementById("zoomContainer")?.className.split(" ").at(-1) === "false") {
       const target = e.target as HTMLElement | HTMLInputElement;
       if (target.id && e instanceof WheelEvent) {
-        if (e.deltaY > 0) {
-          if (zoom > 0.05) {
-            zoom -= 0.05;
-          }
-        } else {
-          if (zoom < 3) {
-            zoom += 0.05;
-          }
-        }
-      } else {
-        if (target instanceof HTMLInputElement) {
-          zoom = Number(target.value) / 100;
-        }
-      }
-      viewBox.style.transform = `scale(${zoom}, ${zoom})`;
+        if (e.deltaY > 0) { if (zoom > 0.05) zoom -= 0.05; }
+        else { if (zoom < 3) zoom += 0.05; }
+      } else { if (target instanceof HTMLInputElement) zoom = Number(target.value) / 100; }
+      viewBox.style.transform = `scale(${zoom})`;
     }
     zommInput.value = String(Math.floor(zoom * 100));
+  }
+
+  const changeZoom = (zoomSetter?: NodeJS.Timer) => {
+    const viewBg = document.getElementById("viewBackground");
+    const viewBox = document.getElementById("viewBox");
+    const zommInput = document.getElementById("zoom") as HTMLInputElement | null;
+    const viewContainerElem = document.getElementById("viewContainer");
+    if (viewBg && viewBox && zommInput && viewContainerElem) {
+      let zoom = Number(viewBox.style.transform.slice(6, 12));
+      if (device === "phone") {
+        zoom = viewBg.offsetHeight * 0.9 / 720;
+      } else if (device === "desktop") {
+        zoom = viewBg.offsetWidth * 0.9 / 1395;
+      }
+      viewBox.style.transform = `scale(${zoom})`;
+      zommInput.value = String(Math.floor(zoom * 100));
+      zommInput.addEventListener("change", zoomEvent);
+      viewContainerElem.addEventListener('wheel', zoomEvent);
+      if (zoomSetter) clearInterval(zoomSetter);
+    }
   }
 
   useEffect(() => {
     window.addEventListener('online', () => { setIsOnline(true) });
     window.addEventListener('offline', () => { setIsOnline(false) });
 
-    const viewBg = document.getElementById("viewBackground") as HTMLElement;
+    const viewBg = document.getElementById("viewBackground");
     const viewBox = document.getElementById("viewBox");
     const zommInput = document.getElementById("zoom") as HTMLInputElement | null;
     const viewContainerElem = document.getElementById("viewContainer");
     if (!(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))) {
       if (viewBg && viewBox && zommInput && viewContainerElem) {
-        if (device === "phone") {
-          zoom = viewBg.offsetHeight * 0.9 / 720;
-        } else if (device === "desktop") {
-          zoom = viewBg.offsetWidth * 0.9 / 1395;
-        }
-        viewBox.style.transform = `scale(${zoom}, ${zoom})`;
-        zommInput.value = String(Math.floor(zoom * 100));
-        zommInput.addEventListener("change", zoomEvent);
-        viewContainerElem.addEventListener('wheel', zoomEvent);
+        changeZoom();
       } else {
-        const zoomSetter = setInterval(() => {
-          const viewBg = document.getElementById("viewBackground") as HTMLElement;
-          const viewBox = document.getElementById("viewBox");
-          const zommInput = document.getElementById("zoom") as HTMLInputElement | null;
-          const viewContainerElem = document.getElementById("viewContainer");
-          if (viewBg && viewBox && zommInput && viewContainerElem) {
-            if (device === "phone") {
-              zoom = viewBg.offsetHeight * 0.9 / 720;
-            } else if (device === "desktop") {
-              zoom = viewBg.offsetWidth * 0.9 / 1395;
-            }
-            viewBox.style.transform = `scale(${zoom}, ${zoom})`;
-            zommInput.value = String(Math.floor(zoom * 100));
-            zommInput.addEventListener("change", zoomEvent);
-            viewContainerElem.addEventListener('wheel', zoomEvent);
-            clearInterval(zoomSetter);
-          }
-        }, 100)
+        const zoomSetter = setInterval(() => { changeZoom(zoomSetter); }, 100);
       }
     } else if (viewBox && zommInput) {
-      viewBox.style.transform = `scale(0.7, 0.7)`;
+      viewBox.style.transform = "scale(0.7)";
       zommInput.value = String(Math.floor(0.7 * 100));
     }
   }, [])
 
   const changeDevice = (type: string) => {
-    const viewBg = document.getElementById("viewBackground") as HTMLElement;
-    const zommInput = document.getElementById("zoom") as HTMLInputElement;
-    const viewBox = document.getElementById("viewBox") as HTMLElement;
-    const viewContainerElem = document.getElementById("viewContainer") as HTMLElement;
-    if (type === "desktop") {
-      setDevice("desktop");
-      viewBox.style.width = "1395px";
-      viewBox.style.height = "992px";
-      zoom = viewBg.offsetWidth * 0.9 / 1395;
-      viewBox.style.transform = `scale(${zoom}, ${zoom})`;
-    } else if (type === "phone") {
-      setDevice("phone");
-      viewBox.style.width = "360px";
-      viewBox.style.height = "720px";
-      zoom = viewBg.offsetHeight * 0.9 / 720;
-      viewBox.style.transform = `scale(${zoom}, ${zoom})`;
+    const viewBg = document.getElementById("viewBackground");
+    const zommInput = document.getElementById("zoom") as HTMLInputElement | null;
+    const viewBox = document.getElementById("viewBox");
+    const viewContainerElem = document.getElementById("viewContainer");
+    if (viewBg && zommInput && viewBox && viewContainerElem) {
+      let zoom = Number(viewBox.style.transform.slice(6, 12));
+      if (type === "desktop") {
+        setDevice("desktop");
+        viewBox.style.width = "1395px";
+        viewBox.style.height = "992px";
+        zoom = viewBg.offsetWidth * 0.9 / 1395;
+        viewBox.style.transform = `scale(${zoom})`;
+      } else if (type === "phone") {
+        setDevice("phone");
+        viewBox.style.width = "360px";
+        viewBox.style.height = "720px";
+        zoom = viewBg.offsetHeight * 0.9 / 720;
+        viewBox.style.transform = `scale(${zoom})`;
+      }
+      zommInput.value = String(Math.floor(zoom * 100));
+      zommInput.removeEventListener("change", zoomEvent);
+      viewContainerElem.removeEventListener('wheel', zoomEvent);
+      viewContainerElem.addEventListener('wheel', zoomEvent);
+      zommInput.addEventListener("change", zoomEvent);
     }
-    zommInput.value = String(Math.floor(zoom * 100));
-    zommInput.removeEventListener("change", zoomEvent);
-    viewContainerElem.removeEventListener('wheel', zoomEvent);
-    viewContainerElem.addEventListener('wheel', zoomEvent);
-    zommInput.addEventListener("change", zoomEvent);
   }
 
   const changeHvTitle = () => {

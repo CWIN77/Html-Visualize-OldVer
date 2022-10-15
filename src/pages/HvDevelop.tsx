@@ -33,6 +33,7 @@ const HvDevelop = () => {
 
   useEffect(() => {
     sessionStorage.removeItem(hvId + "selectComp");
+    sessionStorage.setItem("hvId", JSON.stringify(hvId));
     if (hvData === null || hvData === "loading") {
       getHvDataFromAmplify();
     }

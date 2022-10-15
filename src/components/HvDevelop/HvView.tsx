@@ -6,8 +6,6 @@ import { useParams } from "react-router-dom";
 import { IHvData } from '../../types';
 
 const HvView = ({ hvData }: { hvData: IHvData }) => {
-  const hvId = useParams().id || JSON.parse(sessionStorage.getItem("hvId") || JSON.stringify(null));
-
   const mousePos = { x: 0, y: 0 };
   let mouseoverComp = document.body;
   let dbClickComp = document.body;
@@ -23,6 +21,7 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
   }
 
   const undoEvent = (e: KeyboardEvent) => {
+    const hvId = JSON.parse(sessionStorage.getItem("hvId") || JSON.stringify(null));
     if (e.key === 'z' && e.ctrlKey) {
       const compHistory: string[] = JSON.parse(sessionStorage.getItem(hvId + "hstry") || JSON.stringify([]));
       const undoHistory: string[] = JSON.parse(sessionStorage.getItem(hvId + "undo") || JSON.stringify([]));
@@ -44,6 +43,7 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
     }
   }
   const redoEvent = (e: KeyboardEvent) => {
+    const hvId = JSON.parse(sessionStorage.getItem("hvId") || JSON.stringify(null));
     if (e.key === 'Z' && e.ctrlKey && e.shiftKey) {
       const compHistory: string[] = JSON.parse(sessionStorage.getItem(hvId + "hstry") || JSON.stringify([]));
       const undoHistory: string[] = JSON.parse(sessionStorage.getItem(hvId + "undo") || JSON.stringify([]));
@@ -91,6 +91,7 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
     }
   }
   const copyEvent = (e: KeyboardEvent) => {
+    const hvId = JSON.parse(sessionStorage.getItem("hvId") || JSON.stringify(null));
     const selectComp = getSelectComp(hvId);
     if (selectComp) {
       if (e.key === 'c' && e.ctrlKey && selectComp.id !== "view") {
@@ -113,6 +114,7 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
     }
   }
   const deleteEvent = (e: KeyboardEvent) => {
+    const hvId = JSON.parse(sessionStorage.getItem("hvId") || JSON.stringify(null));
     const selectComp = getSelectComp(hvId);
     if (dbClickComp === document.body && e.key === "Delete" && selectComp && selectComp.id !== "view") {
       selectComp.remove();
@@ -122,6 +124,7 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
     }
   }
   const viewMouseoverEvent = (e: MouseEvent) => {
+    const hvId = JSON.parse(sessionStorage.getItem("hvId") || JSON.stringify(null));
     const target = e.target as HTMLElement;
     const selectComp = getSelectComp(hvId);
     if (target === selectComp) {
@@ -133,6 +136,7 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
     }
   }
   const viewClickEvent = (e: MouseEvent) => {
+    const hvId = JSON.parse(sessionStorage.getItem("hvId") || JSON.stringify(null));
     const target = e.target as HTMLElement;
     if (target !== dbClickComp) {
       dbClickComp.contentEditable = "false";
@@ -142,6 +146,7 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
     }
   }
   const viewBgClickEvent = (e: MouseEvent) => {
+    const hvId = JSON.parse(sessionStorage.getItem("hvId") || JSON.stringify(null));
     const selectComp = getSelectComp(hvId);
     if (e.target !== dbClickComp && selectComp) {
       dbClickComp.contentEditable = "false";
@@ -153,6 +158,7 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
     }
   }
   const viewBgMouseoverEvent = () => {
+    const hvId = JSON.parse(sessionStorage.getItem("hvId") || JSON.stringify(null));
     const selectComp = getSelectComp(hvId);
     if (mouseoverComp && mouseoverComp !== selectComp) {
       mouseoverComp.style.boxShadow = "";
@@ -171,6 +177,7 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
   }
 
   useEffect(() => {
+    const hvId = JSON.parse(sessionStorage.getItem("hvId") || JSON.stringify(null));
     const compHistory: string[] = JSON.parse(sessionStorage.getItem(hvId + "hstry") || JSON.stringify([]));
     if (compHistory.length > 0) {
       const viewElem = document.getElementById('view') as HTMLElement;
@@ -186,17 +193,16 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
     }
 
     const isSetEvent: boolean | null = JSON.parse(sessionStorage.getItem("isSetEvent") || JSON.stringify(null));
+    const bodyElem = document.body;
     if (!isSetEvent) {
-      const bodyElem = document.body;
       bodyElem.addEventListener('keyup', undoEvent);
       bodyElem.addEventListener('keyup', redoEvent);
       bodyElem.addEventListener("keyup", copyEvent);
-      bodyElem.addEventListener('keyup', deleteEvent);
       bodyElem.addEventListener('keydown', saveEvent);
       bodyElem.addEventListener('click', stopAnchorEvent);
       sessionStorage.setItem("isSetEvent", JSON.stringify(true));
     }
-
+    bodyElem.addEventListener('keyup', deleteEvent);
     const viewElem = document.getElementById('view') as HTMLElement;
     const viewBgElem = document.getElementById('viewBackground') as HTMLElement;
     viewElem.addEventListener("dblclick", textEditEvent);
