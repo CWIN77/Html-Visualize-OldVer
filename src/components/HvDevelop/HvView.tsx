@@ -2,11 +2,9 @@ import { useEffect } from 'react';
 import styled from 'styled-components';
 import { ableInsert, compData, dbClickAble } from '../../addableComps/compData';
 import { useStore, changeHvStorage, getSelectComp, setSelectComp } from '../../stateManager';
-import { useParams } from "react-router-dom";
 import { IHvData } from '../../types';
 
 const HvView = ({ hvData }: { hvData: IHvData }) => {
-  const mousePos = { x: 0, y: 0 };
   let mouseoverComp = document.body;
   let dbClickComp = document.body;
 
