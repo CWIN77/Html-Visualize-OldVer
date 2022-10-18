@@ -173,23 +173,21 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
       e.preventDefault();
     }
   }
-
-  useEffect(() => {
+  const addHvHtml = () => {
     const hvId = JSON.parse(sessionStorage.getItem("hvId") || JSON.stringify(null));
     const compHistory: string[] = JSON.parse(sessionStorage.getItem(hvId + "hstry") || JSON.stringify([]));
+    const viewElem = document.getElementById('view') as HTMLElement;
+    const parentElem = viewElem.parentElement as HTMLElement;
     if (compHistory.length > 0) {
-      const viewElem = document.getElementById('view') as HTMLElement;
-      const parentElem = viewElem.parentElement as HTMLElement;
       viewElem.remove();
       parentElem.insertAdjacentHTML('beforeend', compHistory[compHistory.length - 1]);
     } else if (hvData.html) {
-      const viewElem = document.getElementById('view') as HTMLElement;
-      const parentElem = viewElem.parentElement as HTMLElement;
       viewElem.remove();
       parentElem.insertAdjacentHTML('beforeend', String(hvData.html));
       sessionStorage.setItem(hvId + "hstry", JSON.stringify([hvData.html]));
     }
-
+  }
+  const addHvEvent = () => {
     const isSetEvent: boolean | null = JSON.parse(sessionStorage.getItem("isSetEvent") || JSON.stringify(null));
     const bodyElem = document.body;
     if (!isSetEvent) {
@@ -208,6 +206,11 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
     viewElem.addEventListener("click", viewClickEvent);
     viewBgElem.addEventListener("click", viewBgClickEvent);
     viewBgElem.addEventListener("mouseover", viewBgMouseoverEvent);
+  }
+
+  useEffect(() => {
+    addHvHtml();
+    addHvEvent();
   }, [hvData])
 
   return (
