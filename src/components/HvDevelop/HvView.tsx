@@ -211,7 +211,7 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
   useEffect(() => {
     addHvHtml();
     addHvEvent();
-  }, [hvData])
+  }, [hvData]);
 
   return (
     <ViewContainer id="viewContainer">

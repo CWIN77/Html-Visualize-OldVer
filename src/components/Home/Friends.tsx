@@ -4,7 +4,7 @@ const leftBarSize = "233px";
 const Friends = () => {
   return (
     <Container>
-      Friends
+
     </Container>
   )
 }

@@ -91,39 +91,9 @@ const ShareCompList = ({ user }: { user: IUser | null }) => {
     window.addEventListener("resize", changeHvListZoom);
   }, [hvList])
 
-  function compare(a: IHvData, b: IHvData) {
-    if (a.updatedAt < b.updatedAt) return 1;
-    if (a.updatedAt > b.updatedAt) return -1;
-    return 0;
-  }
-
   return (
     <Container>
-      {
-        user
-          ? <Develop num={"1"} onClick={() => { addHv() }}>
-            <HvPreviewContainer><SvgPlus {...iconStyles} /></HvPreviewContainer>
-            <DevelopTitle>Make New HV!</DevelopTitle>
-          </Develop>
-          : <Login>
-            <SvgGoogleIcon onClick={loginGoogle} />
-            <h1 onClick={loginGoogle}>Login Google</h1>
-          </Login>
-      }
-      {
-        user && hvList && hvList.sort(compare).map((data, key) => {
-          return (
-            <Develop key={key} num={String(key % 2)}>
-              <Link to={`/hv/${data.id}`}>
-                <HvPreviewContainer id={data.id + "cont"}>
-                  <HvPreview id={String(data.id)} dangerouslySetInnerHTML={{ __html: String(data.html) }} />
-                </HvPreviewContainer>
-                <DevelopTitle>{data.title}</DevelopTitle>
-              </Link>
-            </Develop>
-          )
-        })
-      }
+
     </Container>
   )
 }
@@ -139,98 +109,6 @@ const Container = styled.div`
   margin-left: ${leftBarSize};
   @media screen and (max-width: 600px) {
     margin-left: 70px;
-  }
-`
-const Login = styled.div`
-  display:flex;
-  align-items: center;
-  justify-content: center;
-  height:calc(100vh - 52px - 24px);
-  width: calc(100vw - ${leftBarSize});
-  @media screen and (max-width: 600px) {
-    width: calc(100vw - 70px);
-  }
-  h1{
-    cursor: pointer;
-    font-size: 20px;
-    margin-left: 12px;
-    @media screen and (max-width: 600px) {
-      font-size: 16px;
-    }
-  }
-  svg{
-    cursor: pointer;
-    width:36px;
-    height:36px;
-    @media screen and (max-width: 600px) {
-      width:28px;
-      height:28px;
-    }
-  }
-`
-const HvPreviewContainer = styled.div`
-  display:flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #ededed;
-  width:calc(((100vw - ${leftBarSize}) / 2) - 42px);
-  height:calc((((100vw - ${leftBarSize}) / 2) - 42px) / 3 * 2);
-  @media screen and (min-width: 1600px) {
-    width:calc(((100vw - ${leftBarSize}) / 3) - 38px);
-    height:calc((((100vw - ${leftBarSize}) / 3) - 38px) / 3 * 2);
-  }
-  @media screen and (max-width: 900px) {
-    width:calc(((100vw - ${leftBarSize}) / 1) - 58px);
-    height:calc((((100vw - ${leftBarSize}) / 1) - 58px) / 3 * 2);
-  }
-  @media screen and (max-width: 600px) {
-    width:calc(((100vw - 70px) / 1) - 58px);
-    height:calc(((100vw - 70px / 1) - 58px) / 3 * 2);
-  }
-`
-const Develop = styled.div<{ num: string }>` // 0은 오른쪽 1은 왼쪽
-  margin: 28px;
-  margin-right: 0px;
-  margin-bottom: 6px;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  outline: 2px solid #dadada;
-  border-radius: 8px;
-`
-const DevelopTitle = styled.h1`
-  background-color: #fafafa;
-  color:black;
-  font-size: 14px;
-  height:20px;
-  padding:10px 16px;
-  display:flex;
-  align-items: center;
-`
-const HvPreview = styled.div`
-  position: absolute;
-  border-radius: 8px;
-  z-index: 2;
-  width:360px;
-  height:720px;
-  transform: scale(0.2);
-  &::-webkit-scrollbar{
-    width:8px;
-    height:8px;
-    background-color: initial;
-  }
-  &::-webkit-scrollbar-thumb{
-    background-color: rgba(54,54,54,0.4);
-  }
-  div{
-    &::-webkit-scrollbar{
-    width:8px;
-    height:8px;
-    background-color: initial;
-    }
-    &::-webkit-scrollbar-thumb{
-      background-color: rgba(54,54,54,0.4);
-    }
   }
 `
 
