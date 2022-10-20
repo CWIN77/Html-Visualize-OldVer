@@ -70,13 +70,13 @@ export const getShareComp = /* GraphQL */ `
     }
   }
 `;
-export const listShareComp = /* GraphQL */ `
-  query ListShareComp(
+export const listShareComps = /* GraphQL */ `
+  query listShareComps(
     $filter: ModelShareCompFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listShareComp(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listShareComps(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
         html

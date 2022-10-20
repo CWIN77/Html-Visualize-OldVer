@@ -11,7 +11,6 @@ import { getCurrentUser, loginGoogle } from '../../firebase/auth';
 const leftBarSize = "233px";
 
 const HvDataList = ({ user }: { user: IUser | null }) => {
-  const iconStyles = { width: 28, height: 28, fill: "#676767" };
   const [hvList, setHvList] = useState<IHvData[] | null>(JSON.parse(sessionStorage.getItem("hvList") || JSON.stringify(null)));
   const navigate = useNavigate();
   const [scale, setScale] = useState<number | null>(Number(JSON.parse(sessionStorage.getItem("listScale") || JSON.stringify(null))));
@@ -36,12 +35,14 @@ const HvDataList = ({ user }: { user: IUser | null }) => {
         }
       }) as { data: { listHvData: { items: IHvData[] } } };
       const result = data.listHvData.items;
-      result.forEach((hv) => {
-        hv.html = String(hv.html.replace(/\\/g, "").replace(/<br>/g, "")).replace(/contenteditable="true"/g, "");
-        sessionStorage.setItem(String(hv.id), JSON.stringify(hv));
-      });
-      setHvList(result);
-      sessionStorage.setItem("hvList", JSON.stringify(result));
+      if (result) {
+        result.forEach((hv) => {
+          hv.html = String(hv.html.replace(/\\/g, "").replace(/<br>/g, "")).replace(/contenteditable="true"/g, "");
+          sessionStorage.setItem(String(hv.id), JSON.stringify(hv));
+        });
+        setHvList(result);
+        sessionStorage.setItem("hvList", JSON.stringify(result));
+      } else setHvList(null);
     } else setHvList(null);
   }
   const tempHtml = `<div class=\"App\" style=\"width: 100%; height: 100%; overflow: auto; display: block; background-color: white;\" id=\"view\"></div>`;
@@ -116,7 +117,7 @@ const HvDataList = ({ user }: { user: IUser | null }) => {
       {
         user
           ? <Develop num={"1"} onClick={() => { addHv() }} >
-            <HvPreviewContainer id="dev1"><SvgPlus {...iconStyles} /></HvPreviewContainer>
+            <HvPreviewContainer id="dev1"><SvgPlus width="28" height="28" fill="#676767" /></HvPreviewContainer>
             <DevelopTitle>Make New HV!</DevelopTitle>
           </Develop>
           : <Login>

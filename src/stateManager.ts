@@ -14,7 +14,7 @@ let onDelay = false;
 export const changeHvStorage = async (hvData: IHvData, newHvList?: String[]) => {
   if (!navigator.onLine) return;
   const user = getCurrentUser();
-  if (document.getElementById("view")?.outerHTML !== undefined && user) {
+  if (document.getElementById("view")?.outerHTML !== undefined && user && hvData.id) {
     const sHistory: string[] = JSON.parse(sessionStorage.getItem(hvData.id + "hstry") || JSON.stringify([]));
     const html = newHvList ? newHvList[newHvList.length - 1] : (document.getElementById("view")?.outerHTML as string)
       .replace("box-shadow: rgb(13, 153, 255) 0px 0px 0px 2.5px inset;", "")

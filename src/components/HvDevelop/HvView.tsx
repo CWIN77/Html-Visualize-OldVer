@@ -20,7 +20,7 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
 
   const undoEvent = (e: KeyboardEvent) => {
     const hvId = JSON.parse(sessionStorage.getItem("hvId") || JSON.stringify(null));
-    if (e.key === 'z' && e.ctrlKey) {
+    if (e.key === 'z' && e.ctrlKey && hvId) {
       const compHistory: string[] = JSON.parse(sessionStorage.getItem(hvId + "hstry") || JSON.stringify([]));
       const undoHistory: string[] = JSON.parse(sessionStorage.getItem(hvId + "undo") || JSON.stringify([]));
       if (compHistory.length > 1) {
@@ -42,7 +42,7 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
   }
   const redoEvent = (e: KeyboardEvent) => {
     const hvId = JSON.parse(sessionStorage.getItem("hvId") || JSON.stringify(null));
-    if (e.key === 'Z' && e.ctrlKey && e.shiftKey) {
+    if (e.key === 'Z' && e.ctrlKey && e.shiftKey && hvId) {
       const compHistory: string[] = JSON.parse(sessionStorage.getItem(hvId + "hstry") || JSON.stringify([]));
       const undoHistory: string[] = JSON.parse(sessionStorage.getItem(hvId + "undo") || JSON.stringify([]));
       if (undoHistory.length > 0) {
@@ -140,6 +140,7 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
       dbClickComp.contentEditable = "false";
       dbClickComp = document.body;
       mouseoverComp.style.boxShadow = "";
+      console.log(target.outerHTML);
       setSelectComp(hvId, target.className);
     }
   }
@@ -175,16 +176,18 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
   }
   const addHvHtml = () => {
     const hvId = JSON.parse(sessionStorage.getItem("hvId") || JSON.stringify(null));
-    const compHistory: string[] = JSON.parse(sessionStorage.getItem(hvId + "hstry") || JSON.stringify([]));
-    const viewElem = document.getElementById('view') as HTMLElement;
-    const parentElem = viewElem.parentElement as HTMLElement;
-    if (compHistory.length > 0) {
-      viewElem.remove();
-      parentElem.insertAdjacentHTML('beforeend', compHistory[compHistory.length - 1]);
-    } else if (hvData.html) {
-      viewElem.remove();
-      parentElem.insertAdjacentHTML('beforeend', String(hvData.html));
-      sessionStorage.setItem(hvId + "hstry", JSON.stringify([hvData.html]));
+    if (hvId) {
+      const compHistory: string[] = JSON.parse(sessionStorage.getItem(hvId + "hstry") || JSON.stringify([]));
+      const viewElem = document.getElementById('view') as HTMLElement;
+      const parentElem = viewElem.parentElement as HTMLElement;
+      if (compHistory.length > 0) {
+        viewElem.remove();
+        parentElem.insertAdjacentHTML('beforeend', compHistory[compHistory.length - 1]);
+      } else if (hvData.html) {
+        viewElem.remove();
+        parentElem.insertAdjacentHTML('beforeend', String(hvData.html));
+        sessionStorage.setItem(hvId + "hstry", JSON.stringify([hvData.html]));
+      }
     }
   }
   const addHvEvent = () => {

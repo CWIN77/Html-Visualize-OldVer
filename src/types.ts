@@ -11,27 +11,27 @@ export type TAbleStyle = {
 }
 
 export interface IHvData {
-  id: String;
-  html: String;
-  author: String;
-  title: String;
-  updatedAt: String;
+  id: string;
+  html: string;
+  author: string;
+  title: string;
+  updatedAt: string;
 }
 
 export interface IUser {
-  img: String;
-  name: String;
-  id: String;
-  joinId: String;
+  img: string;
+  name: string;
+  id: string;
+  joinId: string;
 }
 
 export interface IShareComp {
-  id: String;
-  html: String;
-  author: String;
-  name: String;
-  descript: String;
-  like: String;
-  createdAt: String;
-  updatedAt: String;
+  id: string;
+  html: string;
+  author: string;
+  name: string;
+  descript: string;
+  like: string;
+  createdAt: string;
+  updatedAt: string;
 }
