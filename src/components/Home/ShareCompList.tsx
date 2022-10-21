@@ -25,30 +25,38 @@ const ShareCompList = ({ user }: { user: IUser | null }) => {
       } else setShareCompList(null);
     } else setShareCompList(null);
   }
+  const resizeListSize = () => {
+    shareCompList?.forEach((data) => {
+      const originComp = document.getElementById(data.id);
+      const childComp = originComp?.childNodes[0] as HTMLElement;
+      const contWidth = document.getElementById(data.id + "Cont")?.clientWidth;
+      const contHeight = document.getElementById(data.id + "Cont")?.clientHeight;
+      let scale = 1;
+      if (contHeight && contWidth && originComp) {
+        if (childComp.clientWidth / 3 * 2 >= childComp.clientHeight) {
+          scale = (contWidth / childComp.clientWidth) - (contWidth / childComp.clientWidth * 0.3);
+          if (scale > 2) scale = (scale / 4) + 1;
+        } else {
+          scale = (contHeight / childComp.clientHeight) - (contHeight / childComp.clientHeight * 0.3);
+          if (scale > 2) scale = (scale / 4) + 1;
+        }
+        originComp.style.transform = `scale(${scale})`;
+      }
+      const parentComp = document.getElementById(data.id + "Cont")?.parentNode as HTMLElement;
+      if (parentComp) {
+        parentComp.style.display = "flex";
+      }
+    })
+  }
 
   useEffect(() => {
     getShareComp();
   }, [])
 
   useEffect(() => {
+    resizeListSize();
     window.addEventListener("resize", () => {
-      shareCompList?.forEach((data) => {
-        const originComp = document.getElementById(data.id);
-        const childComp = originComp?.childNodes[0] as HTMLElement;
-        const contWidth = document.getElementById(data.id + "Cont")?.clientWidth;
-        const contHeight = document.getElementById(data.id + "Cont")?.clientHeight;
-        let scale = 1;
-        if (contHeight && contWidth && originComp) {
-          if (childComp.clientWidth / 3 * 2 >= childComp.clientHeight) {
-            scale = (contWidth / childComp.clientWidth) - (contWidth / childComp.clientWidth * 0.3);
-            if (scale > 2) scale = (scale / 4) + 1;
-          } else {
-            scale = (contHeight / childComp.clientHeight) - (contHeight / childComp.clientHeight * 0.3);
-            if (scale > 2) scale = (scale / 4) + 1;
-          }
-          originComp.style.transform = `scale(${scale})`;
-        }
-      })
+      resizeListSize();
     });
   }, [shareCompList]);
 
@@ -62,34 +70,14 @@ const ShareCompList = ({ user }: { user: IUser | null }) => {
         </Login>
       }
       {
-        user && shareCompList && shareCompList.map((data, key) => {
-          const originComp = document.getElementById(data.id);
-          const childComp = originComp?.childNodes[0] as HTMLElement;
-          const contWidth = document.getElementById(data.id + "Cont")?.clientWidth;
-          const contHeight = document.getElementById(data.id + "Cont")?.clientHeight;
-          let scale = 1;
-          if (contHeight && contWidth && originComp) {
-            if (childComp.clientWidth / 3 * 2 >= childComp.clientHeight) {
-              scale = (contWidth / childComp.clientWidth) - (contWidth / childComp.clientWidth * 0.3);
-              if (scale > 2) scale = (scale / 4) + 1;
-            } else {
-              scale = (contHeight / childComp.clientHeight) - (contHeight / childComp.clientHeight * 0.3);
-              if (scale > 2) scale = (scale / 4) + 1;
-            }
-          }
-          const parentComp = document.getElementById(data.id + "Cont")?.parentNode as HTMLElement;
-          if (parentComp) {
-            parentComp.style.display = "flex";
-          }
-          return (
-            <Develop key={key} num={String(key % 2)} onClick={() => { sessionStorage.setItem("copyHv", JSON.stringify(data.html)); }}>
-              <HvPreviewContainer id={data.id + "Cont"}>
-                <HvPreview style={{ transform: `scale(${scale})` }} id={data.id} dangerouslySetInnerHTML={{ __html: String(data.html) }} />
-              </HvPreviewContainer>
-              <DevelopTitle>{data.name}</DevelopTitle>
-            </Develop>
-          )
-        })
+        user && shareCompList && shareCompList.map((data, key) =>
+          <Develop key={key} num={String(key % 2)} onClick={() => { sessionStorage.setItem("copyHv", JSON.stringify(data.html)); }}>
+            <HvPreviewContainer id={data.id + "Cont"}>
+              <HvPreview id={data.id} dangerouslySetInnerHTML={{ __html: String(data.html) }} />
+            </HvPreviewContainer>
+            <DevelopTitle>{data.name}</DevelopTitle>
+          </Develop>
+        )
       } */}
     </Container>
   )
