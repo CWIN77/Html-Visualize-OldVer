@@ -83,7 +83,7 @@ const ShareCompList = ({ user }: { user: IUser | null }) => {
   )
 }
 
-const Container = styled.div`
+const Container = styled.main`
   display:flex;
   flex-wrap:wrap;
   width:100%;
