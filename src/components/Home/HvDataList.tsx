@@ -156,7 +156,7 @@ const Container = styled.main`
     margin-left: 70px;
   }
 `
-const Login = styled.div`
+const Login = styled.article`
   display:flex;
   align-items: center;
   justify-content: center;
