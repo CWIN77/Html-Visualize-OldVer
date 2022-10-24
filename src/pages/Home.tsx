@@ -62,7 +62,7 @@ const Home = () => {
           </Link>
         </LeftSideNavBar>
         {pathname === "/" && <HvDataList user={user} />}
-        {pathname === "/friends" && <Friends />}
+        {pathname === "/friends" && <Friends user={user} />}
         {pathname === "/community" && <ShareCompList user={user} />}
       </main>
     </>

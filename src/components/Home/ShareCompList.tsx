@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { ReactComponent as SvgPlus } from "../../icons/plus.svg";
 import { ReactComponent as SvgGoogleIcon } from "../../icons/googleIcon.svg";
 import { API } from 'aws-amplify';
 import { listShareComps } from '../../graphql/queries';
