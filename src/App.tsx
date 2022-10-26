@@ -7,7 +7,7 @@ import { getCurrentUser } from './firebase/auth';
 import { getUser } from './graphql/queries';
 import { IUser } from './types';
 import { API } from 'aws-amplify';
-import { createUser } from './graphql/mutations';
+import { createUser, updateUser } from './graphql/mutations';
 
 const App = () => {
   const checkUserInData = async () => {
@@ -16,8 +16,9 @@ const App = () => {
       const result = await API.graphql({
         query: getUser,
         variables: { id: user.id }
-      }) as { data: { getUser: IUser } }
-      if (!result.data.getUser) {
+      }) as { data: { getUser: IUser | null } }
+      const resultData = result.data.getUser;
+      if (!resultData) {
         await API.graphql({
           query: createUser,
           variables: {
@@ -30,12 +31,41 @@ const App = () => {
             }
           }
         });
+      } else {
+        if (resultData.friends) {
+          await API.graphql({
+            query: updateUser,
+            variables: {
+              input: {
+                img: user.img,
+                name: user.name,
+                id: user.id,
+                joinId: user.joinId
+              }
+            }
+          });
+        } else {
+          await API.graphql({
+            query: updateUser,
+            variables: {
+              input: {
+                img: user.img,
+                name: user.name,
+                id: user.id,
+                joinId: user.joinId,
+                friends: []
+              }
+            }
+          });
+        }
       }
     }
   }
 
   useEffect(() => {
     checkUserInData();
+    const user = getCurrentUser();
+    console.log(user);
   }, [])
 
   return (

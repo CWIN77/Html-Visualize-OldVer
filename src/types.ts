@@ -23,6 +23,7 @@ export interface IUser {
   name: string;
   id: string;
   joinId: string;
+  friends?: [string] | [];
 }
 
 export interface IShareComp {

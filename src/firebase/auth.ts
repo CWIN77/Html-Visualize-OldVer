@@ -19,13 +19,14 @@ export const loginGoogle = (): void => {
       const { displayName, photoURL, uid } = user;
       if (displayName && photoURL) {
         const joinId = displayName + uid.substr(0, 6);
-        const userData: IUser = { img: photoURL, name: displayName, id: uid, joinId };
+        const userData: IUser = { img: photoURL, name: displayName, id: uid, joinId, friends: [] };
         localStorage.setItem("user", JSON.stringify(userData));
         const isUserInDb = await API.graphql({
           query: getUser,
           variables: { id: userData.id }
         }) as { data: { getUser: IUser | null } };
-        if (!isUserInDb.data.getUser) {
+        const resultData = isUserInDb.data.getUser;
+        if (!resultData) {
           await API.graphql({
             query: createUser,
             variables: {
@@ -39,17 +40,32 @@ export const loginGoogle = (): void => {
             }
           });
         } else {
-          await API.graphql({
-            query: updateUser,
-            variables: {
-              input: {
-                img: userData.img,
-                name: userData.name,
-                id: userData.id,
-                joinId: userData.joinId
+          if (resultData.friends) {
+            await API.graphql({
+              query: updateUser,
+              variables: {
+                input: {
+                  img: userData.img,
+                  name: userData.name,
+                  id: userData.id,
+                  joinId: userData.joinId
+                }
               }
-            }
-          });
+            });
+          } else {
+            await API.graphql({
+              query: updateUser,
+              variables: {
+                input: {
+                  img: userData.img,
+                  name: userData.name,
+                  id: userData.id,
+                  joinId: userData.joinId,
+                  friends: []
+                }
+              }
+            });
+          }
         }
         alert('로그인 완료');
       }

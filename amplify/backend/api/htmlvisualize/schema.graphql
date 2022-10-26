@@ -14,7 +14,7 @@ type User @model {
   name:String!
   img:String!
   joinId:String!
-  friends:[String]!
+  friends:[String]
 }
 
 type ShareComp @model {
