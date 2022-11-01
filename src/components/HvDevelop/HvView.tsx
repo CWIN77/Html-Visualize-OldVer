@@ -140,7 +140,6 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
       dbClickComp.contentEditable = "false";
       dbClickComp = document.body;
       mouseoverComp.style.boxShadow = "";
-      console.log(target.outerHTML);
       setSelectComp(hvId, target.className);
     }
   }
@@ -193,14 +192,14 @@ const HvView = ({ hvData }: { hvData: IHvData }) => {
   const addHvEvent = () => {
     const isSetEvent: boolean | null = JSON.parse(sessionStorage.getItem("isSetEvent") || JSON.stringify(null));
     const bodyElem = document.body;
-    if (!isSetEvent) {
-      bodyElem.addEventListener('keyup', undoEvent);
-      bodyElem.addEventListener('keyup', redoEvent);
-      bodyElem.addEventListener("keyup", copyEvent);
-      bodyElem.addEventListener('keydown', saveEvent);
-      bodyElem.addEventListener('click', stopAnchorEvent);
-      sessionStorage.setItem("isSetEvent", JSON.stringify(true));
-    }
+    // if (!isSetEvent) {
+    bodyElem.addEventListener('keyup', undoEvent);
+    bodyElem.addEventListener('keyup', redoEvent);
+    bodyElem.addEventListener("keyup", copyEvent);
+    bodyElem.addEventListener('keydown', saveEvent);
+    bodyElem.addEventListener('click', stopAnchorEvent);
+    sessionStorage.setItem("isSetEvent", JSON.stringify(true));
+    // }
     bodyElem.addEventListener('keyup', deleteEvent);
     const viewElem = document.getElementById('view') as HTMLElement;
     const viewBgElem = document.getElementById('viewBackground') as HTMLElement;

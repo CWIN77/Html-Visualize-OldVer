@@ -64,8 +64,6 @@ const App = () => {
 
   useEffect(() => {
     checkUserInData();
-    const user = getCurrentUser();
-    console.log(user);
   }, [])
 
   return (
